@@ -1,3 +1,9 @@
+
+OpenAPI Swagger documentation: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+OpenAPI Yaml: [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
+
+
 # Инструкция по развертыванию и тестированию
 
 Запуск backend-сервиса на локальной машине без тестов:
