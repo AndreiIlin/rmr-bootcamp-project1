@@ -24,5 +24,5 @@ docker-compose up --build
 
 Удаление контейнеризованного backend-сервиса на локальной машине:
 ```
-docker-compose down --v
+docker-compose down -v
 ```
