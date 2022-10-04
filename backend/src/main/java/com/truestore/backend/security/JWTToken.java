@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class JWTToken {
-    @JsonProperty("email")
-    private String userEmail;
+    @JsonProperty("user_id")
+    private String userId;
     @JsonProperty("access_token")
     private String accessToken;
 }

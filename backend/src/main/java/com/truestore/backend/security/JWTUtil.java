@@ -19,10 +19,10 @@ public class JWTUtil {
         this.secret = secret;
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String userId) {
         Date expirationTime = Date.from(ZonedDateTime.now().plusMinutes(60).toInstant());
         return JWT.create()
-                .withClaim("email", email)
+                .withClaim("user_id", userId)
                 .withExpiresAt(expirationTime)
                 .withClaim("typ", "access")
                 .sign(Algorithm.HMAC256(secret));
@@ -32,7 +32,7 @@ public class JWTUtil {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
                 .withClaim("typ", "access").build();
         DecodedJWT jwt = verifier.verify(token);
-        return jwt.getClaim("email").asString();
+        return jwt.getClaim("user_id").asString();
     }
 
 }

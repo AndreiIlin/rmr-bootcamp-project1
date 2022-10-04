@@ -19,4 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             new UsernameNotFoundException("User doesn't exists"));
         return new SecurityUser(user);
     }
+
+
 }

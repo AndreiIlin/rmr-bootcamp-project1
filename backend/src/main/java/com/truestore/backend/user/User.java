@@ -41,8 +41,8 @@ public class User {
     @Column(name = "role")
     private String role;
 
-    public User(String email, String password) {
-        this(null, email, password, "ROLE_USER");
+    public User(String email, String password, String role) {
+        this(null, email, password, role);
     }
 
 }

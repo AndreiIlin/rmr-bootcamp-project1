@@ -1,12 +1,16 @@
 package com.truestore.backend.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.truestore.backend.user.User;
+import com.truestore.backend.user.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,10 +22,11 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final UserDetailsService userDetailsService;
-
-    public JWTFilter(JWTUtil jwtUtil, UserDetailsService userDetailsService) {
+    private final UserRepository userRepository;
+    public JWTFilter(JWTUtil jwtUtil, UserDetailsService userDetailsService, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,8 +44,11 @@ public class JWTFilter extends OncePerRequestFilter {
                         "Invalid JWT Token");
             } else {
                 try {
-                    String email = jwtUtil.validateTokenAndReturnEmail(jwt);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    String userId = jwtUtil.validateTokenAndReturnEmail(jwt);
+                    User user = userRepository.getUser(userId).orElseThrow(() ->
+                            new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
 
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,

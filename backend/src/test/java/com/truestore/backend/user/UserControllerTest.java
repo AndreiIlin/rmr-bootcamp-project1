@@ -5,6 +5,8 @@ import com.truestore.backend.security.JWTToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 
 import static com.truestore.backend.user.UserTestData.*;
@@ -17,17 +19,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserControllerTest extends AbstractControllerTest {
-
     private static final String REST_URL = UserController.REST_URL + '/';
     @MockBean
     private UserService userService;
-
+    @MockBean
+    private AuthenticationManager authenticationManager;
     @Test
     @WithAnonymousUser
     void signupUser() throws Exception {
         LoginRequest request = new LoginRequest();
         request.setEmail(USER_MAIL);
         request.setPassword(USER_PASSWORD);
+        request.setRole(UserRole.ROLE_USER.toString());
         JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);
         when(userService.signup(any(LoginRequest.class))).thenReturn(token);
         perform(post(REST_URL + "signup")
@@ -70,11 +73,13 @@ class UserControllerTest extends AbstractControllerTest {
 
     @Test
     @WithAnonymousUser
-    void loginUser() throws Exception {
+    void authenticateUser() throws Exception {
         LoginRequest request = new LoginRequest();
         request.setEmail(USER_MAIL);
         request.setPassword(USER_PASSWORD);
+        request.setRole(UserRole.ROLE_USER.toString());
         JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);
+        when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
         when(userService.login(any(LoginRequest.class))).thenReturn(token);
         perform(post(REST_URL + "login")
                 .contentType(MediaType.APPLICATION_JSON)

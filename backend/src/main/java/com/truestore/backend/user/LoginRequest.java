@@ -12,4 +12,6 @@ public class LoginRequest {
     private String email;
     @NotBlank
     private String password;
+    @NoHtml // https://stackoverflow.com/questions/17480809
+    private String role;
 }
