@@ -1,3 +1,9 @@
+
+OpenAPI Swagger documentation: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+OpenAPI Yaml: [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
+
+
 # Инструкция по развертыванию и тестированию
 
 Запуск backend-сервиса на локальной машине без тестов:
@@ -8,6 +14,11 @@ docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=pa
 Запуск тестов на локальной машине:
 ```
 docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres && mvn test
+```
+
+Запуск тестов и сборка на локальной машине с checkstyle перед Pull Request:
+```
+docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres && mvn clean install
 ```
 
 Удаление приложения:
