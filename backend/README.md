@@ -16,6 +16,11 @@ docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=pa
 docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres && mvn test
 ```
 
+Запуск тестов и сборка на локальной машине с checkstyle перед Pull Request:
+```
+docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres && mvn clean install
+```
+
 Удаление приложения:
 1. Ctrl+C в консоли что закрыть приложение;
 2. Команда в консоли, чтобы остановить docker контейнер с postgres (автоудаление):

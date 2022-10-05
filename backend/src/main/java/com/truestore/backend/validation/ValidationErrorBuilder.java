@@ -3,7 +3,8 @@ package com.truestore.backend.validation;
 import org.springframework.validation.Errors;
 
 public class ValidationErrorBuilder {
-    private ValidationErrorBuilder() {}
+    private ValidationErrorBuilder() {
+    }
 
     public static ValidationError fromBindingErrors(Errors errors) {
         ValidationError error = new ValidationError(

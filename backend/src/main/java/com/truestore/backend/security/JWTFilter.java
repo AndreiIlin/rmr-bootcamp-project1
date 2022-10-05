@@ -23,6 +23,7 @@ public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final UserDetailsService userDetailsService;
     private final UserRepository userRepository;
+
     public JWTFilter(JWTUtil jwtUtil, UserDetailsService userDetailsService, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;

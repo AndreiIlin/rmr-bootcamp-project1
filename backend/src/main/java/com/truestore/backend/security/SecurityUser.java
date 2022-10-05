@@ -12,9 +12,11 @@ import java.util.Collections;
 @Data
 public class SecurityUser implements UserDetails {
     private transient User user;
+
     public SecurityUser(User user) {
         this.user = user;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));

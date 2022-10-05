@@ -24,6 +24,7 @@ class UserControllerTest extends AbstractControllerTest {
     private UserService userService;
     @MockBean
     private AuthenticationManager authenticationManager;
+
     @Test
     @WithAnonymousUser
     void signupUser() throws Exception {
