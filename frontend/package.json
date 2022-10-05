@@ -10,6 +10,7 @@
   },
   "author": "",
   "license": "ISC",
+  "proxy": "",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
     "@types/react-redux": "^7.1.24",
