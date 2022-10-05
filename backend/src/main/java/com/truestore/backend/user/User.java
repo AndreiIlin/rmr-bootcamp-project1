@@ -1,5 +1,6 @@
 package com.truestore.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.truestore.backend.validation.ValueOfEnum;
 import com.truestore.backend.validation.user.NoHtml;
 import com.truestore.backend.validation.user.OnCreate;
@@ -34,6 +35,7 @@ public class User {
     @NotBlank(message = "Password can't be blank", groups = {OnCreate.class, OnLogin.class})
     @NotNull(message = "Password can't be null", groups = {OnCreate.class, OnLogin.class})
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
     @ValueOfEnum(enumClass = UserRole.class)
     @NotBlank(message = "Role can't be blank", groups = OnCreate.class)
