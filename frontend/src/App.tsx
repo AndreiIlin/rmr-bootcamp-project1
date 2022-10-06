@@ -6,7 +6,7 @@ import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
 import { routes } from './utils/routes';
 
 const App: FC = () => {
-
+  
   return (
     <Router>
       <div>

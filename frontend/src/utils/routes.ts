@@ -4,5 +4,5 @@ export const routes = {
   appPagePath: () => '/',
   loginPath: () => '/users/login',
   signupPath: () => '/users/signup',
-  basePath: () => '/'
+  basePath: () => 'http://localhost:8080'
 };
