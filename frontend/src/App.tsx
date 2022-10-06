@@ -1,28 +1,30 @@
 /* eslint-disable react/no-children-prop */
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import LoginPage from './componenst/Pages/LoginPage/LoginPage';
 import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
+import { routes } from './utils/routes';
 
 const App: FC = () => {
+
   return (
     <Router>
       <div>
         <ul>
           <li>
-            <Link to='/'>Home</Link>
+            <Link to={routes.appPagePath()}>Home</Link>
           </li>
           <li>
-            <Link to='/login'>Log In</Link>
+            <Link to={routes.loginPagePath()}>Log In</Link>
           </li>
           <li>
-            <Link to='/signup'>Sign Up</Link>
+            <Link to={routes.signupPagePath()}>Sign Up</Link>
           </li>
         </ul>
       </div>
       <Routes>
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/signup' element={<SignUpPage />} />
+        <Route path={routes.loginPagePath()} element={<LoginPage />} />
+        <Route path={routes.signupPagePath()} element={<SignUpPage />} />
       </Routes>
     </Router>
   );
