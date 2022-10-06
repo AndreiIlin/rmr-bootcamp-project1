@@ -3,3 +3,4 @@ backend/mvnw
 backend/mvnw.cmd
 backend/backend.iml
 backend/target/**
+frontend/build/**

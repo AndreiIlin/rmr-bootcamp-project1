@@ -23,7 +23,7 @@ services:
 
   backendapp:
     build:
-      context: .
+      context: backend
       dockerfile: src/Dockerfile
     container_name: backendapp
     ports:
@@ -37,3 +37,13 @@ services:
       - SPRINT_DATASOURCE_PASSWORD=password
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
+
+  webclient:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: webclient
+    ports:
+      - '80:80'
+    depends_on:
+      - backendapp

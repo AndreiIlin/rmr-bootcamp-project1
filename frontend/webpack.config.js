@@ -30,6 +30,7 @@ const config = {
     new HTMLWebpackPlugin({
       template: './build/index.html',
     }),
+    new MiniCssExtractPlugin(),
   ],
   module: {
     rules: [
@@ -52,8 +53,8 @@ const config = {
         type: 'asset/resource',
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
