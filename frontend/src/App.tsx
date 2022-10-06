@@ -1,8 +1,8 @@
 /* eslint-disable react/no-children-prop */
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import LoginPage from './componenst/Pages/LoginPage';
-import SignUpPage from './componenst/Pages/SignUpPage';
+import LoginPage from './componenst/Pages/LoginPage/LoginPage';
+import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
 
 const App: FC = () => {
   return (
