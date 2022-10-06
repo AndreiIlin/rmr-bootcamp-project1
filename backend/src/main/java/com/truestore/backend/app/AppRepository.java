@@ -1,6 +1,8 @@
 package com.truestore.backend.app;
 
 import com.truestore.backend.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +13,12 @@ public interface AppRepository {
 
     Optional<App> getByIdAndUserId(String appId, String userId);
 
-    List<App> getAll();
+    Page<App> getAll(String filter, PageRequest page);
 
-    App save(App app, User user);
+    Optional<App> save(App app, User user);
 
     Optional<App> delete(String appId);
 
-    List<App> getAllByUserId(String userId);
+    Page<App> getAllByUserId(String userId, String filter, PageRequest page);
 
 }

@@ -11,10 +11,12 @@ import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -36,7 +38,7 @@ public class App {
     @NotBlank(message = "App description can't be blank", groups = OnCreate.class)
     @NotNull(message = "App description can't be null", groups = OnCreate.class)
     @NoHtml
-    @Column(name = "description", nullable = false, unique = true, length = 500)
+    @Column(name = "description", nullable = false, length = 500)
     private String appDescription;
     @NotNull(message = "User can't be null", groups = OnCreate.class)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -63,6 +65,10 @@ public class App {
     @NoHtml
     @Column(name = "download_link", nullable = false)
     private String downloadLink;
+    @Column(name = "created", nullable = false)
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime created = LocalDateTime.now();
 
     public App(String appName, String appDescription, User owner, Double featurePrice, Double bagPrice, String iconImage, String downloadLink) {
         this.appName = appName;

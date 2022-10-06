@@ -1,9 +1,11 @@
 package com.truestore.backend.app;
 
 import com.truestore.backend.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,12 +18,19 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public App save(App app, User user) {
+    public Optional<App> save(App app, User user) {
         if (app.getId() != null && getByIdAndUserId(app.getId(), user.getId()).isEmpty()) {
-            return null;
+            return Optional.empty();
         }
         app.setOwner(user);
-        return jpaAppRepository.saveAndFlush(app);
+        return Optional.of(jpaAppRepository.save(app));
+    }
+
+    @Override
+    public Optional<App> delete(String appId) {
+        Optional<App> app = jpaAppRepository.findById(appId);
+        app.ifPresent(a -> jpaAppRepository.deleteById(a.getId()));
+        return app;
     }
 
     @Override
@@ -36,20 +45,38 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public List<App> getAll() {
-        return jpaAppRepository.findAll();
+    public Page<App> getAll(String filter, PageRequest page) {
+        if (filter.isEmpty()) {
+            return jpaAppRepository.findAll(page);
+        } else {
+            return jpaAppRepository.findAll(specification(filter), page);
+        }
     }
 
     @Override
-    public Optional<App> delete(String appId) {
-        Optional<App> app = jpaAppRepository.findById(appId);
-        app.ifPresent(a -> jpaAppRepository.deleteById(a.getId()));
-        return app;
+    public Page<App> getAllByUserId(String userId, String filter, PageRequest page) {
+        return jpaAppRepository.findAllByOwnerId(userId, filter, page);
     }
 
-    @Override
-    public List<App> getAllByUserId(String userId) {
-        return jpaAppRepository.findByOwnerId(userId);
+    private Specification<App> specification(String filter) {
+        Specification<App> spec = Specification.where(null);
+        if (filter.isEmpty()) {
+            return spec;
+        } else {
+            return spec.and(AppFilterSpecs.appNameContains(filter))
+//                    .and(AppFilterSpecs.appDescription(filter))
+                    ;
+        }
     }
 
+    private static class AppFilterSpecs {
+        public static Specification<App> appNameContains(String name) {
+            return (Specification<App>) (root, cq, cb) -> cb.like(root.get("appName"), "%" + name + "%");
+        }
+
+//        public static Specification<App> appDescription(String description) {
+//            return (Specification<App>) (root, cq, cb) -> cb.like(root.get("appDescription"), "%" + description + "%");
+//        }
+    }
 }
+
