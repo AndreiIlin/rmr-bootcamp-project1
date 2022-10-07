@@ -1,14 +1,12 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import App from './App';
-import { store } from './store';
+import init from './init';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const app = async () => {
+  const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+  const vdom = await init();
+  root.render(vdom);
+};
 
-root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-);
+app();
