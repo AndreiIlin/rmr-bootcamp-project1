@@ -25,7 +25,7 @@ public class AppService {
     public AppTo save(App app, User user) {
         Assert.notNull(app, "App must not be null");
         App saved = appRepository.save(app, user).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "App not saved")
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "App not saved")
         );
         return new AppTo(saved);
     }

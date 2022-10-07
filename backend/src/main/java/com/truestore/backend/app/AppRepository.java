@@ -13,7 +13,7 @@ public interface AppRepository {
 
     Optional<App> getByIdAndUserId(String appId, String userId);
 
-    Page<App> getAll(String filter, PageRequest page);
+    List<App> getAll(String filter, PageRequest page);
 
     Optional<App> save(App app, User user);
 

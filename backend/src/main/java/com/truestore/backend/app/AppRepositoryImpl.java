@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -45,11 +46,11 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Page<App> getAll(String filter, PageRequest page) {
+    public List<App> getAll(String filter, PageRequest page) {
         if (filter.isEmpty()) {
-            return jpaAppRepository.findAll(page);
+            return jpaAppRepository.findAll(page).toList();
         } else {
-            return jpaAppRepository.findAll(specification(filter), page);
+            return jpaAppRepository.findAll(specification(filter), page).toList();
         }
     }
 
@@ -73,10 +74,6 @@ public class AppRepositoryImpl implements AppRepository {
         public static Specification<App> appNameContains(String name) {
             return (Specification<App>) (root, cq, cb) -> cb.like(root.get("appName"), "%" + name + "%");
         }
-
-//        public static Specification<App> appDescription(String description) {
-//            return (Specification<App>) (root, cq, cb) -> cb.like(root.get("appDescription"), "%" + description + "%");
-//        }
     }
 }
 
