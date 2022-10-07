@@ -24,5 +24,11 @@ export default {
       notNew: 'Есть аккаунт?',
       enter: 'Войти',
     },
+    modals: {
+      appRules: {
+        header: 'Правила пользования TrueStore',
+        rules: 'Тут должны быть какие то правила',
+      }
+    }
   },
 };
