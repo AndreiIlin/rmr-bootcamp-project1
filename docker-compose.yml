@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.7'
 
 volumes:
   postgres_data:
@@ -13,7 +13,7 @@ services:
     expose:
       - 5432
     healthcheck:
-      test: [ 'CMD-SHELL', 'su postgres', '&&', 'pg_isready' ]
+      test: ['CMD-SHELL', 'su postgres', '&&', 'pg_isready']
       interval: 5s
       timeout: 5s
       retries: 10
@@ -28,9 +28,6 @@ services:
     container_name: backendapp
     ports:
       - '8080:8080'
-    depends_on:
-      storage:
-        condition: service_healthy
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://storage:5432/truestore
       - SPRING_DATASOURCE_USERNAME=postgres
