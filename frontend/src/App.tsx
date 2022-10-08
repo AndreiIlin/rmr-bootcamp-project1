@@ -2,6 +2,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Link, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Modal from './componenst/Modals';
+import Nav from './componenst/Nav/Nav';
 import AppPage from './componenst/Pages/AppPage/AppPage';
 import LoginPage from './componenst/Pages/LoginPage/LoginPage';
 import NotFoundPage from './componenst/Pages/NotFound/NotFoundPage';
@@ -16,7 +17,6 @@ interface MainOutletProps {
 
 const MainOutlet: FC<MainOutletProps> = ({ goStorePage }) => {
   const auth = useAppSelector(selectors.userAuth);
-  console.log(auth);
   if (goStorePage) {
     return auth ? <Outlet /> : <Navigate to={routes.loginPagePath()} />;
   }
@@ -26,30 +26,18 @@ const MainOutlet: FC<MainOutletProps> = ({ goStorePage }) => {
 const App: FC = () => {
   return (
     <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to={routes.appPagePath()}>Home</Link>
-          </li>
-          <li>
-            <Link to={routes.loginPagePath()}>Log In</Link>
-          </li>
-          <li>
-            <Link to={routes.signupPagePath()}>Sign Up</Link>
-          </li>
-        </ul>
-      </div>
+      <Nav />
       <Routes>
         <Route path={routes.appPagePath()} element={<MainOutlet goStorePage={true} />}>
-          <Route path="" element={<AppPage />} />
+          <Route index element={<AppPage />} />
         </Route>
         <Route path={routes.loginPagePath()} element={<MainOutlet goStorePage={false} />}>
-          <Route path="" element={<LoginPage />} />
+          <Route index element={<LoginPage />} />
         </Route>
         <Route path={routes.signupPagePath()} element={<MainOutlet goStorePage={false} />}>
-          <Route path="" element={<SignUpPage />} />
+          <Route index element={<SignUpPage />} />
         </Route>
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path='/*' element={<NotFoundPage />} />
       </Routes>
       <Modal />
     </Router>

@@ -11,13 +11,9 @@ const AppRules: FC<AppRulesProps> = ({ close }) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>
-          {t('modals.appRules.header')}
-        </Modal.Title>
+        <Modal.Title>{t('modals.appRules.header')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        {t('modals.appRules.rules')}
-      </Modal.Body>
+      <Modal.Body>{t('modals.appRules.rules')}</Modal.Body>
     </>
   );
 };
