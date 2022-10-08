@@ -1,5 +1,7 @@
 package com.truestore.backend.app;
 
+import com.truestore.backend.app.dto.AppDto;
+
 import java.time.LocalDateTime;
 
 import static com.truestore.backend.user.UserTestData.*;
@@ -12,7 +14,9 @@ public class AppTestData {
 
     public static final App APP_1 = new App(APP_UUID_1, "AppName1", "AppDescription1", USER_1, 100.0, 200.0, true, "", "", LocalDateTime.now());
     public static final App APP_2 = new App(APP_UUID_2, "AppName2", "AppDescription2", USER_2, 100.0, 200.0, true, "", "", LocalDateTime.now());
-    public static final AppTo APP_TO_1 = new AppTo(APP_UUID_1, "AppName1", "AppDescription1", USER_1_UUID, 100.0, 200.0, true, "", "");
-    public static final AppTo APP_TO_2 = new AppTo(APP_UUID_2, "AppName2", "AppDescription2", USER_2_UUID, 100.0, 200.0, true, "", "");
+    public static final AppDto APP_DTO_1 = new AppDto(APP_UUID_1, "AppName1", "AppDescription1", USER_1_UUID, 100.0, 200.0, true, "", "");
+    public static final AppDto APP_DTO_2 = new AppDto(APP_UUID_2, "AppName2", "AppDescription2", USER_2_UUID, 100.0, 200.0, true, "", "");
+    public static final AppDto APP_DTO_NEW = new AppDto(null, "AppName1", "AppDescriptionNew", USER_1_UUID, 100.0, 200.0, true, "", "");
+
 
 }

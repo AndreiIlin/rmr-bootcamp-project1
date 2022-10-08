@@ -1,11 +1,13 @@
 package com.truestore.backend.app;
 
+import com.truestore.backend.app.dto.AppDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,59 +31,68 @@ class AppServiceTest {
     @Mock
     private AppRepository appRepository;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     @Test
-    void getAppTo() {
-        when(appRepository.get(Mockito.anyString())).thenReturn(Optional.of(APP_1));
-        AppTo appTo = appService.getAppTo(APP_UUID_1);
-        assertEquals(appTo.getAppName(), APP_TO_1.getAppName());
+    void getAppDto() {
+        when(appRepository.getAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
+        AppDto appDto = appService.getAppDtoById(APP_UUID_1);
+        assertEquals(appDto.getAppName(), APP_DTO_1.getAppName());
     }
 
     @Test
-    void getAppToNotFound() {
-        when(appRepository.get(APP_UUID_NOT_FOUND)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        assertThrows(ResponseStatusException.class, () -> appService.getAppTo(APP_UUID_NOT_FOUND));
+    void getAppDtoNotFound() {
+        when(appRepository.getAppById(APP_UUID_NOT_FOUND)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        assertThrows(ResponseStatusException.class, () -> appService.getAppDtoById(APP_UUID_NOT_FOUND));
     }
 
     @Test
-    void saveApp() {
-        when(appRepository.save(any(), any())).thenReturn(Optional.of(APP_1));
-        AppTo appTo = appService.save(APP_1, USER_1);
-        assertEquals(appTo.getAppName(), APP_TO_1.getAppName());
+    void saveNewApp() {
+        when(appRepository.saveAppForUser(any(), any())).thenReturn(Optional.of(APP_1));
+        AppDto appTo = appService.saveAppForUser(APP_DTO_NEW, USER_1);
+        assertEquals(appTo.getAppName(), APP_DTO_NEW.getAppName());
     }
 
+    @Test
+    void updatedApp() {
+        when(appRepository.saveAppForUser(any(), any())).thenReturn(Optional.of(APP_1));
+        when(appRepository.getAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
+        AppDto appTo = appService.saveAppForUser(APP_DTO_1, USER_1);
+        assertEquals(appTo.getAppName(), APP_DTO_1.getAppName());
+    }
 
     @Test
     void saveAppInvalid() {
-        App invalid = new App(null, null, USER_1, 0.0, 0.0, "", "");
-        when(appRepository.save(any(), any())).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        assertThrows(ResponseStatusException.class, () -> appService.save(invalid, USER_1));
+        AppDto invalid = new AppDto(null, null,null, USER_1_UUID, 0.0, 0.0, true,"", "");
+        when(appRepository.saveAppForUser(any(), any())).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        assertThrows(ResponseStatusException.class, () -> appService.saveAppForUser(invalid, USER_1));
     }
 
     @Test
     void deleteApp() {
-        when(appRepository.delete(Mockito.anyString())).thenReturn(Optional.of(APP_1));
-        AppTo appTo = appService.delete(APP_UUID_1);
-        assertEquals(appTo.getAppName(), APP_TO_1.getAppName());
+        when(appRepository.deleteAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
+        AppDto appTo = appService.deleteAppById(APP_UUID_1);
+        assertEquals(appTo.getAppName(), APP_DTO_1.getAppName());
     }
 
 
     @Test
     void deleteAppNotFound() {
-        when(appRepository.delete(APP_UUID_NOT_FOUND)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        assertThrows(ResponseStatusException.class, () -> appService.delete(APP_UUID_NOT_FOUND));
+        when(appRepository.deleteAppById(APP_UUID_NOT_FOUND)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        assertThrows(ResponseStatusException.class, () -> appService.deleteAppById(APP_UUID_NOT_FOUND));
     }
 
     @Test
     void getAllAppToWithoutFilters() {
-        when(appRepository.getAll(Mockito.anyString(), any())).thenReturn(List.of(APP_1, APP_2));
-        List<AppTo> appsTo = appService.getAll(Mockito.anyString(), any());
+        when(appRepository.getAllAppUsingFilters(Mockito.anyString(), any())).thenReturn(List.of(APP_1, APP_2));
+        List<AppDto> appsTo = appService.getAllAppsUsingFilters(Mockito.anyString(), any());
         assertEquals(2, appsTo.size());
     }
 
     @Test
     void getAllAppToWithFilters() {
-        when(appRepository.getAll(Mockito.anyString(), any())).thenReturn(Collections.singletonList(APP_2));
-        List<AppTo> appsTo = appService.getAll("2", PageRequest.of(0, 1));
+        when(appRepository.getAllAppUsingFilters(Mockito.anyString(), any())).thenReturn(Collections.singletonList(APP_2));
+        List<AppDto> appsTo = appService.getAllAppsUsingFilters("2", PageRequest.of(0, 1));
         assertEquals(1, appsTo.size());
     }
 }

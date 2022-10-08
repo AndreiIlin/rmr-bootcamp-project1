@@ -9,16 +9,16 @@ import java.util.Optional;
 
 public interface AppRepository {
 
-    Optional<App> get(String appId);
+    Optional<App> getAppById(String appId);
 
-    Optional<App> getByIdAndUserId(String appId, String userId);
+    Optional<App> getAppByIdAndUserId(String appId, String userId);
 
-    List<App> getAll(String filter, PageRequest page);
+    List<App> getAllAppUsingFilters(String filter, PageRequest page);
 
-    Optional<App> save(App app, User user);
+    Optional<App> saveAppForUser(App app, User user);
 
-    Optional<App> delete(String appId);
+    Optional<App> deleteAppById(String appId);
 
-    Page<App> getAllByUserId(String userId, String filter, PageRequest page);
+    Page<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page);
 
 }

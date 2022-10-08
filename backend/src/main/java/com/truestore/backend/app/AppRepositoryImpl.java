@@ -19,8 +19,8 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Optional<App> save(App app, User user) {
-        if (app.getId() != null && getByIdAndUserId(app.getId(), user.getId()).isEmpty()) {
+    public Optional<App> saveAppForUser(App app, User user) {
+        if (app.getId() != null && getAppByIdAndUserId(app.getId(), user.getId()).isEmpty()) {
             return Optional.empty();
         }
         app.setOwner(user);
@@ -28,25 +28,25 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Optional<App> delete(String appId) {
+    public Optional<App> deleteAppById(String appId) {
         Optional<App> app = jpaAppRepository.findById(appId);
         app.ifPresent(a -> jpaAppRepository.deleteById(a.getId()));
         return app;
     }
 
     @Override
-    public Optional<App> getByIdAndUserId(String appId, String userId) {
+    public Optional<App> getAppByIdAndUserId(String appId, String userId) {
         return jpaAppRepository.findById(appId)
                 .filter(app -> app.getOwner().getId().equals(userId));
     }
 
     @Override
-    public Optional<App> get(String appId) {
+    public Optional<App> getAppById(String appId) {
         return jpaAppRepository.findById(appId);
     }
 
     @Override
-    public List<App> getAll(String filter, PageRequest page) {
+    public List<App> getAllAppUsingFilters(String filter, PageRequest page) {
         if (filter.isEmpty()) {
             return jpaAppRepository.findAll(page).toList();
         } else {
@@ -55,7 +55,7 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Page<App> getAllByUserId(String userId, String filter, PageRequest page) {
+    public Page<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page) {
         return jpaAppRepository.findAllByOwnerId(userId, filter, page);
     }
 
@@ -64,9 +64,7 @@ public class AppRepositoryImpl implements AppRepository {
         if (filter.isEmpty()) {
             return spec;
         } else {
-            return spec.and(AppFilterSpecs.appNameContains(filter))
-//                    .and(AppFilterSpecs.appDescription(filter))
-                    ;
+            return spec.and(AppFilterSpecs.appNameContains(filter));
         }
     }
 
