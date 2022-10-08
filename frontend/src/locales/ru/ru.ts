@@ -4,6 +4,7 @@ export default {
       required: 'Заполните поле',
       minPasswordLength: 'Длина пароля не должна быть меньше 8 символов',
       maxPasswordLength: 'Длина пароля не должна превышать 30 символов',
+      invalidEmail: 'Неверный  email',
     },
     login: {
       header: 'Вход в приложение',
@@ -14,11 +15,11 @@ export default {
       enter: 'Войти',
       newUser: 'Нет аккаунта?',
       register: 'Зарегистрироваться',
+      failedLogin: 'Неправильный email или пароль',
     },
     registration: {
       header: 'Вход в приложение',
       email: 'Email',
-      invalidEmail: 'Неверный  email',
       emailPlaceholder: 'Введите email...',
       password: 'Пароль',
       passwordPlaceholder: 'Введите пароль...',
@@ -33,6 +34,9 @@ export default {
       notNew: 'Есть аккаунт?',
       enter: 'Войти',
       alreadyRegistered: 'Пользователь с таким email уже зарегистрирован',
+      notAgree:
+        'Увы но вы не согласились с правилами нашего сервиса и мы не можем вас зарегистрировать',
+      back: 'Вернуться',
     },
     modals: {
       appRules: {

@@ -22,7 +22,7 @@ const SignUpPage: FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const validationSchema = yup.object().shape({
-    email: yup.string().email(t('registration.invalidEmail')).required(t('formErrors.required')),
+    email: yup.string().email(t('formErrors.invalidEmail')).required(t('formErrors.required')),
     password: yup
       .string()
       .min(8, t('formErrors.minPasswordLength'))
@@ -63,8 +63,7 @@ const SignUpPage: FC = () => {
             const { email, password, confirmUserAgreement, processingOfPersonalData } = values;
             if (!confirmUserAgreement || !processingOfPersonalData) {
               setAgree(!agree);
-            }
-            if (agree) {
+            } else {
               try {
                 const response = await registration({ email, password }).unwrap();
                 dispatch(login(response));
@@ -102,7 +101,7 @@ const SignUpPage: FC = () => {
                     isInvalid={!!errors.email}
                     value={values.email}
                   />
-                  {(touched.email && errors.password) || touched.email ? (
+                  {(touched.email && errors.email) || touched.email ? (
                     <FormControl.Feedback type='invalid' tooltip>
                       {errors.email}
                     </FormControl.Feedback>
@@ -191,11 +190,9 @@ const SignUpPage: FC = () => {
         </Formik>
       ) : (
         <div className='not-agree'>
-          <p>
-            Увы но вы не согласились с правилами нашего сервиса и мы не можем вас зарегистрировать
-          </p>
+          <p>{t('registration.notAgree')}</p>
           <Button type='button' onClick={() => setAgree(!agree)}>
-            Верняться
+            {t('registration.back')}
           </Button>
         </div>
       )}
