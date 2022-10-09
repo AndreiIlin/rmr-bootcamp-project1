@@ -1,8 +1,8 @@
 /* eslint-disable react/no-children-prop */
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Link, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Modal from './componenst/Modals';
-import Nav from './componenst/Nav/Nav';
+import Header from './componenst/Header/Header';
 import AppPage from './componenst/Pages/AppPage/AppPage';
 import LoginPage from './componenst/Pages/LoginPage/LoginPage';
 import NotFoundPage from './componenst/Pages/NotFound/NotFoundPage';
@@ -26,7 +26,7 @@ const MainOutlet: FC<MainOutletProps> = ({ goStorePage }) => {
 const App: FC = () => {
   return (
     <Router>
-      <Nav />
+      <Header />
       <Routes>
         <Route path={routes.appPagePath()} element={<MainOutlet goStorePage={true} />}>
           <Route index element={<AppPage />} />
