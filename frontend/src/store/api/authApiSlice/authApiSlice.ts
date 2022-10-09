@@ -3,7 +3,7 @@ import { routes } from '../../../utils/routes';
 import { trueStoreApi } from '../trueStoreApi';
 
 const authApiSlice = trueStoreApi.injectEndpoints({
-  endpoints: build => ({
+  endpoints: (build) => ({
     login: build.mutation<AuthResponse, AuthRequest>({
       query: (userData, role = 'ROLE_USER') => ({
         url: routes.loginPath(),

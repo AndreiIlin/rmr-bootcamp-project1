@@ -23,6 +23,7 @@ const config = {
     },
     compress: false,
     port: 3000,
+    historyApiFallback: true,
   },
   devtool: 'source-map',
   plugins: [
