@@ -2,7 +2,7 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.AbstractControllerTest;
 import com.truestore.backend.security.JWTToken;
-import com.truestore.backend.validation.user.OnCreate;
+import com.truestore.backend.validation.OnCreate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;

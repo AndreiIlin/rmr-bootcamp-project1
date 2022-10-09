@@ -1,9 +1,14 @@
 package com.truestore.backend.user;
 
+import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.validation.ValidationErrorBuilder;
-import com.truestore.backend.validation.user.OnCreate;
+import com.truestore.backend.validation.OnCreate;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,6 +42,16 @@ public class UserController {
     }
 
     @Operation(summary = "Login user with email and password to obtain JWT access token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Created the user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = JWTToken.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content)})
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(HttpServletRequest request, @Valid @RequestBody LoginRequest loginRequest, Errors errors) {
         log.info("authenticate {}", loginRequest);
@@ -55,6 +70,14 @@ public class UserController {
     }
 
     @Operation(summary = "Sign up new user to work with API")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created the user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = JWTToken.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+                    content = @Content)})
     @PostMapping("/signup")
     @Validated(OnCreate.class)
     public ResponseEntity<?> registerUser(HttpServletRequest request, @RequestBody @Valid LoginRequest loginRequest, Errors errors) {
@@ -71,6 +94,13 @@ public class UserController {
         return new ResponseEntity<>(userService.signup(loginRequest), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get information about me")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the user",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserTo.class)) }),
+            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+                    content = @Content)})
     @GetMapping("/me")
     public ResponseEntity<?> me() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -2,9 +2,9 @@ package com.truestore.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.truestore.backend.validation.ValueOfEnum;
-import com.truestore.backend.validation.user.NoHtml;
-import com.truestore.backend.validation.user.OnCreate;
-import com.truestore.backend.validation.user.OnLogin;
+import com.truestore.backend.validation.NoHtml;
+import com.truestore.backend.validation.OnCreate;
+import com.truestore.backend.validation.OnLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

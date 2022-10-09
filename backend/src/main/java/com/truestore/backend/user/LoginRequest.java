@@ -1,8 +1,8 @@
 package com.truestore.backend.user;
 
-import com.truestore.backend.validation.user.NoHtml;
-import com.truestore.backend.validation.user.OnCreate;
-import com.truestore.backend.validation.user.OnLogin;
+import com.truestore.backend.validation.NoHtml;
+import com.truestore.backend.validation.OnCreate;
+import com.truestore.backend.validation.OnLogin;
 import lombok.Data;
 
 import javax.validation.constraints.*;
