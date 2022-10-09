@@ -24,10 +24,6 @@ public class CreateAppDto {
     @NoHtml
     @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters", groups = OnCreate.class)
     private String appDescription;
-    @NotBlank(message = "UserId can't be blank", groups = OnCreate.class)
-    @NotNull(message = "UserId can't be null", groups = OnCreate.class)
-    @NoHtml
-    private String ownerId;
     @NotNull(message = "Feature price can't be null", groups = OnCreate.class)
     private Float featurePrice;
     @NotNull(message = "Bag price can't be null", groups = OnCreate.class)
