@@ -17,11 +17,12 @@ public class CreateAppDto {
     @NotBlank(message = "App name can't be blank", groups = OnCreate.class)
     @NotNull(message = "App name can't be null", groups = OnCreate.class)
     @NoHtml
+    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters", groups = OnCreate.class)
     private String appName;
     @NotBlank(message = "App description can't be blank", groups = OnCreate.class)
     @NotNull(message = "App description can't be null", groups = OnCreate.class)
     @NoHtml
-    @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters")
+    @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters", groups = OnCreate.class)
     private String appDescription;
     @NotBlank(message = "UserId can't be blank", groups = OnCreate.class)
     @NotNull(message = "UserId can't be null", groups = OnCreate.class)

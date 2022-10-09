@@ -97,15 +97,36 @@ class AppControllerTest extends AbstractControllerTest {
 
     @Test
     void createAppInvalidNullAppName() throws Exception {
-        CreateAppDto invalid = new CreateAppDto( null, "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(invalid, OnCreate.class);
+        INVALID_APP_DTO.setAppName(null);
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    void createAppInvalidNullAppDescription() throws Exception {
+        INVALID_APP_DTO.setAppDescription(null);
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void createAppInvalidBlankAppName() throws Exception {
-        CreateAppDto invalid = new CreateAppDto( "", "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(invalid, OnCreate.class);
+        INVALID_APP_DTO.setAppName("");
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    void createAppInvalidBlankAppDescription() throws Exception {
+        INVALID_APP_DTO.setAppDescription("");
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    void createAppInvalidShortAppName() throws Exception {
+        INVALID_APP_DTO.setAppName("Ap");
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
         assertFalse(violations.isEmpty());
     }
 

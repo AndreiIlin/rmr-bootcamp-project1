@@ -21,11 +21,12 @@ public class AppDto {
     @NotBlank(message = "App name can't be blank", groups = OnUpdate.class)
     @NotNull(message = "App name can't be null", groups = OnUpdate.class)
     @NoHtml
+    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters", groups = OnUpdate.class)
     private String appName;
     @NotBlank(message = "App description can't be blank", groups = OnUpdate.class)
     @NotNull(message = "App description can't be null", groups = OnUpdate.class)
     @NoHtml
-    @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters")
+    @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters", groups = OnUpdate.class)
     private String appDescription;
     @NotBlank(message = "UserId can't be blank", groups = OnUpdate.class)
     @NotNull(message = "UserId can't be null", groups = OnUpdate.class)
