@@ -1,9 +1,10 @@
 package com.truestore.backend.app;
 
 import com.truestore.backend.AbstractControllerTest;
-import com.truestore.backend.app.dto.AppDto;
+import com.truestore.backend.app.dto.CreateAppDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
+import com.truestore.backend.validation.OnCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,12 +20,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static com.truestore.backend.app.AppTestData.*;
 import static com.truestore.backend.user.UserTestData.*;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -47,6 +52,9 @@ class AppControllerTest extends AbstractControllerTest {
     @Mock
     private SecurityUser principal;
 
+    @Autowired
+    private Validator validator;
+
     @BeforeEach
     public void beforeEach() {
         Authentication authentication = mock(Authentication.class);
@@ -60,7 +68,7 @@ class AppControllerTest extends AbstractControllerTest {
 
     @Test
     void getAppById() throws Exception {
-        when(appService.getAppDtoById(Mockito.anyString())).thenReturn(APP_DTO_1);
+        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
         perform(get(REST_URL + APP_UUID_1))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -68,9 +76,9 @@ class AppControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getAppNotFound() throws Exception {
-        when(appService.getAppDtoById(Mockito.anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        perform(get(REST_URL + APP_UUID_1))
+    void getAppByIdNotFound() throws Exception {
+        when(appService.getAppById(Mockito.anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        perform(get(REST_URL + APP_UUID_NOT_FOUND))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
@@ -78,58 +86,59 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void createApp() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.saveAppForUser(any(AppDto.class), any(User.class))).thenReturn(APP_DTO_1);
+        when(appService.saveAppForUser(any(App.class), any(User.class))).thenReturn(APP_NEW_WITH_ID);
         perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(APP_1)))
+                .content(mapper.writeValueAsString(CREATE_APP_DTO)))
                 .andExpect(status().isCreated())
                 .andDo(print())
-                .andExpect(jsonPath("$.id").value(APP_UUID_1));
+                .andExpect(jsonPath("$.appName").value(APP_NEW_WITH_ID.getAppName()));
     }
 
     @Test
-    void createAppInvalid() throws Exception {
-        AppDto invalid = new AppDto(null, null, null, USER_1_UUID, 0.0, 0.0, true, "", "");
-        when(principal.getUser()).thenReturn(USER_1);
-        when(appService.saveAppForUser(any(AppDto.class), any(User.class))).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        perform(post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(invalid)))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
+    void createAppInvalidNullAppName() throws Exception {
+        CreateAppDto invalid = new CreateAppDto( null, "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(invalid, OnCreate.class);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    void createAppInvalidBlankAppName() throws Exception {
+        CreateAppDto invalid = new CreateAppDto( "", "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(invalid, OnCreate.class);
+        assertFalse(violations.isEmpty());
     }
 
     @Test
     void createAppDuplicate() throws Exception {
-        AppDto invalid = new AppDto(APP_UUID_1, APP_1.getAppName(), "", USER_1_UUID, 0.0, 0.0, true, "", "");
+        CreateAppDto duplicate = new CreateAppDto(APP_1.getAppName(), "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.saveAppForUser(any(AppDto.class), any(User.class))).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        when(appService.saveAppForUser(any(App.class), any(User.class))).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
         perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(invalid)))
+                .content(mapper.writeValueAsString(duplicate)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
 
-
     @Test
     void updateApp() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.getAppDtoById(Mockito.anyString())).thenReturn(APP_DTO_1);
-        when(appService.saveAppForUser(any(AppDto.class), any(User.class))).thenReturn(APP_DTO_1);
+        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
+        when(appService.saveAppForUser(any(App.class), any(User.class))).thenReturn(APP_1);
         perform(patch(REST_URL + APP_UUID_1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(APP_1)))
-//                .andExpect(status().isOk())
+                .content(mapper.writeValueAsString(APP_DTO_1)))
+                .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.id").value(APP_UUID_1));
     }
 
     @Test
-    void deleteApp() throws Exception {
+    void deleteAppById() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.getAppDtoById(Mockito.anyString())).thenReturn(APP_DTO_1);
-        when(appService.deleteAppById(Mockito.anyString())).thenReturn(APP_DTO_1);
+        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
+        when(appService.deleteAppById(Mockito.anyString())).thenReturn(APP_1);
         perform(delete(REST_URL + APP_UUID_1))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -137,18 +146,18 @@ class AppControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void deleteAppNotFound() throws Exception {
+    void deleteAppByIdNotFound() throws Exception {
         when(principal.getUser()).thenReturn(USER_2);
-        when(appService.getAppDtoById(Mockito.anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        when(appService.getAppById(Mockito.anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
         perform(delete(REST_URL + APP_UUID_1))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteAppNotMyOwn() throws Exception {
+    void deleteAppByIdNotMyOwn() throws Exception {
         when(principal.getUser()).thenReturn(USER_2);
-        when(appService.getAppDtoById(Mockito.anyString())).thenReturn(APP_DTO_1);
+        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
         perform(delete(REST_URL + APP_UUID_1))
                 .andDo(print())
                 .andExpect(status().isForbidden());
@@ -157,7 +166,7 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void getAllMyAppsWithoutFilters() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.getAllMyAppsUsingFilters(Mockito.anyString(), eq(""), any())).thenReturn(Collections.singletonList(APP_DTO_1));
+        when(appService.getAllMyAppsUsingFilters(Mockito.anyString(), eq(""), any())).thenReturn(Collections.singletonList(APP_1));
         perform(get(REST_URL + "my"))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -177,7 +186,7 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void getAllAppsWithFilters() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.getAllAppsUsingFilters(eq("1"), any())).thenReturn(Collections.singletonList(APP_DTO_1));
+        when(appService.getAllAppsUsingFilters(eq("1"), any())).thenReturn(Collections.singletonList(APP_1));
         perform(get(REST_URL + "?filter=1"))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -186,7 +195,7 @@ class AppControllerTest extends AbstractControllerTest {
 
     @Test
     void getAllAppsWithoutFilters() throws Exception {
-        when(appService.getAllAppsUsingFilters(eq(""), any())).thenReturn(List.of(APP_DTO_1, APP_DTO_2));
+        when(appService.getAllAppsUsingFilters(eq(""), any())).thenReturn(List.of(APP_1, APP_2));
         perform(get(REST_URL))
                 .andExpect(status().isOk())
                 .andDo(print())

@@ -2,11 +2,12 @@ package com.truestore.backend.app;
 
 
 import com.truestore.backend.app.dto.AppDto;
+import com.truestore.backend.app.dto.CreateAppDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import com.truestore.backend.validation.OnUpdate;
 import com.truestore.backend.validation.ValidationErrorBuilder;
-import com.truestore.backend.validation.user.OnCreate;
+import com.truestore.backend.validation.OnCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -29,16 +31,21 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
 @RequestMapping(value = AppController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@Validated
 public class AppController {
 
     static final String REST_URL = "/apps";
+    static final String WRONG_CREDENTIALS = "Wrong credentials";
 
     private final AppService appService;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public AppController(AppService appService) {
         this.appService = appService;
@@ -49,7 +56,7 @@ public class AppController {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
-            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content) })
     @GetMapping
     public ResponseEntity<?> getAllApps(
@@ -62,9 +69,12 @@ public class AppController {
         log.info("get all Apps");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            return ResponseEntity.ok(appService.getAllAppsUsingFilters(filter, PageRequest.of(page, size, Sort.by("created").descending())));
+            List<AppDto> appsDto = appService.getAllAppsUsingFilters(filter,
+                            PageRequest.of(page, size, Sort.by("created").descending()))
+                    .stream().map(app -> convertToDto(AppDto.class, app)).collect(Collectors.toList());
+            return ResponseEntity.ok(appsDto);
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
     @Operation(summary = "Get all my Apps with pagination and available filter")
@@ -72,7 +82,7 @@ public class AppController {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
-            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content) })
     @GetMapping("/my")
     public ResponseEntity<?> getAllMyAppsWithFilters(
@@ -88,10 +98,13 @@ public class AppController {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
                 User user = ((SecurityUser) principal).getUser();
-                return ResponseEntity.ok(appService.getAllMyAppsUsingFilters(user.getId(), filter, PageRequest.of(page, size)));
+                List<AppDto> appsDto = appService.getAllMyAppsUsingFilters(user.getId(), filter,
+                                PageRequest.of(page, size, Sort.by("created").descending()))
+                        .stream().map(app -> convertToDto(AppDto.class, app)).collect(Collectors.toList());
+                return ResponseEntity.ok(appsDto);
             }
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
     @Operation(summary = "Get information about App by id")
@@ -99,16 +112,18 @@ public class AppController {
             @ApiResponse(responseCode = "200", description = "Found the app",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
-            @ApiResponse(responseCode = "401", description = "Wrong credentials",
-                    content = @Content) })
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "App not found",
+                    content = @Content)})
     @GetMapping("/{appId}")
     public ResponseEntity<?> getAppById(@Parameter(description = "Id App") @PathVariable String appId) {
         log.info("get App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            return ResponseEntity.ok(appService.getAppDtoById(appId));
+            return ResponseEntity.ok(convertToDto(AppDto.class, appService.getAppById(appId)));
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
     @Operation(summary = "Create new App by current user")
@@ -116,12 +131,14 @@ public class AppController {
             @ApiResponse(responseCode = "201", description = "Created the app",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
-            @ApiResponse(responseCode = "401", description = "Wrong credentials",
-                    content = @Content) })
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content)})
     @PostMapping
     @Validated(OnCreate.class)
-    public ResponseEntity<?> createApp(HttpServletRequest request, @Valid @RequestBody AppDto appDto, Errors errors) {
-        log.info("create App {}", appDto);
+    public ResponseEntity<?> createApp(HttpServletRequest request, @Valid @RequestBody CreateAppDto createAppDto, Errors errors) {
+        log.info("create App {}", createAppDto);
         if (errors.hasErrors()) {
             log.info("Validation error with request: " + request.getRequestURI());
             return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
@@ -131,10 +148,11 @@ public class AppController {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
                 User user = ((SecurityUser) principal).getUser();
-                return new ResponseEntity<>(appService.saveAppForUser(appDto, user), HttpStatus.CREATED);
+                App app = convertToEntity(createAppDto);
+                return new ResponseEntity<>(convertToDto(AppDto.class, appService.saveAppForUser(app, user)), HttpStatus.CREATED);
             }
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
     @Operation(summary = "Delete App by id by app owner")
@@ -142,9 +160,11 @@ public class AppController {
             @ApiResponse(responseCode = "200", description = "Deleted the app",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
-            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "App not found",
                     content = @Content) })
     @DeleteMapping("/{appId}")
     public ResponseEntity<?> deleteAppById(@Parameter(description = "Id App") @PathVariable String appId) {
@@ -153,15 +173,15 @@ public class AppController {
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                String ownerId = appService.getAppDtoById(appId).getOwnerId();
+                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
-                if (!Objects.equals(ownerId, user.getId())) {
+                if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");
                 }
-                return  ResponseEntity.ok(appService.deleteAppById(appId));
+                return  ResponseEntity.ok(convertToDto(AppDto.class, appService.deleteAppById(appId)));
             }
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
     @Operation(summary = "Update App by id by app owner")
@@ -169,9 +189,11 @@ public class AppController {
             @ApiResponse(responseCode = "200", description = "Updated the app",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
-            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "App not found",
                     content = @Content) })
     @PatchMapping("/{appId}")
     @Validated(OnUpdate.class)
@@ -186,14 +208,23 @@ public class AppController {
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                String ownerId = appService.getAppDtoById(appId).getOwnerId();
+                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
-                if (!Objects.equals(ownerId, user.getId())) {
+                if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");
                 }
-                return  ResponseEntity.ok(appService.saveAppForUser(appDto, user));
+                App app = convertToEntity(appDto);
+                return ResponseEntity.ok(convertToDto(AppDto.class, appService.saveAppForUser(app, user)));
             }
         }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
+    private <T> T convertToDto(Class<T> clazz, App app) {
+        return modelMapper.map(app, clazz);
+    }
+
+    private <T> App convertToEntity(T dto) {
+        return modelMapper.map(dto, App.class);
     }
 }

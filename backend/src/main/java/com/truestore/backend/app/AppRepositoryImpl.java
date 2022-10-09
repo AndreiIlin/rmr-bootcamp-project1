@@ -1,7 +1,6 @@
 package com.truestore.backend.app;
 
 import com.truestore.backend.user.User;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -55,8 +54,8 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Page<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page) {
-        return jpaAppRepository.findAllByOwnerId(userId, filter, page);
+    public List<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page) {
+        return jpaAppRepository.findAllByOwnerIdAndAppNameContainingIgnoreCase(userId, filter, page);
     }
 
     private Specification<App> specification(String filter) {
