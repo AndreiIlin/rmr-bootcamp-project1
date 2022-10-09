@@ -5,18 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useRegistrationMutation } from '../../../store/api/authApiSlice/authApiSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks/defaultHooks';
+import { useAppDispatch } from '../../../hooks/defaultHooks';
 import { login } from '../../../store/slices/authSlice';
 import { routes } from '../../../utils/routes';
 import Modal from '../../Modals';
-import { modalIsOpened, modalType } from '../../../selectors/selectors';
 import { closeModal, openModal } from '../../../store/slices/modalSlice';
 
 const SignUpPage: FC = () => {
   const [agree, setAgree] = useState<boolean>(true);
   const [alreadyRegistered, setAlreadyRegistered] = useState<boolean>(false);
-  const isOpened = useAppSelector(modalIsOpened);
-  const typeModal = useAppSelector(modalType);
   const [registration] = useRegistrationMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -39,11 +36,7 @@ const SignUpPage: FC = () => {
   });
 
   const handleModalClick = () => {
-    dispatch(openModal({ type: typeModal }));
-  };
-
-  const handleModalClose = () => {
-    dispatch(closeModal());
+    dispatch(openModal({ type: 'appRules' }));
   };
 
   return (
