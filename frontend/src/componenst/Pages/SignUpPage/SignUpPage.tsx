@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React, { FC, useState } from 'react';
-import { Button, Card, Form, FormControl, FormGroup, FormLabel, ModalBody } from 'react-bootstrap';
+import { Button, Card, Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -9,7 +9,7 @@ import { useAppDispatch } from '../../../hooks/defaultHooks';
 import { login } from '../../../store/slices/authSlice';
 import { routes } from '../../../utils/routes';
 import Modal from '../../Modals';
-import { closeModal, openModal } from '../../../store/slices/modalSlice';
+import { openModal } from '../../../store/slices/modalSlice';
 
 const SignUpPage: FC = () => {
   const [agree, setAgree] = useState<boolean>(true);
@@ -126,7 +126,7 @@ const SignUpPage: FC = () => {
                 <p>{t('registration.confirm')}</p>
                 <div className='container'>
                   <FormControl
-                    type='confirmPassword'
+                    type='password'
                     className='form-control'
                     name='confirmPassword'
                     id='confirmPassword'
