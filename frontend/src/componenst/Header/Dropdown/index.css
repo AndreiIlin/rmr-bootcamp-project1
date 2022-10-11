@@ -1,0 +1,10 @@
+.dropdown-toggle::after {
+  display: none;
+}
+.dropdown-toggle {
+  padding-bottom: 16px;
+}
+.navbar-collapse {
+  border: 1px solid rgba(155, 157, 159, 1);
+  border-radius: 5px;
+}
