@@ -34,8 +34,8 @@ public class AppDto {
     private String ownerId;
     @NotNull(message = "Feature price can't be null", groups = OnUpdate.class)
     private Float featurePrice;
-    @NotNull(message = "Bag price can't be null", groups = OnUpdate.class)
-    private Float bagPrice;
+    @NotNull(message = "Bug price can't be null", groups = OnUpdate.class)
+    private Float bugPrice;
     @NotNull(message = "Available can't be null", groups = OnUpdate.class)
     private Boolean available;
     @NotBlank(message = "Icon image can't be blank", groups = OnUpdate.class)

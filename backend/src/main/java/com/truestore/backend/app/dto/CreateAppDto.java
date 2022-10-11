@@ -26,8 +26,8 @@ public class CreateAppDto {
     private String appDescription;
     @NotNull(message = "Feature price can't be null", groups = OnCreate.class)
     private Float featurePrice;
-    @NotNull(message = "Bag price can't be null", groups = OnCreate.class)
-    private Float bagPrice;
+    @NotNull(message = "Bug price can't be null", groups = OnCreate.class)
+    private Float bugPrice;
     @NotNull(message = "Available can't be null", groups = OnCreate.class)
     private Boolean available;
     @NotBlank(message = "Icon image can't be blank", groups = OnCreate.class)
