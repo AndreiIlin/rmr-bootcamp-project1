@@ -132,7 +132,7 @@ class AppControllerTest extends AbstractControllerTest {
 
     @Test
     void createAppDuplicate() throws Exception {
-        CreateAppDto duplicate = new CreateAppDto(APP_1.getAppName(), "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
+        CreateAppDto duplicate = new CreateAppDto(APP_1.getAppName(), "AppDescription", 0F, 0F, true, "icon", "link");
         when(principal.getUser()).thenReturn(USER_1);
         when(appService.saveAppForUser(any(App.class), any(User.class))).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
         perform(post(REST_URL)

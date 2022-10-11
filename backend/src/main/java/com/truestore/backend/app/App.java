@@ -33,7 +33,7 @@ public class App {
     private User owner;
     @Column(name = "feature_price", nullable = false, precision =  10, scale =  2)
     private Float featurePrice;
-    @Column(name = "bag_price", nullable = false, precision =  10 , scale =  2)
+    @Column(name = "bag_price", nullable = false, precision =  10, scale =  2)
     private Float bagPrice;
     @Column(name = "available", nullable = false, columnDefinition = "bool default true")
     private Boolean available = true;

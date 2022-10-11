@@ -17,8 +17,8 @@ public class AppTestData {
     public static final App APP_NEW_WITHOUT_ID = new App(null,"AppNameNew", "AppDescriptionNew", USER_1, 100F, 200F, true, "icon", "link", LocalDateTime.now());
     public static final App APP_NEW_WITH_ID = new App("NEW", "AppNameNew", "AppDescriptionNew", USER_1, 100F, 200F, true, "icon", "link", LocalDateTime.now());
     public static final AppDto APP_DTO_1 = new AppDto(APP_UUID_1, "AppName1", "AppDescription1", USER_1_UUID, 100F, 200F, true, "icon", "link");
-    public static final CreateAppDto CREATE_APP_DTO = new CreateAppDto("AppNameNew", "AppDescriptionNew", USER_1_UUID, 100F, 200F, true, "icon", "link");
-    public static final CreateAppDto INVALID_APP_DTO = new CreateAppDto( "AppName", "AppDescription", USER_1_UUID, 0F, 0F, true, "icon", "link");
+    public static final CreateAppDto CREATE_APP_DTO = new CreateAppDto("AppNameNew", "AppDescriptionNew", 100F, 200F, true, "icon", "link");
+    public static final CreateAppDto INVALID_APP_DTO = new CreateAppDto("AppName", "AppDescription", 0F, 0F, true, "icon", "link");
 
 
 }
