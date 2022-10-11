@@ -1,4 +1,4 @@
-package com.truestore.backend.validation.user;
+package com.truestore.backend.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

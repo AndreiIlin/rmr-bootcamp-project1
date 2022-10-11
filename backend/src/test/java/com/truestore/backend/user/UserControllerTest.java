@@ -2,14 +2,22 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.AbstractControllerTest;
 import com.truestore.backend.security.JWTToken;
+import com.truestore.backend.validation.OnCreate;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
+import java.util.Set;
+
 import static com.truestore.backend.user.UserTestData.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,11 +33,15 @@ class UserControllerTest extends AbstractControllerTest {
     @MockBean
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private Validator validator;
+
+
     @Test
     @WithAnonymousUser
     void signupUser() throws Exception {
         LoginRequest request = new LoginRequest();
-        request.setEmail(USER_MAIL);
+        request.setEmail(USER_1_MAIL);
         request.setPassword(USER_PASSWORD);
         request.setRole(UserRole.ROLE_USER.toString());
         JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);
@@ -44,17 +56,13 @@ class UserControllerTest extends AbstractControllerTest {
 
     @Test
     @WithAnonymousUser
-    void signupUserInvalid() throws Exception {
+    void signupUserInvalidNullEmail() throws Exception {
         LoginRequest request = new LoginRequest();
         request.setEmail(null);
-        request.setPassword(null);
-        JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);
-        when(userService.signup(any(LoginRequest.class))).thenReturn(token);
-        perform(post(REST_URL + "signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(request)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+        request.setPassword(USER_PASSWORD);
+        request.setRole(UserRole.ROLE_USER.toString());
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        assertFalse(violations.isEmpty());
     }
 
     @Test
@@ -62,21 +70,38 @@ class UserControllerTest extends AbstractControllerTest {
     void signupUserInvalidBlankEmail() throws Exception {
         LoginRequest request = new LoginRequest();
         request.setEmail("");
-        request.setPassword("pass");
-        JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);
-        when(userService.signup(any(LoginRequest.class))).thenReturn(token);
-        perform(post(REST_URL + "signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(request)))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+        request.setPassword(USER_PASSWORD);
+        request.setRole(UserRole.ROLE_USER.toString());
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    @WithAnonymousUser
+    void signupUserInvalidNullPassword() throws Exception {
+        LoginRequest request = new LoginRequest();
+        request.setEmail(USER_1_MAIL);
+        request.setRole(UserRole.ROLE_USER.toString());
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    @WithAnonymousUser
+    void signupUserInvalidBlankPassword() throws Exception {
+        LoginRequest request = new LoginRequest();
+        request.setEmail(USER_1_MAIL);
+        request.setPassword("");
+        request.setRole(UserRole.ROLE_USER.toString());
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        assertFalse(violations.isEmpty());
     }
 
     @Test
     @WithAnonymousUser
     void authenticateUser() throws Exception {
         LoginRequest request = new LoginRequest();
-        request.setEmail(USER_MAIL);
+        request.setEmail(USER_1_MAIL);
         request.setPassword(USER_PASSWORD);
         request.setRole(UserRole.ROLE_USER.toString());
         JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);

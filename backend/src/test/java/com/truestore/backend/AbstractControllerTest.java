@@ -27,7 +27,7 @@ public abstract class AbstractControllerTest {
             .addModule(new JavaTimeModule())
             .build();
     @Autowired
-    private MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     protected ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder);

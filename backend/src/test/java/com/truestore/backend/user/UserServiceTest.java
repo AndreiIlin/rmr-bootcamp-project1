@@ -32,29 +32,29 @@ class UserServiceTest {
     @Test
     void signupUser() {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(USER_MAIL);
+        loginRequest.setEmail(USER_1_MAIL);
         loginRequest.setPassword(USER_PASSWORD);
         User user = new User(loginRequest.getEmail(), loginRequest.getPassword(), UserRole.ROLE_USER.toString());
-        user.setId(USER_UUID);
+        user.setId(USER_1_UUID);
         when(jwtUtil.generateToken(Mockito.anyString())).thenReturn(VALID_TOKEN);
         when(userRepository.addUser(any(User.class))).thenReturn(Optional.of(user));
         JWTToken result = userService.signup(loginRequest);
-        assertEquals(USER_UUID, result.getUserId());
+        assertEquals(USER_1_UUID, result.getUserId());
         assertEquals(VALID_TOKEN, result.getAccessToken());
     }
 
     @Test
     void loginUser() {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(USER_MAIL);
+        loginRequest.setEmail(USER_1_MAIL);
         loginRequest.setPassword(USER_PASSWORD);
         loginRequest.setRole(UserRole.ROLE_USER.toString());
         User user = new User(loginRequest.getEmail(), loginRequest.getPassword(), UserRole.ROLE_USER.toString());
-        user.setId(USER_UUID);
+        user.setId(USER_1_UUID);
         when(jwtUtil.generateToken(Mockito.anyString())).thenReturn(VALID_TOKEN);
-        when(userRepository.getUserByEmail(USER_MAIL)).thenReturn(Optional.of(user));
+        when(userRepository.getUserByEmail(USER_1_MAIL)).thenReturn(Optional.of(user));
         JWTToken result = userService.login(loginRequest);
-        assertEquals(USER_UUID, result.getUserId());
+        assertEquals(USER_1_UUID, result.getUserId());
         assertEquals(VALID_TOKEN, result.getAccessToken());
     }
 }
