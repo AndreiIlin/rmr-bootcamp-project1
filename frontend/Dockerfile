@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package*.json /app/
 RUN npm install
 COPY ./ /app
+RUN npx eslint .
 RUN npm run build
 
 FROM nginx:1.23.1-alpine
