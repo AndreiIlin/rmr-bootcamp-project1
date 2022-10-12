@@ -34,7 +34,7 @@ const LoginPage: FC = () => {
           try {
             const response = await userLogin({ email, password }).unwrap();
             dispatch(login(response));
-            navigate(routes.appPagePath());
+            navigate(routes.mainPagePath());
             setFailedLogin(false);
           } catch (error: any) {
             if (error?.status === 401) {
