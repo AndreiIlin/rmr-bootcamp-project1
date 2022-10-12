@@ -1,0 +1,22 @@
+name: Project build check
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+      - name: Check and Build applications
+        run: |
+          docker-compose build
+      - name: Run application
+        run: |
+          docker-compose up --detach
+          docker-compose ps
+          docker-compose logs
+      - name: Compose down
+        run: |
+          docker-compose stop
+          docker-compose down
