@@ -2,14 +2,14 @@ import React, { FC } from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from '../../../hooks/defaultHooks';
-import { useUserInfoQuery } from '../../../store/api/userInfoApiSlice/userInfoApiSlice';
+import { useGetUserInfoQuery } from '../../../store/api/userInfoApiSlice/userInfoApiSlice';
 import { logout } from '../../../store/slices/authSlice';
 import './index.css';
 
 const Dropdown: FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { data } = useUserInfoQuery();
+  const { data } = useGetUserInfoQuery();
   const logoutHandle = () => {
     dispatch(logout());
   };

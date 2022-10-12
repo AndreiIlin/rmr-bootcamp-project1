@@ -53,7 +53,8 @@ const SignUpPage: FC = () => {
             const response = await registration({ email, password }).unwrap();
             dispatch(login(response));
             setAlreadyRegistered(false);
-            navigate(routes.mainPagePath());
+            navigate(routes.pages.mainPagePath());
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (e: any) {
             if (e?.status === 409) setAlreadyRegistered(true);
           }

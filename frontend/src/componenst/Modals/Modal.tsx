@@ -19,7 +19,7 @@ const Modal: FC = () => {
   };
   return (
     <ModalComponent show={isOpened} onHide={handleClose} centered>
-      {ModalBody && <ModalBody close={handleClose} />}
+      {ModalBody && <ModalBody />}
     </ModalComponent>
   );
 };

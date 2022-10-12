@@ -8,7 +8,7 @@ const NotFoundPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const navigateHandle = () => {
-    navigate(routes.appPagePath());
+    navigate(routes.pages.mainPagePath());
   };
   return (
     <Container fluid className="wh-100 align-items-center text-center">
