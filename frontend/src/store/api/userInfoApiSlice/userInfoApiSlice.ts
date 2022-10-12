@@ -4,10 +4,10 @@ import { trueStoreApi } from '../trueStoreApi';
 
 const userInfoApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({
-    userInfo: build.query<UserInfoResponse, void>({
-      query: () => routes.userInfo(),
+    getUserInfo: build.query<UserInfoResponse, void>({
+      query: () => routes.api.userInfo(),
     }),
   }),
 });
 
-export const { useUserInfoQuery } = userInfoApiSlice;
+export const { useGetUserInfoQuery } = userInfoApiSlice;

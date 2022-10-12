@@ -2,11 +2,7 @@ import React, { FC } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-interface AppRulesProps {
-  close: () => void;
-}
-
-const AppRules: FC<AppRulesProps> = ({ close }) => {
+const AppRules: FC = () => {
   const { t } = useTranslation();
   return (
     <>

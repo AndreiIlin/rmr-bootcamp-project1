@@ -2,39 +2,59 @@ import { App } from '../../../models/services/app';
 import { routes } from '../../../utils/routes';
 import { trueStoreApi } from '../trueStoreApi';
 
+interface PaginationRequest {
+  page: number;
+  size: number;
+  filter: string;
+}
+
 const appsApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({
-    allApps: build.query<App[], void>({
-      query: () => routes.mainPagePath(),
+    getApps: build.query<App[], PaginationRequest>({
+      query: ({ page, size, filter }) => ({
+        url: routes.api.apps(),
+        params: {
+          page,
+          size,
+          filter,
+        },
+      }),
       providesTags: ['App'],
     }),
-    app: build.query<App, string>({
-      query: (id) => routes.app(id),
+    getApp: build.query<App, string>({
+      query: (id) => routes.api.app(id),
       providesTags: ['App'],
     }),
-    getAllMyApp: build.query<App[], void>({
-      query: () => routes.mainPagePath(),
+    getUserApps: build.query<App[], PaginationRequest>({
+      query: ({ page, size, filter }) => ({
+        url: routes.api.userApps(),
+        params: {
+          page,
+          size,
+          filter,
+        },
+      }),
       providesTags: ['App'],
     }),
-    addApp: build.mutation<App, Omit<App, 'ownerId' | 'id'>>({
+    addNewApp: build.mutation<App, Omit<App, 'ownerId' | 'id'>>({
       query: (app) => ({
-        url: routes.newApp(),
+        url: routes.api.apps(),
         method: 'POST',
-        body: { ...app },
+        body: app,
       }),
       invalidatesTags: ['App'],
     }),
     updateApp: build.mutation<App, App>({
       query: (app) => ({
-        url: routes.app(app.id),
+        url: routes.api.app(app.id),
         method: 'PATCH',
-        body: { ...app },
+        body: app,
       }),
       invalidatesTags: ['App'],
     }),
-    deleteApp: build.mutation<App, App>({
-      query: (app) => ({
-        url: routes.app(app.id),
+    deleteApp: build.mutation<App, string>({
+      query: (id) => ({
+        url: routes.api.app(id),
         method: 'DELETE',
       }),
       invalidatesTags: ['App'],
@@ -42,4 +62,11 @@ const appsApiSlice = trueStoreApi.injectEndpoints({
   }),
 });
 
-export const { useAddAppMutation, useUpdateAppMutation, useDeleteAppMutation } = appsApiSlice;
+export const {
+  useAddNewAppMutation,
+  useDeleteAppMutation,
+  useUpdateAppMutation,
+  useGetAppQuery,
+  useGetAppsQuery,
+  useGetUserAppsQuery,
+} = appsApiSlice;
