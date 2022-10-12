@@ -1,0 +1,25 @@
+package com.truestore.backend.user.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.truestore.backend.validation.OnCreate;
+import com.truestore.backend.validation.OnLogin;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+public class PasswordDto {
+    @JsonProperty("old_password")
+    private String oldPassword;
+    @NotBlank(message = "Password can't be blank", groups = {OnCreate.class, OnLogin.class})
+    @NotNull(message = "Password can't be null", groups = {OnCreate.class, OnLogin.class})
+    @Size(min = 8, max =  30, message = "Password must be between 8 and 30 characters")
+    @JsonProperty("new_password")
+    private String newPassword;
+}

@@ -2,6 +2,7 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.JWTUtil;
+import com.truestore.backend.user.dto.LoginRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,16 @@ public class UserService {
     public User getByEmail(String email) {
         return userRepository.getUserByEmail(email).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+    }
+
+    public JWTToken changeUserPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.saveUser(user);
+        String token = jwtUtil.generateToken(user.getId());
+        return new JWTToken(user.getId(), token);
+    }
+
+    public boolean checkIfValidOldPassword(User user, String oldPassword) {
+        return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 }
