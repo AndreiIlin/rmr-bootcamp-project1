@@ -1,5 +1,6 @@
-package com.truestore.backend.validation.user;
+package com.truestore.backend.validation;
 
+import com.truestore.backend.validation.NoHtml;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

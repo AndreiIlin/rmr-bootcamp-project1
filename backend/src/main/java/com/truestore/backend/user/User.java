@@ -1,18 +1,17 @@
 package com.truestore.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.truestore.backend.validation.ValueOfEnum;
-import com.truestore.backend.validation.user.NoHtml;
-import com.truestore.backend.validation.user.OnCreate;
-import com.truestore.backend.validation.user.OnLogin;
+import com.truestore.backend.validation.NoHtml;
+import com.truestore.backend.validation.OnCreate;
+import com.truestore.backend.validation.OnLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Data
 @Entity
@@ -34,6 +33,7 @@ public class User {
     @NotBlank(message = "Password can't be blank", groups = {OnCreate.class, OnLogin.class})
     @NotNull(message = "Password can't be null", groups = {OnCreate.class, OnLogin.class})
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
     @ValueOfEnum(enumClass = UserRole.class)
     @NotBlank(message = "Role can't be blank", groups = OnCreate.class)

@@ -23,6 +23,7 @@ const config = {
     },
     compress: false,
     port: 3000,
+    historyApiFallback: true,
   },
   devtool: 'source-map',
   plugins: [
@@ -49,7 +50,7 @@ const config = {
         },
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
       {
