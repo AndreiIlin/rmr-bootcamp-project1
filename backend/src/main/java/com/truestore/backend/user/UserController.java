@@ -1,5 +1,7 @@
 package com.truestore.backend.user;
 
+import com.truestore.backend.contract.Contract;
+import com.truestore.backend.contract.dto.ContractDto;
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.dto.LoginRequest;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +41,12 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService, AuthenticationManager authenticationManager) {
+    private final ModelMapper modelMapper;
+
+    public UserController(UserService userService, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
+        this.modelMapper = modelMapper;
     }
 
     @Operation(summary = "Login user with email and password to obtain JWT access token")
@@ -110,7 +116,7 @@ public class UserController {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
                 User user = ((SecurityUser) principal).getUser();
-                return ResponseEntity.ok(new UserTo(user.getEmail(), user.getId()));
+                return ResponseEntity.ok(convertToDto(user));
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
@@ -146,6 +152,10 @@ public class UserController {
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+    }
+
+    private UserTo convertToDto(User user) {
+        return modelMapper.map(user, UserTo.class);
     }
 
 }

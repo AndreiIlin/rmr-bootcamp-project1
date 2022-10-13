@@ -1,6 +1,5 @@
 package com.truestore.backend.app;
 
-
 import com.truestore.backend.app.dto.AppDto;
 import com.truestore.backend.app.dto.CreateAppDto;
 import com.truestore.backend.security.SecurityUser;
@@ -38,10 +37,8 @@ import java.util.stream.Collectors;
 @RequestMapping(value = AppController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class AppController {
-
     static final String REST_URL = "/apps";
     static final String WRONG_CREDENTIALS = "Wrong credentials";
-
     private final AppService appService;
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -124,14 +121,16 @@ public class AppController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Create new app by current user")
+    @Operation(summary = "Create new app for current user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created the app by current user",
+            @ApiResponse(responseCode = "201", description = "App created",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-                    content = @Content),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find app",
+                    content = @Content),
+            @ApiResponse(responseCode = "409", description = "Unable to save contract",
                     content = @Content)})
     @PostMapping
     @Validated
@@ -192,6 +191,8 @@ public class AppController {
             @ApiResponse(responseCode = "403", description = "Forbidden",
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "App not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "409", description = "Unable to save contract",
                     content = @Content) })
     @PatchMapping("/{appId}")
     @Validated
