@@ -2,9 +2,11 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { AddApp } from '../../../models/services/app';
 import { useAddNewAppMutation } from '../../../store/api/appsApiSlice/appsApiSlice';
+import { routes } from '../../../utils/routes';
 
 const initialValues: AddApp = {
   appName: '',
@@ -27,6 +29,7 @@ const validationSchema = yup.object().shape({
 
 const NewAppPage = () => {
   const [addApp] = useAddNewAppMutation();
+  const navigate = useNavigate();
   return (
     <main className='app'>
       <div className='container d-flex justify-content-center align-items-center h-100'>
@@ -43,7 +46,6 @@ const NewAppPage = () => {
               iconImage,
               downloadLink,
             } = values;
-            console.log(Number(featurePrice));
             const newApp = {
               appName,
               appDescription,
@@ -55,8 +57,8 @@ const NewAppPage = () => {
               contractId: null,
             };
             try {
-              const response = await addApp(newApp);
-              console.log(response);
+              await addApp(newApp);
+              navigate(routes.pages.userAppsPagePath());
             } catch (e) {
               console.log(e);
             }
