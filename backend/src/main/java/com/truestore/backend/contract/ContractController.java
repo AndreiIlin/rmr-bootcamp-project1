@@ -5,6 +5,12 @@ import com.truestore.backend.contract.dto.CreateContractDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import com.truestore.backend.validation.ValidationErrorBuilder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +45,19 @@ public class ContractController {
         this.modelMapper = modelMapper;
     }
 
+    @Operation(summary = "Create contract for current user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Contract created",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContractDto.class)) }),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "App owner can't contract an own app",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find app",
+                    content = @Content),
+            @ApiResponse(responseCode = "409", description = "Unable to save contract",
+                    content = @Content)})
     @PostMapping("")
     public ResponseEntity<?> createContract(
             HttpServletRequest request,
@@ -62,6 +81,13 @@ public class ContractController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
+    @Operation(summary = "Get list of Contracts for current User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ContractDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content)})
     @GetMapping("/my")
     public ResponseEntity<?> getContractsForCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -77,6 +103,17 @@ public class ContractController {
 
     }
 
+    @Operation(summary = "Get Contract by UUID with current User credentials")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get contract",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ContractDto.class)) }),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "User can see only own contracts",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find contract with such UUID",
+                    content = @Content)})
     @GetMapping("/{contractId}")
     public ResponseEntity<?> getContractById(@PathVariable UUID contractId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
