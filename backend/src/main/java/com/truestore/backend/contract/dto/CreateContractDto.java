@@ -1,10 +1,9 @@
 package com.truestore.backend.contract.dto;
 
-import com.truestore.backend.validation.NoHtml;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -12,9 +11,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateContractDto {
-    @NotBlank(message = "App id can't be blank")
     @NotNull(message = "App id can't be null")
-    @NoHtml
-    private String appId;
-
+    private UUID appId;
 }
