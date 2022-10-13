@@ -49,9 +49,9 @@ public class AppController {
         this.appService = appService;
     }
 
-    @Operation(summary = "Get all Apps with pagination and available filter")
+    @Operation(summary = "Get all apps with pagination and available filter")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "200", description = "Got all Apps with pagination and available filter",
                     content = { @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
@@ -75,9 +75,9 @@ public class AppController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Get all my Apps with pagination and available filter")
+    @Operation(summary = "Get all apps of current user with pagination and available filter")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "200", description = "Got all apps of current user with pagination and available filter",
                     content = { @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
@@ -105,14 +105,14 @@ public class AppController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Get information about App by id")
+    @Operation(summary = "Get information about app by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the app",
+            @ApiResponse(responseCode = "200", description = "Found the app by id",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content),
-            @ApiResponse(responseCode = "404", description = "App not found",
+            @ApiResponse(responseCode = "404", description = "App not found by id",
                     content = @Content)})
     @GetMapping("/{appId}")
     public ResponseEntity<?> getAppById(@Parameter(description = "Id App") @PathVariable String appId) {
@@ -124,9 +124,9 @@ public class AppController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Create new App by current user")
+    @Operation(summary = "Create new app by current user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created the app",
+            @ApiResponse(responseCode = "201", description = "Created the app by current user",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid id supplied",
@@ -153,9 +153,9 @@ public class AppController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Delete App by id by app owner")
+    @Operation(summary = "Delete app by id for current user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Deleted the app",
+            @ApiResponse(responseCode = "200", description = "Deleted the app by id for the current user",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
@@ -182,9 +182,9 @@ public class AppController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Update App by id by app owner")
+    @Operation(summary = "Update app by id for current user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Updated the app",
+            @ApiResponse(responseCode = "200", description = "Updated app by id for current user",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AppDto.class)) }),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,

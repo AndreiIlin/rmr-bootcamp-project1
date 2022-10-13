@@ -96,7 +96,7 @@ public class UserController {
         return new ResponseEntity<>(userService.signup(loginRequest), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Get information about me")
+    @Operation(summary = "Get information about current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the user",
                     content = { @Content(mediaType = "application/json",
@@ -116,9 +116,9 @@ public class UserController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
     }
 
-    @Operation(summary = "Change my password")
+    @Operation(summary = "Change current user password")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Changed my password",
+            @ApiResponse(responseCode = "200", description = "Changed current user password",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = JWTToken.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid password supplied",
@@ -127,9 +127,9 @@ public class UserController {
                     content = @Content)
     })
     @PatchMapping("/me")
-    public ResponseEntity<?> changeUserPassword(
+    public ResponseEntity<?> changeCurrentUserPassword(
             HttpServletRequest request, @Valid @RequestBody PasswordDto passwordDto, Errors errors) {
-        log.info("Change my password");
+        log.info("Change current user password");
         if (errors.hasErrors()) {
             log.info("Validation error with request: " + request.getRequestURI());
             return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
