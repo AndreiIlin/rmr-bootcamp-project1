@@ -1,51 +1,47 @@
 /* eslint-disable react/no-children-prop */
-import React, { FC } from 'react';
-import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import Modal from './componenst/Modals';
+import React, { FC, ReactElement } from 'react';
+import { BrowserRouter as Router, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import Header from './componenst/Header/Header';
-import MainPage from './componenst/Pages/mainPage/MainPage';
+import Modal from './componenst/Modals';
+import AppPage from './componenst/Pages/appPage/AppPage';
 import LoginPage from './componenst/Pages/LoginPage/LoginPage';
+import MainPage from './componenst/Pages/mainPage/MainPage';
+import NewAppPage from './componenst/Pages/newAppPage/NewAppPage';
 import NotFoundPage from './componenst/Pages/NotFound/NotFoundPage';
 import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
 import { useAppSelector } from './hooks/defaultHooks';
 import selectors from './selectors';
 import { routes } from './utils/routes';
-import AppPage from './componenst/Pages/appPage/AppPage';
-import NewAppPage from './componenst/Pages/newAppPage/NewAppPage';
 
-interface MainOutletProps {
-  goStorePage: boolean;
+interface RouterProps {
+  children: ReactElement;
 }
 
-const MainOutlet: FC<MainOutletProps> = ({ goStorePage }) => {
-  const auth = useAppSelector(selectors.userAuth);
-  if (goStorePage) {
-    return auth ? <Outlet /> : <Navigate to={routes.pages.loginPagePath()} />;
-  }
-  return auth ? <Navigate to={routes.pages.mainPagePath()} /> : <Outlet />;
+const PrivateRouter: FC<RouterProps> = ({ children }) => {
+  const isAuth = useAppSelector(selectors.userAuth);
+  return isAuth ? children : <Navigate to={routes.pages.loginPagePath()} />;
 };
+
+const AuthRouter: FC<RouterProps> = ({ children }) => {
+  const isAuth = useAppSelector(selectors.userAuth);
+  return isAuth ? <Navigate to={routes.pages.mainPagePath()} /> : children;
+};
+
+const AppRouter: FC = () => {
+  const { id } = useParams();
+  return !id?.match(/\D+/i) ? <AppPage /> : <NotFoundPage />
+}
 
 const App: FC = () => {
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path={routes.pages.mainPagePath()} element={<MainOutlet goStorePage={true} />}>
-          <Route index element={<MainPage />} />
-        </Route>
-        <Route path={routes.pages.loginPagePath()} element={<MainOutlet goStorePage={false} />}>
-          <Route index element={<LoginPage />} />
-        </Route>
-        <Route path={routes.pages.signupPagePath()} element={<MainOutlet goStorePage={false} />}>
-          <Route index element={<SignUpPage />} />
-        </Route>
-        <Route path={routes.pages.appPagePath()} element={<MainOutlet goStorePage={true} />}>
-          <Route index element={<AppPage />} />
-        </Route>
-        <Route path={routes.pages.newAppPagePath()} element={<MainOutlet goStorePage={true} />}>
-          <Route index element={<NewAppPage />} />
-        </Route>
-        <Route path='/*' element={<NotFoundPage />} />
+        <Route path={routes.pages.loginPagePath()} element={<AuthRouter><LoginPage /></AuthRouter>} />
+        <Route path={routes.pages.signupPagePath()} element={<AuthRouter><SignUpPage /></AuthRouter>} />
+        <Route path={routes.pages.mainPagePath()} element={<PrivateRouter><MainPage /></PrivateRouter>} />
+        <Route path={routes.pages.appPagePath()} element={<PrivateRouter><AppRouter /></PrivateRouter>} />
+        <Route path={routes.pages.newAppPagePath()} element={<PrivateRouter><NewAppPage /></PrivateRouter>} />
       </Routes>
       <Modal />
     </Router>
