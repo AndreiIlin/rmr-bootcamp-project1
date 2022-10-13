@@ -6,6 +6,7 @@ export const routes = {
     appPagePath: () => '/:id',
     newAppPagePath: () => `/newApp`,
     userAppsPagePath: () => `/myApps`,
+    profilePagePath: () => '/profile',
   },
   api: {
     loginPath: () => '/users/login',
