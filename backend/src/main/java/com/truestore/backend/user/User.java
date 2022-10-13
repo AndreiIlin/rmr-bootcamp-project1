@@ -3,8 +3,6 @@ package com.truestore.backend.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.truestore.backend.validation.ValueOfEnum;
 import com.truestore.backend.validation.NoHtml;
-import com.truestore.backend.validation.OnCreate;
-import com.truestore.backend.validation.OnLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,19 +23,19 @@ public class User {
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
     @Email(message = "Email should be in right format")
-    @NotBlank(message = "Email can't be blank", groups = {OnCreate.class, OnLogin.class})
-    @NotNull(message = "Email can't be null", groups = {OnCreate.class, OnLogin.class})
+    @NotBlank(message = "Email can't be blank")
+    @NotNull(message = "Email can't be null")
     @Column(name = "email", nullable = false, unique = true)
     @NoHtml // https://stackoverflow.com/questions/17480809
     private String email;
-    @NotBlank(message = "Password can't be blank", groups = {OnCreate.class, OnLogin.class})
-    @NotNull(message = "Password can't be null", groups = {OnCreate.class, OnLogin.class})
+    @NotBlank(message = "Password can't be blank")
+    @NotNull(message = "Password can't be null")
     @Column(name = "password", nullable = false)
     @JsonIgnore
     private String password;
     @ValueOfEnum(enumClass = UserRole.class)
-    @NotBlank(message = "Role can't be blank", groups = OnCreate.class)
-    @NotNull(message = "Role can't be null", groups = OnCreate.class)
+    @NotBlank(message = "Role can't be blank")
+    @NotNull(message = "Role can't be null")
     @Column(name = "role")
     private String role;
 

@@ -5,9 +5,7 @@ import com.truestore.backend.app.dto.AppDto;
 import com.truestore.backend.app.dto.CreateAppDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
-import com.truestore.backend.validation.OnUpdate;
 import com.truestore.backend.validation.ValidationErrorBuilder;
-import com.truestore.backend.validation.OnCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -136,7 +134,7 @@ public class AppController {
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content)})
     @PostMapping
-    @Validated(OnCreate.class)
+    @Validated
     public ResponseEntity<?> createApp(HttpServletRequest request, @Valid @RequestBody CreateAppDto createAppDto, Errors errors) {
         log.info("create App {}", createAppDto);
         if (errors.hasErrors()) {
@@ -196,7 +194,7 @@ public class AppController {
             @ApiResponse(responseCode = "404", description = "App not found",
                     content = @Content) })
     @PatchMapping("/{appId}")
-    @Validated(OnUpdate.class)
+    @Validated
     public ResponseEntity<?> updateApp(HttpServletRequest request, @RequestBody @Valid AppDto appDto,
                                     @PathVariable String appId, Errors errors) {
         if (errors.hasErrors()) {

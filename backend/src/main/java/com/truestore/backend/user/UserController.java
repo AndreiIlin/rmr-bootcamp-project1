@@ -6,7 +6,6 @@ import com.truestore.backend.user.dto.LoginRequest;
 import com.truestore.backend.user.dto.PasswordDto;
 import com.truestore.backend.user.dto.UserTo;
 import com.truestore.backend.validation.ValidationErrorBuilder;
-import com.truestore.backend.validation.OnCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -82,7 +81,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Wrong credentials",
                     content = @Content)})
     @PostMapping("/signup")
-    @Validated(OnCreate.class)
+    @Validated
     public ResponseEntity<?> registerUser(HttpServletRequest request, @RequestBody @Valid LoginRequest loginRequest, Errors errors) {
         log.info("register {}", loginRequest);
         if (errors.hasErrors()) {
