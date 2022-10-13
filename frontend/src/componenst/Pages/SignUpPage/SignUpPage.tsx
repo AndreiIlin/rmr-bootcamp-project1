@@ -132,7 +132,6 @@ const SignUpPage: FC = () => {
             <p>
               Нажимая кнопку зарегистрироваться вы соглашаетесь с
               <Card.Link href='#' onClick={handleModalClick}>
-                {' '}
                 условиями сервиса
               </Card.Link>
             </p>
