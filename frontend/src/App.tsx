@@ -9,6 +9,7 @@ import MainPage from './componenst/Pages/mainPage/MainPage';
 import NewAppPage from './componenst/Pages/newAppPage/NewAppPage';
 import NotFoundPage from './componenst/Pages/NotFound/NotFoundPage';
 import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
+import UserAppsPage from './componenst/Pages/userAppsPage/UserAppsPage';
 import { useAppSelector } from './hooks/defaultHooks';
 import selectors from './selectors';
 import { routes } from './utils/routes';
@@ -29,19 +30,62 @@ const AuthRouter: FC<RouterProps> = ({ children }) => {
 
 const AppRouter: FC = () => {
   const { id } = useParams();
-  return !id?.match(/\D+/i) ? <AppPage /> : <NotFoundPage />
-}
+  return !id?.match(/\D+/i) ? <AppPage /> : <NotFoundPage />;
+};
 
 const App: FC = () => {
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path={routes.pages.loginPagePath()} element={<AuthRouter><LoginPage /></AuthRouter>} />
-        <Route path={routes.pages.signupPagePath()} element={<AuthRouter><SignUpPage /></AuthRouter>} />
-        <Route path={routes.pages.mainPagePath()} element={<PrivateRouter><MainPage /></PrivateRouter>} />
-        <Route path={routes.pages.appPagePath()} element={<PrivateRouter><AppRouter /></PrivateRouter>} />
-        <Route path={routes.pages.newAppPagePath()} element={<PrivateRouter><NewAppPage /></PrivateRouter>} />
+        <Route
+          path={routes.pages.loginPagePath()}
+          element={
+            <AuthRouter>
+              <LoginPage />
+            </AuthRouter>
+          }
+        />
+        <Route
+          path={routes.pages.signupPagePath()}
+          element={
+            <AuthRouter>
+              <SignUpPage />
+            </AuthRouter>
+          }
+        />
+        <Route
+          path={routes.pages.mainPagePath()}
+          element={
+            <PrivateRouter>
+              <MainPage />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path={routes.pages.appPagePath()}
+          element={
+            <PrivateRouter>
+              <AppRouter />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path={routes.pages.newAppPagePath()}
+          element={
+            <PrivateRouter>
+              <NewAppPage />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path={routes.pages.userAppsPagePath()}
+          element={
+            <PrivateRouter>
+              <UserAppsPage />
+            </PrivateRouter>
+          }
+        />
       </Routes>
       <Modal />
     </Router>
