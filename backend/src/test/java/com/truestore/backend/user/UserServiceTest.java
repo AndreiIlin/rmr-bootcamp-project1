@@ -3,7 +3,6 @@ package com.truestore.backend.user;
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.JWTUtil;
 import com.truestore.backend.user.dto.LoginRequest;
-import com.truestore.backend.user.dto.PasswordDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
