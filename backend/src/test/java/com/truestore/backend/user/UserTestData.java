@@ -11,5 +11,7 @@ public class UserTestData {
 
     public static final User USER_1 = new User(USER_1_UUID, USER_1_MAIL, USER_PASSWORD, "ROLE_USER");
     public static final User USER_2 = new User(USER_2_UUID, USER_2_MAIL, USER_PASSWORD, "ROLE_USER");
+    public static final User USER_2_CHANGED_PASSWORD = new User(USER_2_UUID, USER_2_MAIL, "new_password", "ROLE_USER");
+
 
 }

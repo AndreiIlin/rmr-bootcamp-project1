@@ -1,4 +1,4 @@
-package com.truestore.backend.user;
+package com.truestore.backend.user.dto;
 
 import com.truestore.backend.validation.NoHtml;
 import com.truestore.backend.validation.OnCreate;

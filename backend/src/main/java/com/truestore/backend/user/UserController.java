@@ -2,6 +2,9 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.SecurityUser;
+import com.truestore.backend.user.dto.LoginRequest;
+import com.truestore.backend.user.dto.PasswordDto;
+import com.truestore.backend.user.dto.UserTo;
 import com.truestore.backend.validation.ValidationErrorBuilder;
 import com.truestore.backend.validation.OnCreate;
 import io.swagger.v3.oas.annotations.Operation;
@@ -109,6 +112,38 @@ public class UserController {
             if (principal instanceof SecurityUser) {
                 User user = ((SecurityUser) principal).getUser();
                 return ResponseEntity.ok(new UserTo(user.getEmail(), user.getId()));
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+    }
+
+    @Operation(summary = "Change my password")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Changed my password",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = JWTToken.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid password supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+                    content = @Content)
+    })
+    @PatchMapping("/me")
+    public ResponseEntity<?> changeUserPassword(
+            HttpServletRequest request, @Valid @RequestBody PasswordDto passwordDto, Errors errors) {
+        log.info("Change my password");
+        if (errors.hasErrors()) {
+            log.info("Validation error with request: " + request.getRequestURI());
+            return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                if (!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password supplied");
+                }
+                return ResponseEntity.ok(userService.changeUserPassword(user, passwordDto.getNewPassword()));
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
