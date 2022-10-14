@@ -1,7 +1,6 @@
 package com.truestore.backend.app.dto;
 
 import com.truestore.backend.validation.NoHtml;
-import com.truestore.backend.validation.OnCreate;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -14,28 +13,28 @@ import javax.validation.constraints.Size;
 @Setter
 @ToString
 public class CreateAppDto {
-    @NotBlank(message = "App name can't be blank", groups = OnCreate.class)
-    @NotNull(message = "App name can't be null", groups = OnCreate.class)
+    @NotBlank(message = "App name can't be blank")
+    @NotNull(message = "App name can't be null")
     @NoHtml
-    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters", groups = OnCreate.class)
+    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters")
     private String appName;
-    @NotBlank(message = "App description can't be blank", groups = OnCreate.class)
-    @NotNull(message = "App description can't be null", groups = OnCreate.class)
+    @NotBlank(message = "App description can't be blank")
+    @NotNull(message = "App description can't be null")
     @NoHtml
-    @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters", groups = OnCreate.class)
+    @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters")
     private String appDescription;
-    @NotNull(message = "Feature price can't be null", groups = OnCreate.class)
+    @NotNull(message = "Feature price can't be null")
     private Float featurePrice;
-    @NotNull(message = "Bug price can't be null", groups = OnCreate.class)
+    @NotNull(message = "Bug price can't be null")
     private Float bugPrice;
-    @NotNull(message = "Available can't be null", groups = OnCreate.class)
+    @NotNull(message = "Available can't be null")
     private Boolean available;
-    @NotBlank(message = "Icon image can't be blank", groups = OnCreate.class)
-    @NotNull(message = "Icon image can't be null", groups = OnCreate.class)
+    @NotBlank(message = "Icon image can't be blank")
+    @NotNull(message = "Icon image can't be null")
     @NoHtml
     private String iconImage;
-    @NotBlank(message = "Download link can't be blank", groups = OnCreate.class)
-    @NotNull(message = "Download link can't be null", groups = OnCreate.class)
+    @NotBlank(message = "Download link can't be blank")
+    @NotNull(message = "Download link can't be null")
     @NoHtml
     private String downloadLink;
 }

@@ -27,7 +27,7 @@ public class AppService {
             getAppById(app.getId());
         }
         return appRepository.saveAppForUser(app, user).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "App not saved")
+                () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to save app")
         );
     }
 

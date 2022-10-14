@@ -4,9 +4,10 @@ import com.truestore.backend.AbstractControllerTest;
 import com.truestore.backend.app.dto.CreateAppDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
-import com.truestore.backend.validation.OnCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,35 +99,29 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void createAppInvalidNullAppName() throws Exception {
         INVALID_APP_DTO.setAppName(null);
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void createAppInvalidNullAppDescription() throws Exception {
         INVALID_APP_DTO.setAppDescription(null);
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO);
         assertFalse(violations.isEmpty());
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"", "Ap"})
     void createAppInvalidBlankAppName() throws Exception {
         INVALID_APP_DTO.setAppName("");
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO);
         assertFalse(violations.isEmpty());
     }
 
     @Test
     void createAppInvalidBlankAppDescription() throws Exception {
         INVALID_APP_DTO.setAppDescription("");
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
-        assertFalse(violations.isEmpty());
-    }
-
-    @Test
-    void createAppInvalidShortAppName() throws Exception {
-        INVALID_APP_DTO.setAppName("Ap");
-        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO, OnCreate.class);
+        Set<ConstraintViolation<CreateAppDto>> violations = validator.validate(INVALID_APP_DTO);
         assertFalse(violations.isEmpty());
     }
 
