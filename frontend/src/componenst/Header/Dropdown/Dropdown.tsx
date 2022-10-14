@@ -13,8 +13,11 @@ const Dropdown: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data } = useGetUserInfoQuery();
-  const navigateHandler = (): void => {
+  const appCreationHandler = (): void => {
     navigate(routes.pages.newAppPagePath());
+  };
+  const profileHandler = ()  => {
+    navigate(routes.pages.profilePagePath());
   };
   const logoutHandle = () => {
     dispatch(logout());
@@ -30,9 +33,9 @@ const Dropdown: FC = () => {
             className='navbar-toggler-icon'
             align='end'>
             <NavDropdown.Header>{data && data.email}</NavDropdown.Header>
-            <NavDropdown.Item>{t('header.profile')}</NavDropdown.Item>
+            <NavDropdown.Item onClick={profileHandler}>{t('header.profile')}</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item onClick={navigateHandler}>{t('header.newApp')}</NavDropdown.Item>
+            <NavDropdown.Item onClick={appCreationHandler}>{t('header.newApp')}</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={logoutHandle}>{t('header.logout')}</NavDropdown.Item>
           </NavDropdown>

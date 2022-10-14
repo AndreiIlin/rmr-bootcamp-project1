@@ -8,6 +8,7 @@ import LoginPage from './componenst/Pages/LoginPage/LoginPage';
 import MainPage from './componenst/Pages/mainPage/MainPage';
 import NewAppPage from './componenst/Pages/newAppPage/NewAppPage';
 import NotFoundPage from './componenst/Pages/NotFound/NotFoundPage';
+import ProfilePage from './componenst/Pages/profilePage';
 import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
 import UserAppsPage from './componenst/Pages/userAppsPage/UserAppsPage';
 import { useAppSelector } from './hooks/defaultHooks';
@@ -83,6 +84,14 @@ const App: FC = () => {
           element={
             <PrivateRouter>
               <UserAppsPage />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path={routes.pages.profilePagePath()}
+          element={
+            <PrivateRouter>
+              <ProfilePage />
             </PrivateRouter>
           }
         />
