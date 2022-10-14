@@ -1,7 +1,5 @@
 package com.truestore.backend.user;
 
-import com.truestore.backend.contract.Contract;
-import com.truestore.backend.contract.dto.ContractDto;
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.dto.LoginRequest;
