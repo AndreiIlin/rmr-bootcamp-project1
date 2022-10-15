@@ -35,6 +35,8 @@ const AppRouter: FC = () => {
 };
 
 const App: FC = () => {
+  const { id } = useParams();
+  console.log(id);
   return (
     <Router>
       <Header />
@@ -64,7 +66,7 @@ const App: FC = () => {
           }
         />
         <Route
-          path={routes.pages.appPagePath()}
+          path={routes.pages.appPagePath(id)}
           element={
             <PrivateRouter>
               <AppRouter />
