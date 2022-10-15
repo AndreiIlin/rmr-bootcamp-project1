@@ -49,8 +49,9 @@ const SignUpPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={async (values) => {
           const { email, password } = values;
+          const emailInLowerCase = email.toLocaleLowerCase();
           try {
-            const response = await registration({ email, password }).unwrap();
+            const response = await registration({ email: emailInLowerCase, password }).unwrap();
             dispatch(login(response));
             setAlreadyRegistered(false);
             navigate(routes.pages.mainPagePath());
@@ -130,9 +131,9 @@ const SignUpPage: FC = () => {
               <div className='text-danger'>{t('registration.alreadyRegistered')}</div>
             ) : null}
             <p>
-              Нажимая кнопку зарегистрироваться вы соглашаетесь с
+              {t('registration.rules')}
               <Card.Link href='#' onClick={handleModalClick}>
-                условиями сервиса
+                {t('условиями сервиса')}
               </Card.Link>
             </p>
             <Button

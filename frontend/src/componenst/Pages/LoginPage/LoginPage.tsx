@@ -31,8 +31,9 @@ const LoginPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={async (values) => {
           const { email, password } = values;
+          const emailInLowerCase = email.toLocaleLowerCase();
           try {
-            const response = await userLogin({ email, password }).unwrap();
+            const response = await userLogin({ email: emailInLowerCase, password }).unwrap();
             dispatch(login(response));
             navigate(routes.pages.mainPagePath());
             setFailedLogin(false);
