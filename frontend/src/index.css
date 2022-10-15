@@ -3,24 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* Nav */
-.nav {
-  background-color: #1b4b66;
-  width: 100%;
-  padding: 0 30px;
-}
-.logo {
-  font-weight: bold;
-  font-size: 24px;
-  color: #fff;
-}
-.logo span {
-  font-size: 48px;
-  text-transform: uppercase;
-}
-.logo img {
-  display: inline-block;
-}
+
 .user {
   background-color: #fff;
   width: 50px;

@@ -16,24 +16,35 @@ const Dropdown: FC = () => {
   const appCreationHandler = (): void => {
     navigate(routes.pages.newAppPagePath());
   };
-  const profileHandler = ()  => {
+  const profileHandler = () => {
     navigate(routes.pages.profilePagePath());
+  };
+  const appsHandler = () => {
+    navigate(routes.pages.mainPagePath());
+  };
+  const userAppsHandler = () => {
+    navigate(routes.pages.userAppsPagePath());
   };
   const logoutHandle = () => {
     dispatch(logout());
   };
   return (
     <>
-      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-      <Navbar.Collapse id='responsive-navbar-nav' className='flex-grow-0'>
-        <Nav className='me-auto'>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav" className="flex-grow-0">
+        <Nav className="me-auto">
           <NavDropdown
-            title=''
-            id='collasible-nav-dropdown'
-            className='navbar-toggler-icon'
-            align='end'>
+            title=""
+            id="collasible-nav-dropdown"
+            className="navbar-toggler-icon"
+            align="end"
+          >
             <NavDropdown.Header>{data && data.email}</NavDropdown.Header>
             <NavDropdown.Item onClick={profileHandler}>{t('header.profile')}</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={appsHandler}>{t('header.apps')}</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={userAppsHandler}>{t('header.userApps')}</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item onClick={appCreationHandler}>{t('header.newApp')}</NavDropdown.Item>
             <NavDropdown.Divider />
