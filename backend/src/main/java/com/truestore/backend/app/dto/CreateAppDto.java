@@ -3,9 +3,7 @@ package com.truestore.backend.app.dto;
 import com.truestore.backend.validation.NoHtml;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,8 +22,12 @@ public class CreateAppDto {
     @Size(min = 1, max = 5000, message = "Description must be between 1 and 5000 characters")
     private String appDescription;
     @NotNull(message = "Feature price can't be null")
+    @Min(value = 0, message = "Feature price must be positive")
+    @Digits(integer = 10, fraction = 2)
     private Float featurePrice;
     @NotNull(message = "Bug price can't be null")
+    @Min(value = 0, message = "Bug price must be positive")
+    @Digits(integer = 10, fraction = 2)
     private Float bugPrice;
     @NotNull(message = "Available can't be null")
     private Boolean available;
