@@ -66,6 +66,7 @@ export default {
       newPassword: 'Новый пароль',
       newPasswordPlaceholder: 'Введите новый пароль...',
       changePassword: 'Изменить пароль',
+      differentPassword: 'Новый пароль должен отличаться от старого',
     },
     appsFields: {
       notFoundUsersApps: 'Вы не добавили еще ни одного приложения',

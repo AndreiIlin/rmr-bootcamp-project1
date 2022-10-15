@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { Button, Container, Form, Image, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -12,6 +12,8 @@ const ProfilePage: FC = () => {
   const { t } = useTranslation();
   const [disabled, setDisabled] = useState<boolean>(false);
   const [changePassword] = useChangePasswordMutation();
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const validationSchema = yup.object().shape({
     oldPassword: yup
       .string()
@@ -30,18 +32,26 @@ const ProfilePage: FC = () => {
       newPassword: '',
     },
     validationSchema,
-    onSubmit: async () => {
+    validateOnChange: false,
+    onSubmit: async (values, { resetForm, setErrors }) => {
       try {
         setDisabled(true);
-        const response = await changePassword(formik.values);
-        console.log(response);
-      } catch (e) {
-        console.log(e);
+        const response = await changePassword(values).unwrap();
+        localStorage.setItem('trueStore', JSON.stringify(response));
+        resetForm();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        if (err?.status === 400) {
+          setPasswordError(true);
+          passwordRef.current?.select();
+        }
       } finally {
         setDisabled(false);
+        setErrors({});
       }
     },
   });
+
 
   return (
     <Container className="p-0">
@@ -61,32 +71,40 @@ const ProfilePage: FC = () => {
       <Row>
         <h2 className="mt-5">{t('profile.passwordChanging')}</h2>
         <Form className="d-flex flex-column mb-5 col-4 gap-3" onSubmit={formik.handleSubmit}>
-          <Form.Group>
+          <Form.Group className="position-relative">
             <Form.Label>{t('profile.oldPassword')}:</Form.Label>
             <Form.Control
               type="password"
               name="oldPassword"
               placeholder={t('profile.oldPasswordPlaceholder')}
               value={formik.values.oldPassword}
-              onChange={formik.handleChange}
+              onChange={event => {
+                formik.handleChange(event);
+                formik.setErrors({});
+              }}
               isInvalid={formik.touched.oldPassword && !!formik.errors.oldPassword}
             />
             <Form.Control.Feedback type="invalid" tooltip>
               {formik.errors.oldPassword}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="position-relative">
             <Form.Label>{t('profile.newPassword')}:</Form.Label>
             <Form.Control
               type="password"
               name="newPassword"
               placeholder={t('profile.newPasswordPlaceholder')}
               value={formik.values.newPassword}
-              onChange={formik.handleChange}
-              isInvalid={formik.touched.newPassword && !!formik.errors.newPassword}
+              onChange={event => {
+                formik.handleChange(event);
+                formik.setErrors({});
+                setPasswordError(false);
+              }}
+              isInvalid={(formik.touched.newPassword && !!formik.errors.newPassword) || passwordError}
+              ref={passwordRef}
             />
             <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.newPassword}
+              {passwordError ? t('profile.differentPassword') : formik.errors.newPassword}
             </Form.Control.Feedback>
           </Form.Group>
           <Button disabled={disabled} type="submit">{t('profile.changePassword')}</Button>
