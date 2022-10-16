@@ -1,4 +1,6 @@
 FROM node:18.10-alpine AS build
+ARG BACKEND_URL
+ENV BACKEND_HOST $BACKEND_URL
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install
