@@ -3,11 +3,10 @@ import React, { FC, ReactElement } from 'react';
 import { BrowserRouter as Router, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import Header from './componenst/Header/Header';
 import Modal from './componenst/Modals';
-import AppPage from './componenst/Pages/appPage/AppPage';
+import AppPage from './componenst/Pages/appPage';
 import LoginPage from './componenst/Pages/LoginPage/LoginPage';
 import MainPage from './componenst/Pages/mainPage/MainPage';
 import NewAppPage from './componenst/Pages/newAppPage/NewAppPage';
-import NotFoundPage from './componenst/Pages/NotFound/NotFoundPage';
 import ProfilePage from './componenst/Pages/profilePage';
 import SignUpPage from './componenst/Pages/SignUpPage/SignUpPage';
 import UserAppsPage from './componenst/Pages/userAppsPage/UserAppsPage';
@@ -27,11 +26,6 @@ const PrivateRouter: FC<RouterProps> = ({ children }) => {
 const AuthRouter: FC<RouterProps> = ({ children }) => {
   const isAuth = useAppSelector(selectors.userAuth);
   return isAuth ? <Navigate to={routes.pages.mainPagePath()} /> : children;
-};
-
-const AppRouter: FC = () => {
-  const { id } = useParams();
-  return !id?.match(/\D+/i) ? <AppPage /> : <NotFoundPage />;
 };
 
 const App: FC = () => {
@@ -66,10 +60,10 @@ const App: FC = () => {
           }
         />
         <Route
-          path={routes.pages.appPagePath(id)}
+          path={routes.pages.appsPagePath()}
           element={
             <PrivateRouter>
-              <AppRouter />
+              <AppPage />
             </PrivateRouter>
           }
         />

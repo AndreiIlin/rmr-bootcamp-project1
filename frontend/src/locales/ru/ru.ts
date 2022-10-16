@@ -44,6 +44,8 @@ export default {
     },
     header: {
       profile: 'Профиль',
+      apps: 'Все приложения',
+      userApps: 'Мои приложения',
       newApp: 'Добавить новое приложение',
       logout: 'Выйти',
     },
@@ -71,6 +73,18 @@ export default {
     appsFields: {
       notFoundUsersApps: 'Вы не добавили еще ни одного приложения',
       notFoundApps: 'Не найдено приложений в базе',
+    },
+    app: {
+      rating: 'Рейтинг',
+      bugPrice: 'Стоимость бага',
+      featurePrice: 'Стоимость фичи',
+      testing: 'Записаться на тестирование',
+      description: 'Описание',
+      comments: 'Комментарии',
+      cost_one: '{{ count }} рубль',
+      cost_few: '{{ count }} рубля',
+      cost_many: '{{ count }} рублей',
+      cost_other: '{{ count }} рубля',
     },
   },
 };
