@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import path, { dirname } from 'path';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
