@@ -1,15 +1,14 @@
 import path, { dirname } from 'path';
-
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import webpack from 'webpack';
 
 const __dirname = dirname('build');
 let mode = 'development';
 if (process.env.NODE_ENV === 'production') {
   mode = 'production';
 }
-
 const config = {
   mode,
   entry: './src/index.tsx',
@@ -27,6 +26,9 @@ const config = {
   },
   devtool: 'source-map',
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.BACKEND_HOST': JSON.stringify(process.env.BACKEND_HOST),
+    }),
     new ForkTsCheckerWebpackPlugin(),
     new HTMLWebpackPlugin({
       template: './build/index.html',
@@ -63,5 +65,4 @@ const config = {
     extensions: ['.tsx', '.ts', '.js'],
   },
 };
-
 export default config;

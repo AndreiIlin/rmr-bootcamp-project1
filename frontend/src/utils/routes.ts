@@ -1,3 +1,5 @@
+const $HOST = 'http://localhost:8080';
+
 export const routes = {
   pages: {
     loginPagePath: () => '/login',
@@ -15,6 +17,6 @@ export const routes = {
     app: (id: string) => `/apps/${id}`,
     userApps: () => '/apps/my',
     userInfo: () => '/users/me',
-    basePath: () => 'http://localhost:8080',
+    basePath: () => process.env.BACKEND_HOST ?? $HOST,
   },
 };
