@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { AddApp } from '../../../models/services/app';
@@ -28,6 +29,7 @@ const validationSchema = yup.object().shape({
 });
 
 const NewAppPage = () => {
+  const { t } = useTranslation();
   const [addApp] = useAddNewAppMutation();
   const navigate = useNavigate();
   return (
@@ -69,9 +71,9 @@ const NewAppPage = () => {
               onSubmit={handleSubmit}
               className='col-xs-12 col-md-6 mt-3 mt-mb-0 border p-5 border-secondary rounded d-flex flex-column w-100 gap-3'
             >
-              <h1>Добавить новое приложение</h1>
+              <h1>{t('newAppPage.pageHeader')}</h1>
               <FormGroup>
-                <p>Введите название приложения:</p>
+                <p>{t('newAppPage.enterAppName')}</p>
                 <FormControl
                   type='text'
                   name='appName'
@@ -81,7 +83,7 @@ const NewAppPage = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <p>Введите описание приложения:</p>
+                <p>{t('newAppPage.enterAppDescription')}</p>
                 <FormControl
                   as='textarea'
                   name='appDescription'
@@ -92,7 +94,7 @@ const NewAppPage = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <p>Введите стоимость фич-репорта:</p>
+                <p>{t('newAppPage.enterFeaturePrice')}</p>
                 <FormControl
                   type='text'
                   name='featurePrice'
@@ -103,7 +105,7 @@ const NewAppPage = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <p>Введите стоимость баг-репорта:</p>
+                <p>{t('newAppPage.enterBugPrice')}</p>
                 <FormControl
                   type='text'
                   name='bugPrice'
@@ -115,7 +117,7 @@ const NewAppPage = () => {
               </FormGroup>
               <FormGroup className='d-flex gap-3 aligns-items-center'>
                 <FormCheckLabel htmlFor='available'>
-                  Сделать приложение видимым для других:
+                  {t('newAppPage.availableForTesting')}
                 </FormCheckLabel>
                 <Form.Check
                   type='checkbox'
@@ -126,7 +128,7 @@ const NewAppPage = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <p>Введите ссылку на изображение приложения:</p>
+                <p>{t('newAppPage.enterAppImage')}</p>
                 <FormControl
                   type='text'
                   name='iconImage'
@@ -137,7 +139,7 @@ const NewAppPage = () => {
                 />
               </FormGroup>
               <FormGroup>
-                <p>Введите ссылку для скачивания приложения:</p>
+                <p>{t('newAppPage.enterDownloadUrl')}</p>
                 <FormControl
                   type='text'
                   name='downloadLink'
@@ -147,7 +149,7 @@ const NewAppPage = () => {
                   value={values.downloadLink}
                 />
               </FormGroup>
-              <Button type='submit'>Добавить</Button>
+              <Button type='submit'>{t('newAppPage.addButton')}</Button>
             </Form>
           )}
         </Formik>
