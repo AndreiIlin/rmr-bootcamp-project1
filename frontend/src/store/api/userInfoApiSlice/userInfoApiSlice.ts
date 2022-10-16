@@ -18,7 +18,7 @@ const userInfoApiSlice = trueStoreApi.injectEndpoints({
         method: 'PATCH',
         body: userData,
       }),
-    })
+    }),
   }),
 });
 

@@ -11,31 +11,30 @@ const AppPage = () => {
   return (
     <Container>
       <Row>
-        <Col className="d-flex">
-          <Col className="col-4">
-            <img src={data?.iconImage} alt={data?.appName} className="w-100" />
+        <Col className='d-flex'>
+          <Col className='col-4'>
+            <img src={data?.iconImage} alt={data?.appName} className='w-100' />
           </Col>
-          <Col className="col-8 d-flex flex-column justify-content-center">
+          <Col className='col-8 d-flex flex-column justify-content-center'>
             <h3>{data?.appName}</h3>
             <p>{t('app.rating')}:</p>
-            <p>{t('app.bugPrice')}: {t('app.cost', { count: data?.bugPrice })}</p>
-            <p>{t('app.featurePrice')}: {t('app.cost', { count: data?.featurePrice })}</p>
+            <p>
+              {t('app.bugPrice')}: {t('app.cost', { count: data?.bugPrice })}
+            </p>
+            <p>
+              {t('app.featurePrice')}: {t('app.cost', { count: data?.featurePrice })}
+            </p>
           </Col>
         </Col>
-        <Col className="d-flex justify-content-end align-items-start mt-3">
+        <Col className='d-flex justify-content-end align-items-start mt-3'>
           <Button>{t('app.testing')}</Button>
         </Col>
       </Row>
-      <Tabs
-        defaultActiveKey="description"
-        className="mb-3 mt-5"
-        id="justify-tab-example"
-        justify
-      >
-        <Tab eventKey="description" title={t('app.description')}>
+      <Tabs defaultActiveKey='description' className='mb-3 mt-5' id='justify-tab-example' justify>
+        <Tab eventKey='description' title={t('app.description')}>
           {data?.appDescription}
         </Tab>
-        <Tab eventKey="comments" title={t('app.comments')}>
+        <Tab eventKey='comments' title={t('app.comments')}>
           Comments...
         </Tab>
       </Tabs>

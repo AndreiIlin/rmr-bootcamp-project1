@@ -5,10 +5,10 @@ export const routes = {
     loginPagePath: () => '/login',
     signupPagePath: () => '/signup',
     mainPagePath: () => '/',
-    appsPagePath: () => `/:id`,
+    appsPagePath: () => '/:id',
     appPagePath: (id: string) => `/${id}`,
-    newAppPagePath: () => `/newApp`,
-    userAppsPagePath: () => `/myApps`,
+    newAppPagePath: () => '/newApp',
+    userAppsPagePath: () => '/myApps',
     profilePagePath: () => '/profile',
   },
   api: {
@@ -18,6 +18,7 @@ export const routes = {
     app: (id: string) => `/apps/${id}`,
     userApps: () => '/apps/my',
     userInfo: () => '/users/me',
+    // eslint-disable-next-line no-undef
     basePath: () => process.env.BACKEND_HOST ?? $HOST,
   },
 };
