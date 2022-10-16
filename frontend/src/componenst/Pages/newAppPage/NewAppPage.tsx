@@ -10,6 +10,11 @@ import { AddApp } from '../../../models/services/app';
 import { useAddNewAppMutation } from '../../../store/api/appsApiSlice/appsApiSlice';
 import { routes } from '../../../utils/routes';
 
+const convertStringToNumber = (string: string): number => {
+  const fixedNum = Number(string).toFixed(2);
+  return Math.abs(Number(fixedNum));
+};
+
 const initialValues: AddApp = {
   appName: '',
   appDescription: '',
@@ -53,8 +58,8 @@ const NewAppPage = () => {
             const newApp = {
               appName,
               appDescription,
-              featurePrice: Number(featurePrice),
-              bugPrice: Number(bugPrice),
+              featurePrice: convertStringToNumber(featurePrice),
+              bugPrice: convertStringToNumber(bugPrice),
               available,
               iconImage,
               downloadLink,
