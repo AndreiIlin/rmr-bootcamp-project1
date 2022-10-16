@@ -10,8 +10,8 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    expose:
-      - 5432
+    ports:
+      - '5432:5432'
     healthcheck:
       test: [ 'CMD-SHELL', 'su postgres', '&&', 'pg_isready' ]
       interval: 5s
