@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import React, { FC, useRef, useState } from 'react';
 import { Button, Container, Form, Image, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import {
   useChangePasswordMutation,
@@ -18,6 +19,7 @@ const ProfilePage: FC = () => {
   const [changePassword] = useChangePasswordMutation();
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [passwordError, setPasswordError] = useState<boolean>(false);
+  const notify = () => toast.success(t('toast.changePasswordSuccess'));
   const validationSchema = yup.object().shape({
     oldPassword: yup
       .string()
@@ -42,6 +44,7 @@ const ProfilePage: FC = () => {
         setDisabled(true);
         const response = await changePassword(values).unwrap();
         localStorage.setItem('trueStore', JSON.stringify(response));
+        notify();
         resetForm();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {

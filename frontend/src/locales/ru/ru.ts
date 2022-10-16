@@ -98,5 +98,10 @@ export default {
       enterDownloadUrl: 'Введите ссылку для скачивания приложения:',
       addButton: 'Добавить',
     },
+    toast: {
+      registerSuccess: 'Вы успешно зарегистрировались',
+      changePasswordSuccess: 'Пароль изменен',
+      addAppSuccess: 'Приложение добавлено',
+    },
   },
 };

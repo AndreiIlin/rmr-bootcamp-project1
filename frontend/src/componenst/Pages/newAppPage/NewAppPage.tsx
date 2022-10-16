@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { toast } from 'react-toastify';
 import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
 import { useTranslation } from 'react-i18next';
@@ -32,6 +33,7 @@ const NewAppPage = () => {
   const { t } = useTranslation();
   const [addApp] = useAddNewAppMutation();
   const navigate = useNavigate();
+  const notify = () => toast.success(t('toast.addAppSuccess'));
   return (
     <main className='app'>
       <div className='container d-flex justify-content-center align-items-center h-100'>
@@ -61,6 +63,7 @@ const NewAppPage = () => {
             try {
               await addApp(newApp);
               navigate(routes.pages.userAppsPagePath());
+              notify();
             } catch (e) {
               console.log(e);
             }
