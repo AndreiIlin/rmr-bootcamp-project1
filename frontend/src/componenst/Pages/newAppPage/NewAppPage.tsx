@@ -62,11 +62,13 @@ const NewAppPage = () => {
             } catch (e) {
               console.log(e);
             }
-          }}>
+          }}
+        >
           {({ errors, handleChange, handleSubmit, values }) => (
             <Form
               onSubmit={handleSubmit}
-              className='col-xs-12 col-md-6 mt-3 mt-mb-0 border p-5 border-secondary rounded d-flex flex-column w-100 gap-3'>
+              className='col-xs-12 col-md-6 mt-3 mt-mb-0 border p-5 border-secondary rounded d-flex flex-column w-100 gap-3'
+            >
               <h1>Добавить новое приложение</h1>
               <FormGroup>
                 <p>Введите название приложения:</p>

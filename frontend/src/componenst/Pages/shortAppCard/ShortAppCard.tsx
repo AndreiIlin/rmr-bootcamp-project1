@@ -18,7 +18,8 @@ const ShortAppCard: FC<ShortCardProps> = ({ appName, iconImage, id }) => {
     <Card
       style={{ width: '150px', height: '150px', cursor: 'pointer', border: 'none' }}
       className='gap-3'
-      onClick={clickHandler}>
+      onClick={clickHandler}
+    >
       <Card.Body className='d-flex align-items-center flex-column flex-wrap'>
         <Card.Img src={iconImage} alt={appName} style={{ width: '70px', height: '70px' }} />
         <Card.Body>{appName}</Card.Body>

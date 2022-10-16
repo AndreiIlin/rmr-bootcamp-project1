@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const $HOST = 'http://localhost:8080';
 
 export const routes = {
@@ -5,10 +6,10 @@ export const routes = {
     loginPagePath: () => '/login',
     signupPagePath: () => '/signup',
     mainPagePath: () => '/',
-    appsPagePath: () => `/:id`,
+    appsPagePath: () => '/:id',
     appPagePath: (id: string) => `/${id}`,
-    newAppPagePath: () => `/newApp`,
-    userAppsPagePath: () => `/myApps`,
+    newAppPagePath: () => '/newApp',
+    userAppsPagePath: () => '/myApps',
     profilePagePath: () => '/profile',
   },
   api: {

@@ -3,9 +3,13 @@ import React, { FC, useRef, useState } from 'react';
 import { Button, Container, Form, Image, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import { useChangePasswordMutation, useGetUserInfoQuery } from '../../../store/api/userInfoApiSlice/userInfoApiSlice';
+import {
+  useChangePasswordMutation,
+  useGetUserInfoQuery,
+} from '../../../store/api/userInfoApiSlice/userInfoApiSlice';
 
-const link = 'https://static.vecteezy.com/system/resources/previews/000/377/927/original/block-user-vector-icon.jpg';
+const link =
+  'https://static.vecteezy.com/system/resources/previews/000/377/927/original/block-user-vector-icon.jpg';
 
 const ProfilePage: FC = () => {
   const { data } = useGetUserInfoQuery();
@@ -52,62 +56,73 @@ const ProfilePage: FC = () => {
     },
   });
 
-
   return (
-    <Container className="p-0">
-      <Row className="flex-row flex-nowrap border-bottom border-2 border-dark">
-        <Image className="col-2" style={{ height: '300px', width: '300px' }} src={link} alt="User" roundedCircle />
-        <Container className="col d-flex flex-column justify-content-center align-items-start">
+    <Container className='p-0'>
+      <Row className='flex-row flex-nowrap border-bottom border-2 border-dark'>
+        <Image
+          className='col-2'
+          style={{ height: '300px', width: '300px' }}
+          src={link}
+          alt='User'
+          roundedCircle
+        />
+        <Container className='col d-flex flex-column justify-content-center align-items-start'>
           <h2>{t('profile.userInfo')}</h2>
           <p>{t('profile.username')}: </p>
-          <p>{t('profile.email')}: {data?.email}</p>
+          <p>
+            {t('profile.email')}: {data?.email}
+          </p>
         </Container>
       </Row>
-      <Row className="flex-column mt-5 border-bottom border-2 border-dark">
+      <Row className='flex-column mt-5 border-bottom border-2 border-dark'>
         <h2>{t('profile.personalBilling')}</h2>
         <p>{t('profile.bill')}: 500 rubles</p>
-        <Button className="col-2 mb-5">{t('profile.replenishment')}</Button>
+        <Button className='col-2 mb-5'>{t('profile.replenishment')}</Button>
       </Row>
       <Row>
-        <h2 className="mt-5">{t('profile.passwordChanging')}</h2>
-        <Form className="d-flex flex-column mb-5 col-4 gap-3" onSubmit={formik.handleSubmit}>
-          <Form.Group className="position-relative">
+        <h2 className='mt-5'>{t('profile.passwordChanging')}</h2>
+        <Form className='d-flex flex-column mb-5 col-4 gap-3' onSubmit={formik.handleSubmit}>
+          <Form.Group className='position-relative'>
             <Form.Label>{t('profile.oldPassword')}:</Form.Label>
             <Form.Control
-              type="password"
-              name="oldPassword"
+              type='password'
+              name='oldPassword'
               placeholder={t('profile.oldPasswordPlaceholder')}
               value={formik.values.oldPassword}
-              onChange={event => {
+              onChange={(event) => {
                 formik.handleChange(event);
                 formik.setErrors({});
               }}
               isInvalid={formik.touched.oldPassword && !!formik.errors.oldPassword}
             />
-            <Form.Control.Feedback type="invalid" tooltip>
+            <Form.Control.Feedback type='invalid' tooltip>
               {formik.errors.oldPassword}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group className="position-relative">
+          <Form.Group className='position-relative'>
             <Form.Label>{t('profile.newPassword')}:</Form.Label>
             <Form.Control
-              type="password"
-              name="newPassword"
+              type='password'
+              name='newPassword'
               placeholder={t('profile.newPasswordPlaceholder')}
               value={formik.values.newPassword}
-              onChange={event => {
+              onChange={(event) => {
                 formik.handleChange(event);
                 formik.setErrors({});
                 setPasswordError(false);
               }}
-              isInvalid={(formik.touched.newPassword && !!formik.errors.newPassword) || passwordError}
+              isInvalid={
+                (formik.touched.newPassword && !!formik.errors.newPassword) || passwordError
+              }
               ref={passwordRef}
             />
-            <Form.Control.Feedback type="invalid" tooltip>
+            <Form.Control.Feedback type='invalid' tooltip>
               {passwordError ? t('profile.differentPassword') : formik.errors.newPassword}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button disabled={disabled} type="submit">{t('profile.changePassword')}</Button>
+          <Button disabled={disabled} type='submit'>
+            {t('profile.changePassword')}
+          </Button>
         </Form>
       </Row>
     </Container>

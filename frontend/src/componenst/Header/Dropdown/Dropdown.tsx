@@ -30,14 +30,14 @@ const Dropdown: FC = () => {
   };
   return (
     <>
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav" className="flex-grow-0">
-        <Nav className="me-auto">
+      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+      <Navbar.Collapse id='responsive-navbar-nav' className='flex-grow-0'>
+        <Nav className='me-auto'>
           <NavDropdown
-            title=""
-            id="collasible-nav-dropdown"
-            className="navbar-toggler-icon"
-            align="end"
+            title=''
+            id='collasible-nav-dropdown'
+            className='navbar-toggler-icon'
+            align='end'
           >
             <NavDropdown.Header>{data && data.email}</NavDropdown.Header>
             <NavDropdown.Item onClick={profileHandler}>{t('header.profile')}</NavDropdown.Item>

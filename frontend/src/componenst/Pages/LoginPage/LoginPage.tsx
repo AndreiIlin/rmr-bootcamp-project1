@@ -25,7 +25,7 @@ const LoginPage: FC = () => {
   });
 
   return (
-    <div className="container d-flex justify-content-center align-items-center h-100 gap-5">
+    <div className='container d-flex justify-content-center align-items-center h-100 gap-5'>
       <Formik
         initialValues={{ email: '', password: '' }}
         validateOnChange={false}
@@ -56,62 +56,62 @@ const LoginPage: FC = () => {
           return (
             <Form
               onSubmit={handleSubmit}
-              className="col-12 col-md-6 mt-3 mt-mb-0 border p-5 border-primary rounded d-flex flex-column"
+              className='col-12 col-md-6 mt-3 mt-mb-0 border p-5 border-primary rounded d-flex flex-column'
             >
-              <h2 className="mb-4">{t('login.header')}</h2>
-              <FormGroup className="form-floating mb-3">
+              <h2 className='mb-4'>{t('login.header')}</h2>
+              <FormGroup className='form-floating mb-3'>
                 <p>{t('login.email')}:</p>
-                <div className="container">
+                <div className='container'>
                   <FormControl
-                    type="text"
-                    name="email"
-                    id="email"
+                    type='text'
+                    name='email'
+                    id='email'
                     placeholder={t('login.emailPlaceholder')}
                     onChange={onChangeHandle}
                     isInvalid={!!errors.email}
                     value={values.email}
                   />
                   {(touched.email && errors.email) || touched.email ? (
-                    <FormControl.Feedback type="invalid" tooltip>
+                    <FormControl.Feedback type='invalid' tooltip>
                       {errors.email}
                     </FormControl.Feedback>
                   ) : null}
                 </div>
               </FormGroup>
-              <FormGroup className="form-floating mb-3">
+              <FormGroup className='form-floating mb-3'>
                 <p>{t('login.password')}:</p>
-                <div className="container">
+                <div className='container'>
                   <FormControl
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    id="password"
+                    type='password'
+                    className='form-control'
+                    name='password'
+                    id='password'
                     placeholder={t('login.passwordPlaceholder')}
                     onChange={onChangeHandle}
                     value={values.password}
                     isInvalid={!!errors.password}
                   />
                   {(touched.password && errors.password) || touched.password ? (
-                    <FormControl.Feedback type="invalid" tooltip>
+                    <FormControl.Feedback type='invalid' tooltip>
                       {errors.password}
                     </FormControl.Feedback>
                   ) : null}
                 </div>
               </FormGroup>
-              {failedLogin ? <div className="text-danger">{t('login.failedLogin')}</div> : null}
+              {failedLogin ? <div className='text-danger'>{t('login.failedLogin')}</div> : null}
               <Button
-                variant="outline-primary"
-                className="w-50 mx-auto mb-3 dblock"
-                type="submit"
+                variant='outline-primary'
+                className='w-50 mx-auto mb-3 dblock'
+                type='submit'
                 disabled={!isValid && !dirty}
               >
                 {t('login.enter')}
               </Button>
-              <div className="link text-center">
+              <div className='link text-center'>
                 {t('login.newUser')}{' '}
                 <span>
-                <Link to="/signup">{t('login.register')}</Link>
-              </span>
+                  <Link to='/signup'>{t('login.register')}</Link>
+                </span>
               </div>
             </Form>
           );

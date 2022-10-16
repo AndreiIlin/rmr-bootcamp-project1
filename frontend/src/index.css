@@ -10,11 +10,13 @@
   height: 50px;
   border-radius: 10px;
 }
+
 /* App */
 .app {
-  background-color: rgb(243, 243, 243);
+  background-color: rgb(243 243 243);
   padding: 20px 40px;
 }
+
 .left-aside {
   width: 20%;
 }
@@ -35,7 +37,7 @@
 
 .category ul li:hover {
   cursor: pointer;
-  border: 1px solid rgb(95, 109, 235);
+  border: 1px solid rgb(95 109 235);
   border-radius: 5px;
   padding-left: 15px;
 }
