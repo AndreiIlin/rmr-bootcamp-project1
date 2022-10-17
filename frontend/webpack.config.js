@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
