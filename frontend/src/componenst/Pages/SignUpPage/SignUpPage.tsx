@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import React, { FC, useState } from 'react';
 import { Button, Card, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -16,6 +17,7 @@ const SignUpPage: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const notify = () => toast.success(t('toast.registerSuccess'));
   const validationSchema = yup.object().shape({
     email: yup.string().email(t('formErrors.invalidEmail')).required(t('formErrors.required')),
     password: yup
@@ -54,6 +56,7 @@ const SignUpPage: FC = () => {
             const response = await registration({ email: emailInLowerCase, password }).unwrap();
             dispatch(login(response));
             setAlreadyRegistered(false);
+            notify();
             navigate(routes.pages.mainPagePath());
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (e: any) {

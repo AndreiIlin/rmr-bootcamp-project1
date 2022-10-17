@@ -17,7 +17,9 @@ export default async () => {
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <App />
+        <div className='store'>
+          <App />
+        </div>
       </I18nextProvider>
     </Provider>
   );

@@ -87,5 +87,21 @@ export default {
       cost_many: '{{ count }} рублей',
       cost_other: '{{ count }} рубля',
     },
+    newAppPage: {
+      pageHeader: 'Добавить новое приложение',
+      enterAppName: 'Введите название приложения:',
+      enterAppDescription: 'Введите описание приложения:',
+      enterFeaturePrice: 'Введите стоимость фич-репорта:',
+      enterBugPrice: 'Введите стоимость баг-репорта:',
+      availableForTesting: 'Доступно для тестирования:',
+      enterAppImage: 'Введите ссылку на изображение приложения:',
+      enterDownloadUrl: 'Введите ссылку для скачивания приложения:',
+      addButton: 'Добавить',
+    },
+    toast: {
+      registerSuccess: 'Вы успешно зарегистрировались',
+      changePasswordSuccess: 'Пароль изменен',
+      addAppSuccess: 'Приложение добавлено',
+    },
   },
 };
