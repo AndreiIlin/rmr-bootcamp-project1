@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "app")
+@Table(name = "apps")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -44,5 +44,5 @@ public class App {
     @Column(name = "created", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime created = LocalDateTime.now();
-
+    private String contractId;
 }

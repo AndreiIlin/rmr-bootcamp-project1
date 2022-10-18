@@ -5,10 +5,11 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface AppRepository {
 
-    Optional<App> getAppById(String appId);
+    Optional<App> getAppById(UUID appId);
 
     Optional<App> getAppByIdAndUserId(String appId, String userId);
 
@@ -16,7 +17,9 @@ public interface AppRepository {
 
     Optional<App> saveAppForUser(App app, User user);
 
-    Optional<App> deleteAppById(String appId);
+    Optional<App> saveApp(App app);
+
+    Optional<App> deleteAppById(UUID appId);
 
     List<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page);
 

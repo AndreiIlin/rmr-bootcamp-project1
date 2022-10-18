@@ -2,6 +2,7 @@ package com.truestore.backend.app;
 
 import com.truestore.backend.app.dto.AppDto;
 import com.truestore.backend.app.dto.CreateAppDto;
+import com.truestore.backend.app.dto.UpdateAppDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import com.truestore.backend.validation.ValidationErrorBuilder;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -112,11 +114,16 @@ public class AppController {
             @ApiResponse(responseCode = "404", description = "App not found by id",
                     content = @Content)})
     @GetMapping("/{appId}")
-    public ResponseEntity<?> getAppById(@Parameter(description = "Id App") @PathVariable String appId) {
+    public ResponseEntity<?> getAppById(@Parameter(description = "Id App") @PathVariable UUID appId) {
         log.info("get App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            return ResponseEntity.ok(convertToDto(AppDto.class, appService.getAppById(appId)));
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return ResponseEntity.ok(convertToDto(AppDto.class, appService.getAppById(appId, user)));
+            }
+
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
@@ -164,14 +171,14 @@ public class AppController {
             @ApiResponse(responseCode = "404", description = "App not found",
                     content = @Content) })
     @DeleteMapping("/{appId}")
-    public ResponseEntity<?> deleteAppById(@Parameter(description = "Id App") @PathVariable String appId) {
+    public ResponseEntity<?> deleteAppById(@Parameter(description = "Id App") @PathVariable UUID appId) {
         log.info("delete App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
+                User owner = appService.getAppById(appId, user).getOwner();
                 if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");
                 }
@@ -196,24 +203,25 @@ public class AppController {
                     content = @Content) })
     @PatchMapping("/{appId}")
     @Validated
-    public ResponseEntity<?> updateApp(HttpServletRequest request, @RequestBody @Valid AppDto appDto,
-                                    @PathVariable String appId, Errors errors) {
+    public ResponseEntity<?> updateApp(
+            HttpServletRequest request,
+            @RequestBody @Valid UpdateAppDto updateAppDto,
+            @PathVariable UUID appId, Errors errors) {
         if (errors.hasErrors()) {
             log.info("Validation error with request: " + request.getRequestURI());
             return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
         }
-        log.info("delete App by id {}", appId);
+        log.info("Update App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
+                User owner = appService.getAppById(appId, user).getOwner();
                 if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");
                 }
-                App app = convertToEntity(appDto);
-                return ResponseEntity.ok(convertToDto(AppDto.class, appService.saveAppForUser(app, user)));
+                return ResponseEntity.ok(convertToDto(AppDto.class, appService.updateAppById(appId, updateAppDto)));
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);

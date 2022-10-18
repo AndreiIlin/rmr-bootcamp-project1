@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class AppRepositoryImpl implements AppRepository {
@@ -27,8 +28,17 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Optional<App> deleteAppById(String appId) {
-        Optional<App> app = jpaAppRepository.findById(appId);
+    public Optional<App> saveApp(App app) {
+        try {
+            return Optional.of(jpaAppRepository.save(app));
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<App> deleteAppById(UUID appId) {
+        Optional<App> app = jpaAppRepository.findById(String.valueOf(appId));
         app.ifPresent(a -> jpaAppRepository.deleteById(a.getId()));
         return app;
     }
@@ -40,8 +50,8 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
-    public Optional<App> getAppById(String appId) {
-        return jpaAppRepository.findById(appId);
+    public Optional<App> getAppById(UUID appId) {
+        return jpaAppRepository.findById(String.valueOf(appId));
     }
 
     @Override
