@@ -1,7 +1,10 @@
 package com.truestore.backend.app;
 
 import com.truestore.backend.app.dto.UpdateAppDto;
+import com.truestore.backend.contract.Contract;
+import com.truestore.backend.contract.ContractRepository;
 import com.truestore.backend.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,16 +21,19 @@ import java.util.UUID;
 public class AppService {
 
     private final AppRepository appRepository;
+    private final ContractRepository contractRepository;
 
-    public AppService(AppRepository appRepository) {
+    @Autowired
+    public AppService(AppRepository appRepository, ContractRepository contractRepository) {
         this.appRepository = appRepository;
+        this.contractRepository = contractRepository;
     }
 
     @Transactional
     public App saveAppForUser(App app, User user) {
         Assert.notNull(app, "App must not be null");
         if (app.getId() != null) {
-            getAppById(UUID.fromString(app.getId()));
+            getAppById(UUID.fromString(app.getId()), user);
         }
         return appRepository.saveAppForUser(app, user).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to save app")
@@ -48,10 +55,13 @@ public class AppService {
         );
     }
 
-    public App getAppById(UUID id) {
-        return appRepository.getAppById(id).orElseThrow(
+    public App getAppById(UUID id, User user) {
+        App app = appRepository.getAppById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find App")
         );
+        Optional<Contract> contract = contractRepository.getContractForAppAndUser(app, user);
+        contract.ifPresent(c -> app.setContractId(c.getId()));
+        return app;
     }
 
     public App updateAppById(UUID appId, UpdateAppDto updateAppDto) {

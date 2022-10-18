@@ -44,5 +44,5 @@ public class App {
     @Column(name = "created", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime created = LocalDateTime.now();
-
+    private String contractId;
 }

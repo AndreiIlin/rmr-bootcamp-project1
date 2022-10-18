@@ -1,5 +1,6 @@
 package com.truestore.backend.contract;
 
+import com.truestore.backend.app.App;
 import com.truestore.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,5 +35,10 @@ public class ContractRepositoryImpl implements ContractRepository {
     @Override
     public List<Contract> getContractsForUser(User user) {
         return jpaContractRepository.findAllByQaOrderByCreatedDesc(user);
+    }
+
+    @Override
+    public Optional<Contract> getContractForAppAndUser(App app, User user) {
+        return jpaContractRepository.findFirstByAppAndQa(app, user);
     }
 }

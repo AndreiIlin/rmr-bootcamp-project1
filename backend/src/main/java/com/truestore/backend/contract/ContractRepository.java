@@ -1,6 +1,7 @@
 package com.truestore.backend.contract;
 
 
+import com.truestore.backend.app.App;
 import com.truestore.backend.user.User;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface ContractRepository {
     Optional<Contract> saveContract(Contract contract);
 
     List<Contract> getContractsForUser(User user);
+
+    Optional<Contract> getContractForAppAndUser(App app, User user);
 }

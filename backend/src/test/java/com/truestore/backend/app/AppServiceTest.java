@@ -1,5 +1,7 @@
 package com.truestore.backend.app;
 
+import com.truestore.backend.contract.ContractRepository;
+import com.truestore.backend.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.truestore.backend.app.AppTestData.*;
+import static com.truestore.backend.contract.ContractTestData.CONTRACT_1;
 import static com.truestore.backend.user.UserTestData.USER_1;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,18 +32,21 @@ class AppServiceTest {
     private AppService appService;
     @Mock
     private AppRepository appRepository;
+    @Mock
+    private ContractRepository contractRepository;
 
     @Test
     void getAppById() {
         when(appRepository.getAppById(any(UUID.class))).thenReturn(Optional.of(APP_1));
-        App app = appService.getAppById(UUID.fromString(APP_UUID_1));
+        when(contractRepository.getContractForAppAndUser(any(App.class), any(User.class))).thenReturn(Optional.of(CONTRACT_1));
+        App app = appService.getAppById(UUID.fromString(APP_UUID_1), USER_1);
         assertEquals(app.getId(), APP_1.getId());
     }
 
     @Test
     void getAppNotFound() {
         when(appRepository.getAppById(UUID.fromString(APP_UUID_NOT_FOUND))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        assertThrows(ResponseStatusException.class, () -> appService.getAppById(UUID.fromString(APP_UUID_NOT_FOUND)));
+        assertThrows(ResponseStatusException.class, () -> appService.getAppById(UUID.fromString(APP_UUID_NOT_FOUND), USER_1));
     }
 
     @Test
@@ -60,7 +66,7 @@ class AppServiceTest {
 
     @Test
     void saveAppInvalid() {
-        App invalid = new App(null, null, null, USER_1, 0F, 0F, true,"", "", null);
+        App invalid = new App(null, null, null, USER_1, 0F, 0F, true,"", "", null, null);
         when(appRepository.saveAppForUser(any(), any())).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
         assertThrows(ResponseStatusException.class, () -> appService.saveAppForUser(invalid, USER_1));
     }

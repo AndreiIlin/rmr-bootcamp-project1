@@ -118,7 +118,12 @@ public class AppController {
         log.info("get App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            return ResponseEntity.ok(convertToDto(AppDto.class, appService.getAppById(appId)));
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return ResponseEntity.ok(convertToDto(AppDto.class, appService.getAppById(appId, user)));
+            }
+
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
@@ -172,8 +177,8 @@ public class AppController {
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
+                User owner = appService.getAppById(appId, user).getOwner();
                 if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");
                 }
@@ -211,8 +216,8 @@ public class AppController {
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
+                User owner = appService.getAppById(appId, user).getOwner();
                 if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");
                 }
