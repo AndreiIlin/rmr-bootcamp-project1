@@ -2,7 +2,7 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.AbstractControllerTest;
 import com.truestore.backend.security.JWTToken;
-import com.truestore.backend.validation.OnCreate;
+import com.truestore.backend.user.dto.LoginRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,8 +20,7 @@ import static com.truestore.backend.user.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +35,6 @@ class UserControllerTest extends AbstractControllerTest {
     @Autowired
     private Validator validator;
 
-
     @Test
     @WithAnonymousUser
     void signupUser() throws Exception {
@@ -44,7 +42,7 @@ class UserControllerTest extends AbstractControllerTest {
         request.setEmail(USER_1_MAIL);
         request.setPassword(USER_PASSWORD);
         request.setRole(UserRole.ROLE_USER.toString());
-        JWTToken token = new JWTToken(request.getEmail(), VALID_TOKEN);
+        JWTToken token = new JWTToken(USER_1_UUID, VALID_TOKEN);
         when(userService.signup(any(LoginRequest.class))).thenReturn(token);
         perform(post(REST_URL + "signup")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,7 +59,7 @@ class UserControllerTest extends AbstractControllerTest {
         request.setEmail(null);
         request.setPassword(USER_PASSWORD);
         request.setRole(UserRole.ROLE_USER.toString());
-        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request);
         assertFalse(violations.isEmpty());
     }
 
@@ -72,7 +70,7 @@ class UserControllerTest extends AbstractControllerTest {
         request.setEmail("");
         request.setPassword(USER_PASSWORD);
         request.setRole(UserRole.ROLE_USER.toString());
-        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request);
         assertFalse(violations.isEmpty());
     }
 
@@ -82,7 +80,7 @@ class UserControllerTest extends AbstractControllerTest {
         LoginRequest request = new LoginRequest();
         request.setEmail(USER_1_MAIL);
         request.setRole(UserRole.ROLE_USER.toString());
-        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request);
         assertFalse(violations.isEmpty());
     }
 
@@ -93,7 +91,7 @@ class UserControllerTest extends AbstractControllerTest {
         request.setEmail(USER_1_MAIL);
         request.setPassword("");
         request.setRole(UserRole.ROLE_USER.toString());
-        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request, OnCreate.class);
+        Set<ConstraintViolation<LoginRequest>> violations = validator.validate(request);
         assertFalse(violations.isEmpty());
     }
 

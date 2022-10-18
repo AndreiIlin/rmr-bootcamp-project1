@@ -4,8 +4,8 @@ import { routes } from '../../utils/routes';
 export const trueStoreApi = createApi({
   reducerPath: 'trueStoreApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: routes.basePath(),
-    prepareHeaders: (headers, { getState }) => {
+    baseUrl: routes.api.basePath(),
+    prepareHeaders: (headers) => {
       const token = JSON.parse(localStorage.getItem('trueStore') as string)?.access_token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
@@ -14,5 +14,5 @@ export const trueStoreApi = createApi({
     },
   }),
   tagTypes: ['App'],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

@@ -23,87 +23,99 @@ const LoginPage: FC = () => {
       .max(30, t('formErrors.maxPasswordLength'))
       .required(t('formErrors.required')),
   });
+
   return (
     <div className='container d-flex justify-content-center align-items-center h-100 gap-5'>
       <Formik
         initialValues={{ email: '', password: '' }}
-        validateOnBlur
+        validateOnChange={false}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
           const { email, password } = values;
+          const emailInLowerCase = email.toLocaleLowerCase();
           try {
-            const response = await userLogin({ email, password }).unwrap();
+            const response = await userLogin({ email: emailInLowerCase, password }).unwrap();
             dispatch(login(response));
-            navigate(routes.mainPagePath());
+            navigate(routes.pages.mainPagePath());
             setFailedLogin(false);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
-            if (error?.status === 401) {
+            const { status } = error;
+            if (status === 401) {
               setFailedLogin(!failedLogin);
             }
           }
-        }}>
-        {({ touched, values, handleChange, handleBlur, handleSubmit, isValid, errors, dirty }) => (
-          <Form
-            onSubmit={handleSubmit}
-            className='col-12 col-md-6 mt-3 mt-mb-0 border p-5 border-primary rounded d-flex flex-column'>
-            <h2 className='mb-4'>{t('login.header')}</h2>
-            <FormGroup className='form-floating mb-3'>
-              <p>{t('login.email')}:</p>
-              <div className='container'>
-                <FormControl
-                  type='email'
-                  name='email'
-                  id='email'
-                  placeholder={t('login.emailPlaceholder')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  isInvalid={!!errors.email}
-                  value={values.email}
-                />
-                {(touched.email && errors.email) || touched.email ? (
-                  <FormControl.Feedback type='invalid' tooltip>
-                    {errors.email}
-                  </FormControl.Feedback>
-                ) : null}
+        }}
+      >
+        {({ touched, values, handleChange, handleSubmit, isValid, errors, dirty, setErrors }) => {
+          const onChangeHandle = (event: React.ChangeEvent) => {
+            handleChange(event);
+            setErrors({});
+            setFailedLogin(false);
+          };
+          return (
+            <Form
+              onSubmit={handleSubmit}
+              className='col-12 col-md-6 mt-3 mt-mb-0 border p-5 border-primary rounded d-flex flex-column'
+            >
+              <h2 className='mb-4'>{t('login.header')}</h2>
+              <FormGroup className='form-floating mb-3'>
+                <p>{t('login.email')}:</p>
+                <div className='container'>
+                  <FormControl
+                    type='text'
+                    name='email'
+                    id='email'
+                    placeholder={t('login.emailPlaceholder')}
+                    onChange={onChangeHandle}
+                    isInvalid={!!errors.email}
+                    value={values.email}
+                  />
+                  {(touched.email && errors.email) || touched.email ? (
+                    <FormControl.Feedback type='invalid' tooltip>
+                      {errors.email}
+                    </FormControl.Feedback>
+                  ) : null}
+                </div>
+              </FormGroup>
+              <FormGroup className='form-floating mb-3'>
+                <p>{t('login.password')}:</p>
+                <div className='container'>
+                  <FormControl
+                    type='password'
+                    className='form-control'
+                    name='password'
+                    id='password'
+                    placeholder={t('login.passwordPlaceholder')}
+                    onChange={onChangeHandle}
+                    value={values.password}
+                    isInvalid={!!errors.password}
+                  />
+                  {(touched.password && errors.password) || touched.password ? (
+                    <FormControl.Feedback type='invalid' tooltip>
+                      {errors.password}
+                    </FormControl.Feedback>
+                  ) : null}
+                </div>
+              </FormGroup>
+              {failedLogin ? <div className='text-danger'>{t('login.failedLogin')}</div> : null}
+              <Button
+                variant='outline-primary'
+                className='w-50 mx-auto mb-3 dblock'
+                type='submit'
+                disabled={!isValid && !dirty}
+              >
+                {t('login.enter')}
+              </Button>
+              <div className='link text-center'>
+                {t('login.newUser')}{' '}
+                <span>
+                  <Link to='/signup'>{t('login.register')}</Link>
+                </span>
               </div>
-            </FormGroup>
-            <FormGroup className='form-floating mb-3'>
-              <p>{t('login.password')}:</p>
-              <div className='container'>
-                <FormControl
-                  type='password'
-                  className='form-control'
-                  name='password'
-                  id='password'
-                  placeholder={t('login.passwordPlaceholder')}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  isInvalid={!!errors.password}
-                />
-                {(touched.password && errors.password) || touched.password ? (
-                  <FormControl.Feedback type='invalid' tooltip>
-                    {errors.password}
-                  </FormControl.Feedback>
-                ) : null}
-              </div>
-            </FormGroup>
-            {failedLogin ? <div className='text-danger'>{t('login.failedLogin')}</div> : null}
-            <Button
-              variant='outline-primary'
-              className='w-50 mx-auto mb-3 dblock'
-              type='submit'
-              disabled={!isValid && !dirty}>
-              {t('login.enter')}
-            </Button>
-            <div className='link text-center'>
-              {t('login.newUser')}{' '}
-              <span>
-                <Link to='/signup'>{t('login.register')}</Link>
-              </span>
-            </div>
-          </Form>
-        )}
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );

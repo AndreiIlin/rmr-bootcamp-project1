@@ -1,10 +1,13 @@
+/* eslint-disable camelcase */
+import storeRules from './rules';
+
 export default {
   translation: {
     formErrors: {
       required: 'Заполните поле',
       minPasswordLength: 'Длина пароля не должна быть меньше 8 символов',
       maxPasswordLength: 'Длина пароля не должна превышать 30 символов',
-      invalidEmail: 'Неверный  email',
+      invalidEmail: 'Неверный формат email',
     },
     login: {
       header: 'Вход в приложение',
@@ -26,10 +29,8 @@ export default {
       confirm: 'Подтвердите пароль',
       confirmPassword: 'Пароли должны совпадать',
       confirmPlaceholder: 'Повторите пароль...',
-      rules: 'Согласие с',
-      rulesLink: 'условиями портала',
-      personal: 'Согласие на обработку',
-      personalLink: 'персональных данных',
+      rules: 'Нажимая кнопку зарегистрироваться вы соглашаетесь с ',
+      rulesLink: 'условиями сервиса',
       submit: 'Зарегистрироваться',
       notNew: 'Есть аккаунт?',
       enter: 'Войти',
@@ -39,20 +40,68 @@ export default {
       back: 'Вернуться',
     },
     modals: {
-      appRules: {
-        header: 'Правила пользования TrueStore',
-        rules: 'Тут должны быть какие то правила',
-      },
+      storeRules,
     },
     header: {
-      profile: 'Профиль',
+      profile: 'Личный кабинет',
+      menu: 'Меню',
+      apps: 'Все приложения',
+      userApps: 'Мои приложения',
       newApp: 'Добавить новое приложение',
       logout: 'Выйти',
     },
     page404: {
       header: 'Ошибка 404',
-      error: 'Кажется что-то пошло не так! Страница, которую вы запрашиваете, не существует. Возможно она устарела, была удалена, или был введен неверный адрес в адресной строке.',
+      error:
+        'Кажется что-то пошло не так! Страница, которую вы запрашиваете, не существует. Возможно она устарела, была удалена, или был введен неверный адрес в адресной строке.',
       button: 'Перейти на главную страницу',
+    },
+    profile: {
+      userInfo: 'Информация о пользователе',
+      username: 'Имя пользователя',
+      email: 'Электронная почта',
+      personalBilling: 'Личный кошелёк',
+      bill: 'Счёт',
+      replenishment: 'Пополнить счёт',
+      passwordChanging: 'Изменение пароля',
+      oldPassword: 'Старый пароль',
+      oldPasswordPlaceholder: 'Введите старый пароль...',
+      newPassword: 'Новый пароль',
+      newPasswordPlaceholder: 'Введите новый пароль...',
+      changePassword: 'Изменить пароль',
+      differentPassword: 'Новый пароль должен отличаться от старого',
+    },
+    appsFields: {
+      notFoundUsersApps: 'Вы не добавили еще ни одного приложения',
+      notFoundApps: 'Не найдено приложений в базе',
+    },
+    app: {
+      rating: 'Рейтинг',
+      bugPrice: 'Стоимость бага',
+      featurePrice: 'Стоимость фичи',
+      testing: 'Записаться на тестирование',
+      description: 'Описание',
+      comments: 'Комментарии',
+      cost_one: '{{ count }} рубль',
+      cost_few: '{{ count }} рубля',
+      cost_many: '{{ count }} рублей',
+      cost_other: '{{ count }} рубля',
+    },
+    newAppPage: {
+      pageHeader: 'Добавить новое приложение',
+      enterAppName: 'Введите название приложения:',
+      enterAppDescription: 'Введите описание приложения:',
+      enterFeaturePrice: 'Введите стоимость фич-репорта:',
+      enterBugPrice: 'Введите стоимость баг-репорта:',
+      availableForTesting: 'Доступно для тестирования:',
+      enterAppImage: 'Введите ссылку на изображение приложения:',
+      enterDownloadUrl: 'Введите ссылку для скачивания приложения:',
+      addButton: 'Добавить',
+    },
+    toast: {
+      registerSuccess: 'Вы успешно зарегистрировались',
+      changePasswordSuccess: 'Пароль изменен',
+      addAppSuccess: 'Приложение добавлено',
     },
   },
 };

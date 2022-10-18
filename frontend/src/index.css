@@ -3,35 +3,20 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* Nav */
-.nav {
-  background-color: #1b4b66;
-  width: 100%;
-  padding: 0 30px;
-}
-.logo {
-  font-weight: bold;
-  font-size: 24px;
-  color: #fff;
-}
-.logo span {
-  font-size: 48px;
-  text-transform: uppercase;
-}
-.logo img {
-  display: inline-block;
-}
+
 .user {
   background-color: #fff;
   width: 50px;
   height: 50px;
   border-radius: 10px;
 }
+
 /* App */
 .app {
-  background-color: rgb(243, 243, 243);
+  background-color: rgb(243 243 243);
   padding: 20px 40px;
 }
+
 .left-aside {
   width: 20%;
 }
@@ -52,7 +37,39 @@
 
 .category ul li:hover {
   cursor: pointer;
-  border: 1px solid rgb(95, 109, 235);
+  border: 1px solid rgb(95 109 235);
   border-radius: 5px;
   padding-left: 15px;
+}
+
+.bg-indigo {
+  background-image: linear-gradient(#6ea8fe, #7234e2);
+}
+
+.bg-header {
+  background-color: #052c65;
+}
+
+@media (max-width: 576px) {
+  .img-custom {
+    width: 25%;
+  }
+}
+
+@media (min-width: 576px) {
+  .img-custom {
+    width: 50%;
+  }
+}
+
+@media (min-width: 576px) and (orientation: landscape) {
+  .img-custom {
+    width: 25%;
+  }
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .img-custom {
+    width: 50%;
+  }
 }

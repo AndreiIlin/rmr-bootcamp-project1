@@ -2,14 +2,17 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.SecurityUser;
+import com.truestore.backend.user.dto.LoginRequest;
+import com.truestore.backend.user.dto.PasswordDto;
+import com.truestore.backend.user.dto.UserTo;
 import com.truestore.backend.validation.ValidationErrorBuilder;
-import com.truestore.backend.validation.OnCreate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +39,12 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService, AuthenticationManager authenticationManager) {
+    private final ModelMapper modelMapper;
+
+    public UserController(UserService userService, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
+        this.modelMapper = modelMapper;
     }
 
     @Operation(summary = "Login user with email and password to obtain JWT access token")
@@ -79,7 +85,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Wrong credentials",
                     content = @Content)})
     @PostMapping("/signup")
-    @Validated(OnCreate.class)
+    @Validated
     public ResponseEntity<?> registerUser(HttpServletRequest request, @RequestBody @Valid LoginRequest loginRequest, Errors errors) {
         log.info("register {}", loginRequest);
         if (errors.hasErrors()) {
@@ -94,7 +100,7 @@ public class UserController {
         return new ResponseEntity<>(userService.signup(loginRequest), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Get information about me")
+    @Operation(summary = "Get information about current user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the user",
                     content = { @Content(mediaType = "application/json",
@@ -108,10 +114,46 @@ public class UserController {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
                 User user = ((SecurityUser) principal).getUser();
-                return ResponseEntity.ok(new UserTo(user.getEmail(), user.getId()));
+                return ResponseEntity.ok(convertToDto(user));
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+    }
+
+    @Operation(summary = "Change current user password")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Changed current user password",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = JWTToken.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid password supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Wrong credentials",
+                    content = @Content)
+    })
+    @PatchMapping("/me")
+    public ResponseEntity<?> changeCurrentUserPassword(
+            HttpServletRequest request, @Valid @RequestBody PasswordDto passwordDto, Errors errors) {
+        log.info("Change current user password");
+        if (errors.hasErrors()) {
+            log.info("Validation error with request: " + request.getRequestURI());
+            return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                if (!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid password supplied");
+                }
+                return ResponseEntity.ok(userService.changeUserPassword(user, passwordDto.getNewPassword()));
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
+    }
+
+    private UserTo convertToDto(User user) {
+        return modelMapper.map(user, UserTo.class);
     }
 
 }

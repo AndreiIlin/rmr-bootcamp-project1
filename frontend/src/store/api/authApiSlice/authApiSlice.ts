@@ -6,14 +6,14 @@ const authApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<AuthResponse, AuthRequest>({
       query: (userData, role = 'ROLE_USER') => ({
-        url: routes.loginPath(),
+        url: routes.api.loginPath(),
         method: 'POST',
         body: { ...userData, role },
       }),
     }),
     registration: build.mutation<AuthResponse, AuthRequest>({
       query: (userData, role = 'ROLE_USER') => ({
-        url: routes.signupPath(),
+        url: routes.api.signupPath(),
         method: 'POST',
         body: { ...userData, role },
       }),

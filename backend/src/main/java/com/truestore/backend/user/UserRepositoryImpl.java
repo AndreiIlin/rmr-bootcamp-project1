@@ -33,5 +33,11 @@ public class UserRepositoryImpl implements UserRepository {
         return jpaUserRepository.findByEmail(email);
     }
 
+    @Override
+    public User saveUser(User user) {
+        jpaUserRepository.save(user);
+        return user;
+    }
+
 
 }

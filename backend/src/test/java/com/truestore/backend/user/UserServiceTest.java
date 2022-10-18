@@ -2,6 +2,7 @@ package com.truestore.backend.user;
 
 import com.truestore.backend.security.JWTToken;
 import com.truestore.backend.security.JWTUtil;
+import com.truestore.backend.user.dto.LoginRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,6 +56,15 @@ class UserServiceTest {
         when(userRepository.getUserByEmail(USER_1_MAIL)).thenReturn(Optional.of(user));
         JWTToken result = userService.login(loginRequest);
         assertEquals(USER_1_UUID, result.getUserId());
+        assertEquals(VALID_TOKEN, result.getAccessToken());
+    }
+
+    @Test
+    void changeUserPassword() {
+        when(jwtUtil.generateToken(Mockito.anyString())).thenReturn(VALID_TOKEN);
+        when(userRepository.saveUser(any(User.class))).thenReturn(USER_2_CHANGED_PASSWORD);
+        JWTToken result = userService.changeUserPassword(USER_2, "new_password");
+        assertEquals(USER_2_UUID, result.getUserId());
         assertEquals(VALID_TOKEN, result.getAccessToken());
     }
 }

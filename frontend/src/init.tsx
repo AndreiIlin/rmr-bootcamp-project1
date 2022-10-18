@@ -9,17 +9,17 @@ import { store } from './store';
 export default async () => {
   const i18n = i18next.createInstance();
 
-  await i18n
-    .use(initReactI18next)
-    .init({
-      resources,
-      fallbackLng: 'ru',
-    });
+  await i18n.use(initReactI18next).init({
+    resources,
+    fallbackLng: 'ru',
+  });
 
   return (
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <App />
+        <div className='store'>
+          <App />
+        </div>
       </I18nextProvider>
     </Provider>
   );

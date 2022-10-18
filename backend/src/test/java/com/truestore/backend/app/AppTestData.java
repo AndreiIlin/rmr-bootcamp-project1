@@ -4,14 +4,15 @@ import com.truestore.backend.app.dto.AppDto;
 import com.truestore.backend.app.dto.CreateAppDto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static com.truestore.backend.user.UserTestData.*;
 
 public class AppTestData {
 
-    public static final String APP_UUID_1 = "app_1_uuid";
-    public static final String APP_UUID_2 = "app_2_uuid";
-    public static final String APP_UUID_NOT_FOUND = "app_100_uuid";
+    public static final String APP_UUID_1 = String.valueOf(UUID.randomUUID());
+    public static final String APP_UUID_2 = String.valueOf(UUID.randomUUID());
+    public static final String APP_UUID_NOT_FOUND = String.valueOf(UUID.randomUUID());
     public static final App APP_1 = new App(APP_UUID_1, "AppName1", "AppDescription1", USER_1, 100F, 200F, true, "icon", "link", LocalDateTime.now());
     public static final App APP_2 = new App(APP_UUID_2, "AppName2", "AppDescription2", USER_2, 100F, 200F, true, "icon", "link", LocalDateTime.now());
     public static final App APP_NEW_WITHOUT_ID = new App(null,"AppNameNew", "AppDescriptionNew", USER_1, 100F, 200F, true, "icon", "link", LocalDateTime.now());

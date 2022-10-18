@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { trueStoreApi } from './api/trueStoreApi';
 import authReducer from './slices/authSlice';
-import modalReducer from './slices/modalSlice'
+import modalReducer from './slices/modalSlice';
 
 export const store = configureStore({
   reducer: {
@@ -9,7 +9,7 @@ export const store = configureStore({
     modal: modalReducer,
     [trueStoreApi.reducerPath]: trueStoreApi.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(trueStoreApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trueStoreApi.middleware),
   devTools: true,
 });
 

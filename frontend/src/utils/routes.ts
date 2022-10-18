@@ -1,14 +1,24 @@
+/* eslint-disable no-undef */
+const $HOST = 'http://localhost:8080';
+
 export const routes = {
-  loginPagePath: () => '/login',
-  signupPagePath: () => '/signup',
-  mainPagePath: () => '/',
-  appPagePath: () => '/:id',
-  newAppPagePath: () => `/newApp`,
-  loginPath: () => '/users/login',
-  signupPath: () => '/users/signup',
-  newApp: () => '/apps/new',
-  allApps: () => '/apps',
-  app: (id: string) => `/app/${id}`,
-  userInfo: () => 'users/me',
-  basePath: () => 'http://localhost:8080',
+  pages: {
+    loginPagePath: () => '/login',
+    signupPagePath: () => '/signup',
+    mainPagePath: () => '/',
+    appsPagePath: () => '/:id',
+    appPagePath: (id: string) => `/${id}`,
+    newAppPagePath: () => '/newApp',
+    userAppsPagePath: () => '/myApps',
+    profilePagePath: () => '/profile',
+  },
+  api: {
+    loginPath: () => '/users/login',
+    signupPath: () => '/users/signup',
+    apps: () => '/apps',
+    app: (id: string) => `/apps/${id}`,
+    userApps: () => '/apps/my',
+    userInfo: () => '/users/me',
+    basePath: () => process.env.BACKEND_HOST ?? $HOST,
+  },
 };
