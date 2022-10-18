@@ -3,7 +3,7 @@ import { Modal as ModalComponent } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks/defaultHooks';
 import selectors from '../../selectors';
 import { closeModal } from '../../store/slices/modalSlice';
-import AppRules from './AppRules';
+import AppRules from './appRules';
 
 const mapping = {
   appRules: AppRules,

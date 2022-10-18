@@ -1,25 +1,22 @@
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Container, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../hooks/defaultHooks';
 import selectors from '../../selectors';
-import logo from '../../assets/logo.png';
-import Dropdown from './Dropdown';
 import { routes } from '../../utils/routes';
+import Menu from './menu';
 
 const Nav: FC = () => {
   const isAuth = useAppSelector(selectors.userAuth);
-  const navigate = useNavigate();
-  const logoClickHandler = (): void => {
-    navigate(routes.pages.mainPagePath());
-  };
+
   return (
-    <Navbar collapseOnSelect bg='dark' variant='dark'>
-      <Container className='justify-content-between' fluid>
-        <Navbar.Brand onClick={logoClickHandler}>
+    <Navbar bg='dark' variant='dark' expand='false' className='shadow shadow-lg'>
+      <Container fluid>
+        <Navbar.Brand as={Link} to={routes.pages.mainPagePath()}>
           <img src={logo} alt='TrueStore' />
         </Navbar.Brand>
-        {isAuth && <Dropdown />}
+        {isAuth && <Menu />}
       </Container>
     </Navbar>
   );

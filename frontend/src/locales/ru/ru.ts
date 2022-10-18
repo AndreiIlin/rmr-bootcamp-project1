@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import storeRules from './rules';
+
 export default {
   translation: {
     formErrors: {
@@ -38,13 +40,11 @@ export default {
       back: 'Вернуться',
     },
     modals: {
-      appRules: {
-        header: 'Правила пользования TrueStore',
-        rules: 'Тут должны быть какие то правила',
-      },
+      storeRules,
     },
     header: {
-      profile: 'Профиль',
+      profile: 'Личный кабинет',
+      menu: 'Меню',
       apps: 'Все приложения',
       userApps: 'Мои приложения',
       newApp: 'Добавить новое приложение',

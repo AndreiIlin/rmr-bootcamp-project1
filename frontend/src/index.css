@@ -41,3 +41,35 @@
   border-radius: 5px;
   padding-left: 15px;
 }
+
+.bg-indigo {
+  background-image: linear-gradient(#6ea8fe, #7234e2);
+}
+
+.bg-header {
+  background-color: #052c65;
+}
+
+@media (max-width: 576px) {
+  .img-custom {
+    width: 25%;
+  }
+}
+
+@media (min-width: 576px) {
+  .img-custom {
+    width: 50%;
+  }
+}
+
+@media (min-width: 576px) and (orientation: landscape) {
+  .img-custom {
+    width: 25%;
+  }
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .img-custom {
+    width: 50%;
+  }
+}
