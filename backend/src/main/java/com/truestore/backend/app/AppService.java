@@ -26,7 +26,7 @@ public class AppService {
     public App saveAppForUser(App app, User user) {
         Assert.notNull(app, "App must not be null");
         if (app.getId() != null) {
-            getAppById(app.getId());
+            getAppById(UUID.fromString(app.getId()));
         }
         return appRepository.saveAppForUser(app, user).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to save app")
@@ -42,20 +42,20 @@ public class AppService {
     }
 
     @Transactional
-    public App deleteAppById(String appId) {
+    public App deleteAppById(UUID appId) {
         return appRepository.deleteAppById(appId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find App")
         );
     }
 
-    public App getAppById(String id) {
+    public App getAppById(UUID id) {
         return appRepository.getAppById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find App")
         );
     }
 
     public App updateAppById(UUID appId, UpdateAppDto updateAppDto) {
-        App app = appRepository.getAppById(String.valueOf(appId)).orElseThrow(
+        App app = appRepository.getAppById(appId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find app")
         );
         if (updateAppDto.getAppName() != null) app.setAppName(updateAppDto.getAppName());

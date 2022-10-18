@@ -114,7 +114,7 @@ public class AppController {
             @ApiResponse(responseCode = "404", description = "App not found by id",
                     content = @Content)})
     @GetMapping("/{appId}")
-    public ResponseEntity<?> getAppById(@Parameter(description = "Id App") @PathVariable String appId) {
+    public ResponseEntity<?> getAppById(@Parameter(description = "Id App") @PathVariable UUID appId) {
         log.info("get App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -166,7 +166,7 @@ public class AppController {
             @ApiResponse(responseCode = "404", description = "App not found",
                     content = @Content) })
     @DeleteMapping("/{appId}")
-    public ResponseEntity<?> deleteAppById(@Parameter(description = "Id App") @PathVariable String appId) {
+    public ResponseEntity<?> deleteAppById(@Parameter(description = "Id App") @PathVariable UUID appId) {
         log.info("delete App by id {}", appId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -211,7 +211,7 @@ public class AppController {
         if (auth != null) {
             Object principal = auth.getPrincipal();
             if (principal instanceof SecurityUser) {
-                User owner = appService.getAppById(String.valueOf(appId)).getOwner();
+                User owner = appService.getAppById(appId).getOwner();
                 User user = ((SecurityUser) principal).getUser();
                 if (!Objects.equals(owner.getId(), user.getId())) {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No permissions");

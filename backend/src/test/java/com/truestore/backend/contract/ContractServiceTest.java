@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
@@ -34,7 +33,7 @@ class ContractServiceTest {
 
     @Test
     void createContractForUser() {
-        when(appRepository.getAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
+        when(appRepository.getAppById(any(UUID.class))).thenReturn(Optional.of(APP_1));
         when(contractRepository.saveContract(any(Contract.class))).thenReturn(Optional.of(CONTRACT_1));
         Contract contract = contractService.createContractForUser(UUID.randomUUID(), USER_2);
         assertEquals(APP_1.getId(), contract.getApp().getId());
@@ -49,7 +48,7 @@ class ContractServiceTest {
 
     @Test
     void getContractById() {
-        when(contractRepository.getContractById(Mockito.anyString())).thenReturn(Optional.of(CONTRACT_1));
+        when(contractRepository.getContractById(any(UUID.class))).thenReturn(Optional.of(CONTRACT_1));
         Contract contract = contractService.getContractById(UUID.fromString(CONTRACT_UUID), USER_1);
         assertEquals(contract.getQa().getId(), USER_1.getId());
     }

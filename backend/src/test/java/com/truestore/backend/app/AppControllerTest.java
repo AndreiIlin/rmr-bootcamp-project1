@@ -71,7 +71,7 @@ class AppControllerTest extends AbstractControllerTest {
 
     @Test
     void getAppById() throws Exception {
-        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
+        when(appService.getAppById(any(UUID.class))).thenReturn(APP_1);
         perform(get(REST_URL + APP_UUID_1))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -80,7 +80,7 @@ class AppControllerTest extends AbstractControllerTest {
 
     @Test
     void getAppByIdNotFound() throws Exception {
-        when(appService.getAppById(Mockito.anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        when(appService.getAppById(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
         perform(get(REST_URL + APP_UUID_NOT_FOUND))
                 .andDo(print())
                 .andExpect(status().isNotFound());
@@ -142,7 +142,7 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void updateApp() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
+        when(appService.getAppById(any(UUID.class))).thenReturn(APP_1);
         when(appService.updateAppById(any(UUID.class), any(UpdateAppDto.class))).thenReturn(APP_1);
         perform(patch(REST_URL + APP_UUID_1)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -155,8 +155,8 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void deleteAppById() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
-        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
-        when(appService.deleteAppById(Mockito.anyString())).thenReturn(APP_1);
+        when(appService.getAppById(any(UUID.class))).thenReturn(APP_1);
+        when(appService.deleteAppById(any(UUID.class))).thenReturn(APP_1);
         perform(delete(REST_URL + APP_UUID_1))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -166,7 +166,7 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void deleteAppByIdNotFound() throws Exception {
         when(principal.getUser()).thenReturn(USER_2);
-        when(appService.getAppById(Mockito.anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        when(appService.getAppById(any(UUID.class))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
         perform(delete(REST_URL + APP_UUID_1))
                 .andDo(print())
                 .andExpect(status().isNotFound());
@@ -175,7 +175,7 @@ class AppControllerTest extends AbstractControllerTest {
     @Test
     void deleteAppByIdNotMyOwn() throws Exception {
         when(principal.getUser()).thenReturn(USER_2);
-        when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
+        when(appService.getAppById(any(UUID.class))).thenReturn(APP_1);
         perform(delete(REST_URL + APP_UUID_1))
                 .andDo(print())
                 .andExpect(status().isForbidden());

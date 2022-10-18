@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.truestore.backend.app.AppTestData.*;
 import static com.truestore.backend.user.UserTestData.USER_1;
@@ -31,15 +32,15 @@ class AppServiceTest {
 
     @Test
     void getAppById() {
-        when(appRepository.getAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
-        App app = appService.getAppById(APP_UUID_1);
+        when(appRepository.getAppById(any(UUID.class))).thenReturn(Optional.of(APP_1));
+        App app = appService.getAppById(UUID.fromString(APP_UUID_1));
         assertEquals(app.getId(), APP_1.getId());
     }
 
     @Test
     void getAppNotFound() {
-        when(appRepository.getAppById(APP_UUID_NOT_FOUND)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        assertThrows(ResponseStatusException.class, () -> appService.getAppById(APP_UUID_NOT_FOUND));
+        when(appRepository.getAppById(UUID.fromString(APP_UUID_NOT_FOUND))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        assertThrows(ResponseStatusException.class, () -> appService.getAppById(UUID.fromString(APP_UUID_NOT_FOUND)));
     }
 
     @Test
@@ -52,7 +53,7 @@ class AppServiceTest {
     @Test
     void updatedApp() {
         when(appRepository.saveAppForUser(any(), any())).thenReturn(Optional.of(APP_1));
-        when(appRepository.getAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
+        when(appRepository.getAppById(any(UUID.class))).thenReturn(Optional.of(APP_1));
         App app = appService.saveAppForUser(APP_1, USER_1);
         assertEquals(app.getAppName(), APP_1.getAppName());
     }
@@ -66,16 +67,16 @@ class AppServiceTest {
 
     @Test
     void deleteApp() {
-        when(appRepository.deleteAppById(Mockito.anyString())).thenReturn(Optional.of(APP_1));
-        App app = appService.deleteAppById(APP_UUID_1);
+        when(appRepository.deleteAppById(any(UUID.class))).thenReturn(Optional.of(APP_1));
+        App app = appService.deleteAppById(UUID.fromString(APP_UUID_1));
         assertEquals(app.getAppName(), APP_1.getAppName());
     }
 
 
     @Test
     void deleteAppNotFound() {
-        when(appRepository.deleteAppById(APP_UUID_NOT_FOUND)).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        assertThrows(ResponseStatusException.class, () -> appService.deleteAppById(APP_UUID_NOT_FOUND));
+        when(appRepository.deleteAppById(UUID.fromString(APP_UUID_NOT_FOUND))).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        assertThrows(ResponseStatusException.class, () -> appService.deleteAppById(UUID.fromString(APP_UUID_NOT_FOUND)));
     }
 
     @Test

@@ -23,7 +23,7 @@ public class ContractService {
     }
 
     public Contract createContractForUser(UUID appId, User user) {
-        App app = appRepository.getAppById(String.valueOf(appId)).orElseThrow(
+        App app = appRepository.getAppById(appId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find app")
         );
         if (app.getOwner().equals(user)) {
@@ -42,7 +42,7 @@ public class ContractService {
     }
 
     public Contract getContractById(UUID contractId, User user) {
-        Contract contract = contractRepository.getContractById(String.valueOf(contractId)).orElseThrow(
+        Contract contract = contractRepository.getContractById(contractId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find contract with such UUID")
         );
         if (!contract.getQa().equals(user)) {

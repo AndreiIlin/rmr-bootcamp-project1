@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class ContractRepositoryImpl implements ContractRepository {
@@ -17,8 +18,8 @@ public class ContractRepositoryImpl implements ContractRepository {
     }
 
     @Override
-    public Optional<Contract> getContractById(String contractId) {
-        return jpaContractRepository.findById(contractId);
+    public Optional<Contract> getContractById(UUID contractId) {
+        return jpaContractRepository.findById(String.valueOf(contractId));
     }
 
     @Override
