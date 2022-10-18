@@ -16,6 +16,8 @@ public interface AppRepository {
 
     Optional<App> saveAppForUser(App app, User user);
 
+    Optional<App> saveApp(App app);
+
     Optional<App> deleteAppById(String appId);
 
     List<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page);

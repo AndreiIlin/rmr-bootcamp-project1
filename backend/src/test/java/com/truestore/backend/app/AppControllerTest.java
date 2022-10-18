@@ -2,6 +2,7 @@ package com.truestore.backend.app;
 
 import com.truestore.backend.AbstractControllerTest;
 import com.truestore.backend.app.dto.CreateAppDto;
+import com.truestore.backend.app.dto.UpdateAppDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +27,7 @@ import javax.validation.Validator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.truestore.backend.app.AppTestData.*;
 import static com.truestore.backend.user.UserTestData.*;
@@ -141,7 +143,7 @@ class AppControllerTest extends AbstractControllerTest {
     void updateApp() throws Exception {
         when(principal.getUser()).thenReturn(USER_1);
         when(appService.getAppById(Mockito.anyString())).thenReturn(APP_1);
-        when(appService.saveAppForUser(any(App.class), any(User.class))).thenReturn(APP_1);
+        when(appService.updateAppById(any(UUID.class), any(UpdateAppDto.class))).thenReturn(APP_1);
         perform(patch(REST_URL + APP_UUID_1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(APP_DTO_1)))

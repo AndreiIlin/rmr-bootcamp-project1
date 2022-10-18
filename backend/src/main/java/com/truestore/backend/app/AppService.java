@@ -1,5 +1,6 @@
 package com.truestore.backend.app;
 
+import com.truestore.backend.app.dto.UpdateAppDto;
 import com.truestore.backend.user.User;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,6 +51,22 @@ public class AppService {
     public App getAppById(String id) {
         return appRepository.getAppById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find App")
+        );
+    }
+
+    public App updateAppById(UUID appId, UpdateAppDto updateAppDto) {
+        App app = appRepository.getAppById(String.valueOf(appId)).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find app")
+        );
+        if (updateAppDto.getAppName() != null) app.setAppName(updateAppDto.getAppName());
+        if (updateAppDto.getAppDescription() != null) app.setAppDescription(updateAppDto.getAppDescription());
+        if (updateAppDto.getFeaturePrice() != null) app.setFeaturePrice(updateAppDto.getFeaturePrice());
+        if (updateAppDto.getBugPrice() != null) app.setBugPrice(updateAppDto.getBugPrice());
+        if (updateAppDto.getAvailable() != null) app.setAvailable(updateAppDto.getAvailable());
+        if (updateAppDto.getIconImage() != null) app.setIconImage(updateAppDto.getIconImage());
+        if (updateAppDto.getDownloadLink() != null) app.setDownloadLink(updateAppDto.getDownloadLink());
+        return appRepository.saveApp(app).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to update app")
         );
     }
 }

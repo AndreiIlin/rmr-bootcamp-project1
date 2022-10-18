@@ -27,6 +27,15 @@ public class AppRepositoryImpl implements AppRepository {
     }
 
     @Override
+    public Optional<App> saveApp(App app) {
+        try {
+            return Optional.of(jpaAppRepository.save(app));
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<App> deleteAppById(String appId) {
         Optional<App> app = jpaAppRepository.findById(appId);
         app.ifPresent(a -> jpaAppRepository.deleteById(a.getId()));
