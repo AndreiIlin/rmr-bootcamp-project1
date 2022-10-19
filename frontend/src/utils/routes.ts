@@ -5,12 +5,13 @@ export const routes = {
   pages: {
     loginPagePath: () => '/login',
     signupPagePath: () => '/signup',
-    mainPagePath: () => '/',
+    mainPagePath: () => '/applications',
     appsPagePath: () => '/:id',
     appPagePath: (id: string) => `/${id}`,
     newAppPagePath: () => '/newApp',
     userAppsPagePath: () => '/myApps',
     profilePagePath: () => '/profile',
+    landingPage: () => '/',
   },
   api: {
     loginPath: () => '/users/login',
