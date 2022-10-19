@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import { Container, Row, Button, Col } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../utils/routes';
 
 const LandingPage: FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const clickHandler = () => {
     navigate(routes.pages.loginPagePath());
   };
@@ -12,39 +14,31 @@ const LandingPage: FC = () => {
     <Container as="main" className="d-flex flex-column mt-5 text-center text-light vh-100">
       <Row>
         <Col>
-          <h3>Платформа от разработчиков для разработчиков и тестировщиков </h3>
-          <p>Благодаря нам, ваш продукт станет качественнее</p>
+          <h3>{t('landingPage.header')}</h3>
+          <p>{t('landingPage.description')}</p>
           <Button onClick={clickHandler} variant="outline-light" className="px-5 mt-3">
-            Войти
+            {t('landingPage.enterButton')}
           </Button>
         </Col>
       </Row>
       <Row className="d-fex flex-column mt-5 gap-3">
         <Row className="d-flex align-items-center gap-5">
           <Col xs={2} className="bg-dark p-3 rounded rounded-3">
-            Development
+            {t('landingPage.firstRole')}
           </Col>
-          <Col className="text-start">
-            Простая система загрузки, обновления приложения и получения обратной связи от
-            пользователей
-          </Col>
+          <Col className="text-start">{t('landingPage.firstDescription')}</Col>
         </Row>
         <Row className="d-flex align-items-center gap-5">
           <Col xs={2} className="bg-dark p-3 rounded rounded-3">
-            QA
+            {t('landingPage.secondRole')}
           </Col>
-          <Col className="text-start">
-            Простая система заключения контракта на тестирование и получения опыта на реальном
-            проекте
-          </Col>
+          <Col className="text-start">{t('landingPage.secondDescription')}</Col>
         </Row>
         <Row className="d-flex align-items-center gap-5">
           <Col xs={2} className="bg-dark p-3 rounded rounded-3">
-            Company
+            {t('landingPage.thirdRole')}
           </Col>
-          <Col className="text-start">
-            Надежная платформа для найма сотрудников с опытом разработки и тестирования
-          </Col>
+          <Col className="text-start">{t('landingPage.thirdDescription')}</Col>
         </Row>
       </Row>
     </Container>
