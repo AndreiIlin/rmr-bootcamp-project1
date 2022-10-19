@@ -6,9 +6,9 @@ import FormCheckLabel from 'react-bootstrap/esm/FormCheckLabel';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { AddApp } from '../../../models/services/app';
-import { useAddNewAppMutation } from '../../../store/api/appsApiSlice/appsApiSlice';
-import { routes } from '../../../utils/routes';
+import { AddApp } from '../../models/services/app';
+import { useAddNewAppMutation } from '../../store/api/appsApiSlice/appsApiSlice';
+import { routes } from '../../utils/routes';
 
 const convertStringToNumber = (string: string): number => {
   const fixedNum = Number(string).toFixed(2);
