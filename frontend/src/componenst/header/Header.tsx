@@ -11,10 +11,10 @@ const Nav: FC = () => {
   const isAuth = useAppSelector(selectors.userAuth);
 
   return (
-    <Navbar bg='dark' variant='dark' expand='false' className='shadow shadow-lg'>
+    <Navbar bg="dark" variant="dark" expand="false" className="shadow shadow-lg">
       <Container fluid>
         <Navbar.Brand as={Link} to={routes.pages.mainPagePath()}>
-          <img src={logo} alt='TrueStore' />
+          <img src={logo} alt="TrueStore" />
         </Navbar.Brand>
         {isAuth && <Menu />}
       </Container>
