@@ -68,7 +68,6 @@ const LoginPage: FC = () => {
   const onChangeHandle = (event: React.ChangeEvent) => {
     formik.handleChange(event);
     formik.setErrors({});
-    setDisabled(false);
   };
 
   useEffect(() => {
@@ -84,57 +83,57 @@ const LoginPage: FC = () => {
   }, []);
 
   return (
-    <Container className='my-5 d-flex justify-content-center align-items-center'>
+    <Container className="my-5 d-flex justify-content-center align-items-center">
       <Form
         onSubmit={formik.handleSubmit}
-        className='col-12 col-md-6 mt-3 border p-5 border-primary rounded d-flex flex-column bg-light'
+        className="col-12 col-md-6 mt-3 border p-5 border-primary rounded d-flex flex-column bg-light"
       >
-        <h2 className='mb-4'>{t('login.header')}</h2>
-        <Form.Group className='mb-3 position-relative'>
+        <h2 className="mb-4">{t('login.header')}</h2>
+        <Form.Group className="mb-3 position-relative">
           <Form.Label>{t('login.email')}:</Form.Label>
           <Form.Control
-            type='text'
-            name='email'
-            id='email'
+            type="text"
+            name="email"
+            id="email"
             ref={emailRef}
             placeholder={t('login.emailPlaceholder')}
             onChange={onChangeHandle}
             isInvalid={!!formik.errors.email || !!errorEmailMessage}
             value={formik.values.email}
           />
-          <Form.Control.Feedback type='invalid' tooltip>
+          <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.email ?? errorEmailMessage}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='mb-3 position-relative'>
+        <Form.Group className="mb-3 position-relative">
           <Form.Label>{t('login.password')}: </Form.Label>
           <Form.Control
-            type='password'
-            className='form-control'
-            name='password'
-            id='password'
+            type="password"
+            className="form-control"
+            name="password"
+            id="password"
             ref={passwordRef}
             placeholder={t('login.passwordPlaceholder')}
             onChange={onChangeHandle}
             value={formik.values.password}
             isInvalid={!!formik.errors.password || !!errorPasswordMessage}
           />
-          <Form.Control.Feedback type='invalid' tooltip>
+          <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.password ?? errorPasswordMessage}
           </Form.Control.Feedback>
         </Form.Group>
         <Button
-          variant='outline-primary'
-          className='w-50 mx-auto my-3'
-          type='submit'
+          variant="outline-primary"
+          className="w-50 mx-auto my-3"
+          type="submit"
           disabled={disabled}
         >
           {t('login.enter')}
         </Button>
-        <div className='link text-center'>
+        <div className="link text-center">
           {t('login.newUser')}{' '}
           <span>
-            <Link to='/signup'>{t('login.register')}</Link>
+            <Link to="/signup">{t('login.register')}</Link>
           </span>
         </div>
       </Form>

@@ -13,9 +13,9 @@ const UserAppsPage = () => {
   });
   return data?.length ? (
     <Container
+      as="main"
       fluid
-      as='main'
-      className='px-0 bg-main d-flex flex-row flex-wrap justify-content-start align-content-start vh-100 overflow-scroll'
+      className="px-0 bg-main d-flex flex-row flex-wrap justify-content-start align-content-start vh-100"
     >
       {data?.map((item) => (
         <AppCard
@@ -29,11 +29,11 @@ const UserAppsPage = () => {
     </Container>
   ) : (
     <Container
+      as="main"
       fluid
-      as='main'
-      className='px-0 bg-main d-flex flex-row flex-wrap justify-content-center align-content-center vh-100 overflow-scroll'
+      className="px-0 bg-main d-flex flex-row flex-wrap justify-content-center align-content-center vh-100"
     >
-      <p className='display-5 text-light'>{t('appsFields.notFoundApps')}</p>
+      <p className="display-5 text-light">{t('appsFields.notFoundApps')}</p>
     </Container>
   );
 };

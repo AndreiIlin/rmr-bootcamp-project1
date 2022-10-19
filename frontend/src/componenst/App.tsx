@@ -30,71 +30,69 @@ const AuthRouter: FC<RouterProps> = ({ children }) => {
 };
 
 const App: FC = () => (
-  <div className='d-flex flex-column h-100'>
-    <Router>
-      <Header />
-      <Routes>
-        <Route
-          path={routes.pages.loginPagePath()}
-          element={
-            <AuthRouter>
-              <LoginPage />
-            </AuthRouter>
-          }
-        />
-        <Route
-          path={routes.pages.signupPagePath()}
-          element={
-            <AuthRouter>
-              <SignUpPage />
-            </AuthRouter>
-          }
-        />
-        <Route
-          path={routes.pages.mainPagePath()}
-          element={
-            <PrivateRouter>
-              <MainPage />
-            </PrivateRouter>
-          }
-        />
-        <Route
-          path={routes.pages.appsPagePath()}
-          element={
-            <PrivateRouter>
-              <AppPage />
-            </PrivateRouter>
-          }
-        />
-        <Route
-          path={routes.pages.newAppPagePath()}
-          element={
-            <PrivateRouter>
-              <NewAppPage />
-            </PrivateRouter>
-          }
-        />
-        <Route
-          path={routes.pages.userAppsPagePath()}
-          element={
-            <PrivateRouter>
-              <UserAppsPage />
-            </PrivateRouter>
-          }
-        />
-        <Route
-          path={routes.pages.profilePagePath()}
-          element={
-            <PrivateRouter>
-              <ProfilePage />
-            </PrivateRouter>
-          }
-        />
-      </Routes>
-      <Modal />
-      <ToastContainer autoClose={5000} />
-    </Router>
-  </div>
+  <Router>
+    <Header />
+    <Routes>
+      <Route
+        path={routes.pages.loginPagePath()}
+        element={
+          <AuthRouter>
+            <LoginPage />
+          </AuthRouter>
+        }
+      />
+      <Route
+        path={routes.pages.signupPagePath()}
+        element={
+          <AuthRouter>
+            <SignUpPage />
+          </AuthRouter>
+        }
+      />
+      <Route
+        path={routes.pages.mainPagePath()}
+        element={
+          <PrivateRouter>
+            <MainPage />
+          </PrivateRouter>
+        }
+      />
+      <Route
+        path={routes.pages.appsPagePath()}
+        element={
+          <PrivateRouter>
+            <AppPage />
+          </PrivateRouter>
+        }
+      />
+      <Route
+        path={routes.pages.newAppPagePath()}
+        element={
+          <PrivateRouter>
+            <NewAppPage />
+          </PrivateRouter>
+        }
+      />
+      <Route
+        path={routes.pages.userAppsPagePath()}
+        element={
+          <PrivateRouter>
+            <UserAppsPage />
+          </PrivateRouter>
+        }
+      />
+      <Route
+        path={routes.pages.profilePagePath()}
+        element={
+          <PrivateRouter>
+            <ProfilePage />
+          </PrivateRouter>
+        }
+      />
+    </Routes>
+    <Modal />
+    <ToastContainer autoClose={5000} />
+  </Router>
 );
 
 export default App;

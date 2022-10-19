@@ -14,9 +14,8 @@ const MainPage: FC = () => {
 
   return data?.length ? (
     <Container
-      fluid
-      as='main'
-      className='px-0 bg-main d-flex flex-row flex-wrap justify-content-start align-content-start vh-100 overflow-scroll'
+      as="main"
+      className="vh-100 px-0 bg-main d-flex flex-row flex-wrap justify-content-start align-content-start"
     >
       {data?.map((item) => (
         <AppCard
@@ -31,10 +30,10 @@ const MainPage: FC = () => {
   ) : (
     <Container
       fluid
-      as='main'
-      className='px-0 bg-main d-flex flex-row flex-wrap justify-content-center align-content-center vh-100 overflow-scroll'
+      as="main"
+      className="vh-100 px-0 bg-main d-flex flex-row flex-wrap justify-content-center align-content-center vh-100 overflow-scroll"
     >
-      <p className='display-5 text-light'>{t('appsFields.notFoundApps')}</p>
+      <p className="display-5 text-light">{t('appsFields.notFoundApps')}</p>
     </Container>
   );
 };

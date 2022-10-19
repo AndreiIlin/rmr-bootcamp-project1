@@ -76,80 +76,80 @@ const SignUpPage: FC = () => {
   };
 
   return (
-    <Container className='my-5 d-flex justify-content-center align-items-center'>
+    <Container className="my-5 d-flex justify-content-center align-items-center">
       <Form
         onSubmit={formik.handleSubmit}
-        className='col-12 col-md-6 mt-3 border p-5 border-primary rounded d-flex flex-column bg-light'
+        className="col-12 col-md-6 mt-3 border p-5 border-primary rounded d-flex flex-column bg-light"
       >
-        <h2 className='mb-4'>{t('registration.header')}</h2>
-        <Form.Group className='position-relative mb-3'>
+        <h2 className="mb-4">{t('registration.header')}</h2>
+        <Form.Group className="position-relative mb-3">
           <Form.Label>{t('registration.email')}:</Form.Label>
           <Form.Control
-            type='text'
-            name='email'
-            id='email'
+            type="text"
+            name="email"
+            id="email"
             placeholder={t('registration.emailPlaceholder')}
             onChange={onChangeHandle}
             isInvalid={!!formik.errors.email}
             value={formik.values.email}
           />
-          <Form.Control.Feedback type='invalid' tooltip>
+          <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.email}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='position-relative mb-3'>
+        <Form.Group className="position-relative mb-3">
           <Form.Label>{t('registration.password')}:</Form.Label>
           <FormControl
-            type='password'
-            className='form-control'
-            name='password'
-            id='password'
+            type="password"
+            className="form-control"
+            name="password"
+            id="password"
             placeholder={t('registration.passwordPlaceholder')}
             onChange={onChangeHandle}
             value={formik.values.password}
             isInvalid={!!formik.errors.password}
           />
-          <Form.Control.Feedback type='invalid' tooltip>
+          <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.password}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='position-relative mb-3'>
+        <Form.Group className="position-relative mb-3">
           <Form.Label>{t('registration.confirm')}</Form.Label>
           <FormControl
-            type='password'
-            className='form-control'
-            name='confirmPassword'
-            id='confirmPassword'
+            type="password"
+            className="form-control"
+            name="confirmPassword"
+            id="confirmPassword"
             placeholder={t('registration.confirmPlaceholder')}
             onChange={onChangeHandle}
             value={formik.values.confirmPassword}
             isInvalid={!!formik.errors.confirmPassword}
           />
-          <FormControl.Feedback type='invalid' tooltip>
+          <FormControl.Feedback type="invalid" tooltip>
             {formik.errors.confirmPassword}
           </FormControl.Feedback>
         </Form.Group>
         {alreadyRegistered && (
-          <div className='text-danger'>{t('registration.alreadyRegistered')}</div>
+          <div className="text-danger">{t('registration.alreadyRegistered')}</div>
         )}
         <p>
           {t('registration.rules')}
-          <Card.Link href='#' onClick={handleModalClick}>
+          <Card.Link href="#" onClick={handleModalClick}>
             {t('registration.rulesLink')}
           </Card.Link>
         </p>
         <Button
-          variant='outline-primary'
-          className='w-50 mx-auto mb-3'
-          type='submit'
+          variant="outline-primary"
+          className="w-50 mx-auto mb-3"
+          type="submit"
           disabled={disabled}
         >
           {t('registration.submit')}
         </Button>
-        <div className='link text-center'>
+        <div className="link text-center">
           {t('registration.notNew')}{' '}
           <span>
-            <Link to='/login'>{t('registration.enter')}</Link>
+            <Link to="/login">{t('registration.enter')}</Link>
           </span>
         </div>
       </Form>

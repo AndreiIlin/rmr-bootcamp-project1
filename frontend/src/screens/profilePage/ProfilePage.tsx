@@ -60,10 +60,10 @@ const ProfilePage: FC = () => {
   });
 
   return (
-    <Container className='app-container bg-light my-5 p-5 shadow shadow-lg rounded-3'>
-      <Row className='flex-nowrap border-bottom border-2 border-dark'>
+    <Container className="app-container bg-light my-5 p-5 shadow shadow-lg rounded-3">
+      <Row className="flex-nowrap border-bottom border-2 border-dark">
         <Col xs={5} sm={4}>
-          <Image className='img-fluid shadow mb-4' src={link} alt='user' roundedCircle />
+          <Image className="img-fluid shadow mb-4" src={link} alt="user" roundedCircle />
         </Col>
         <Col xs={7} sm={8}>
           <h2>{t('profile.userInfo')}</h2>
@@ -72,22 +72,22 @@ const ProfilePage: FC = () => {
           </p>
         </Col>
       </Row>
-      <Row className='mt-5 border-bottom border-2 border-dark'>
+      <Row className="mt-5 border-bottom border-2 border-dark">
         <Col>
           <h2>{t('profile.personalBilling')}</h2>
           <p>
             {t('profile.bill')}: {t('app.cost', { count: 500 })}
           </p>
-          <Button className='mb-5'>{t('profile.replenishment')}</Button>
+          <Button className="mb-5">{t('profile.replenishment')}</Button>
         </Col>
       </Row>
-      <h2 className='mt-5'>{t('profile.passwordChanging')}</h2>
-      <Form className='d-flex flex-wrap mb-5 gap-3' onSubmit={formik.handleSubmit}>
-        <Form.Group className='position-relative col-5'>
+      <h2 className="mt-5">{t('profile.passwordChanging')}</h2>
+      <Form className="d-flex flex-wrap mb-5 gap-3" onSubmit={formik.handleSubmit}>
+        <Form.Group className="position-relative col-5">
           <Form.Label>{t('profile.oldPassword')}:</Form.Label>
           <Form.Control
-            type='password'
-            name='oldPassword'
+            type="password"
+            name="oldPassword"
             placeholder={t('profile.oldPasswordPlaceholder')}
             value={formik.values.oldPassword}
             onChange={(event) => {
@@ -96,15 +96,15 @@ const ProfilePage: FC = () => {
             }}
             isInvalid={formik.touched.oldPassword && !!formik.errors.oldPassword}
           />
-          <Form.Control.Feedback type='invalid' tooltip>
+          <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.oldPassword}
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className='position-relative col-5'>
+        <Form.Group className="position-relative col-5">
           <Form.Label>{t('profile.newPassword')}:</Form.Label>
           <Form.Control
-            type='password'
-            name='newPassword'
+            type="password"
+            name="newPassword"
             placeholder={t('profile.newPasswordPlaceholder')}
             value={formik.values.newPassword}
             onChange={(event) => {
@@ -115,11 +115,11 @@ const ProfilePage: FC = () => {
             isInvalid={(formik.touched.newPassword && !!formik.errors.newPassword) || passwordError}
             ref={passwordRef}
           />
-          <Form.Control.Feedback type='invalid' tooltip>
+          <Form.Control.Feedback type="invalid" tooltip>
             {passwordError ? t('profile.differentPassword') : formik.errors.newPassword}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button disabled={disabled} type='submit'>
+        <Button disabled={disabled} type="submit">
           {t('profile.changePassword')}
         </Button>
       </Form>
