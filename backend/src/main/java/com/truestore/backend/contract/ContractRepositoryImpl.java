@@ -1,11 +1,13 @@
 package com.truestore.backend.contract;
 
+import com.truestore.backend.app.App;
 import com.truestore.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class ContractRepositoryImpl implements ContractRepository {
@@ -17,8 +19,8 @@ public class ContractRepositoryImpl implements ContractRepository {
     }
 
     @Override
-    public Optional<Contract> getContractById(String contractId) {
-        return jpaContractRepository.findById(contractId);
+    public Optional<Contract> getContractById(UUID contractId) {
+        return jpaContractRepository.findById(String.valueOf(contractId));
     }
 
     @Override
@@ -33,5 +35,10 @@ public class ContractRepositoryImpl implements ContractRepository {
     @Override
     public List<Contract> getContractsForUser(User user) {
         return jpaContractRepository.findAllByQaOrderByCreatedDesc(user);
+    }
+
+    @Override
+    public Optional<Contract> getContractForAppAndUser(App app, User user) {
+        return jpaContractRepository.findFirstByAppAndQa(app, user);
     }
 }

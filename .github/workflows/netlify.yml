@@ -1,0 +1,19 @@
+name: Deploy frontend to Netlify
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+      - name: Check and build frontend
+        run: |
+          docker-compose -f docker-compose.prod.yml build --build-arg NETLIFY_ACCESS_TOKEN=${{ secrets.NETLIFY_ACCESS_TOKEN }}
+      - name: Deploy to Netlify
+        run: |
+          docker-compose -f docker-compose.prod.yml up
