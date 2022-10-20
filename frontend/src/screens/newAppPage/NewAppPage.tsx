@@ -37,14 +37,14 @@ const NewAppPage = () => {
       .required(t('formErrors.required')),
     featurePrice: yup
       .number()
-      .test('maxDigitsAfterDecimal', t("formErrors.twoDigits'"), (number) =>
+      .test('maxDigitsAfterDecimal', t('formErrors.twoDigits'), (number) =>
         /^\d+(\.\d{1,2})?$/.test(number?.toString() ?? ''),
       )
       .min(0, t('formErrors.invalidPrice'))
       .required(t('formErrors.required')),
     bugPrice: yup
       .number()
-      .test('maxDigitsAfterDecimal', t("formErrors.twoDigits'"), (number) =>
+      .test('maxDigitsAfterDecimal', t('formErrors.twoDigits'), (number) =>
         /^\d+(\.\d{1,2})?$/.test(number?.toString() ?? ''),
       )
       .min(0, t('formErrors.invalidPrice'))
