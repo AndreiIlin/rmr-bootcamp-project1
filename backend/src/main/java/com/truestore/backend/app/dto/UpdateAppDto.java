@@ -25,7 +25,9 @@ public class UpdateAppDto {
     private Float bugPrice;
     private Boolean available;
     @NoHtml
+    @Size(min = 1, max = 2048, message = "Max length for URL is 2048 characters")
     private String iconImage;
     @NoHtml
+    @Size(min = 1, max = 2048, message = "Max length for URL is 2048 characters")
     private String downloadLink;
 }

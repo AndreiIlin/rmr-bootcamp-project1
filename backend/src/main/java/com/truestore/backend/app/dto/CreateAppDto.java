@@ -34,9 +34,11 @@ public class CreateAppDto {
     @NotBlank(message = "Icon image can't be blank")
     @NotNull(message = "Icon image can't be null")
     @NoHtml
+    @Size(min = 1, max = 2048, message = "Max length for URL is 2048 characters")
     private String iconImage;
     @NotBlank(message = "Download link can't be blank")
     @NotNull(message = "Download link can't be null")
     @NoHtml
+    @Size(min = 1, max = 2048, message = "Max length for URL is 2048 characters")
     private String downloadLink;
 }
