@@ -37,9 +37,9 @@ public class App {
     private Float bugPrice;
     @Column(name = "available", nullable = false, columnDefinition = "bool default true")
     private Boolean available = true;
-    @Column(name = "icon_image", nullable = false)
+    @Column(name = "icon_image", nullable = false, length = 2048)
     private String iconImage;
-    @Column(name = "download_link", nullable = false)
+    @Column(name = "download_link", nullable = false, length = 2048)
     private String downloadLink;
     @Column(name = "created", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
