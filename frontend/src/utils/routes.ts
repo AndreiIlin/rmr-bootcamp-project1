@@ -20,6 +20,9 @@ export const routes = {
     app: (id: string) => `/apps/${id}`,
     userApps: () => '/apps/my',
     userInfo: () => '/users/me',
+    contracts: () => '/contracts',
+    contract: (id: string) => `/contracts/${id}`,
+    myContract: () => '/contracts/my',
     basePath: () => process.env.BACKEND_HOST ?? $HOST,
   },
 };

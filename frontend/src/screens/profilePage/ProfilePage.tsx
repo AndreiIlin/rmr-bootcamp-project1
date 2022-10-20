@@ -60,7 +60,7 @@ const ProfilePage: FC = () => {
   });
 
   return (
-    <Container className="app-container bg-light my-5 p-5 shadow shadow-lg rounded-3">
+    <Container className="app-container bg-light mt-5 px-4 py-3 shadow shadow-lg rounded-3">
       <Row className="flex-nowrap border-bottom border-2 border-dark">
         <Col xs={5} sm={4}>
           <Image className="img-fluid shadow mb-4" src={link} alt="user" roundedCircle />
