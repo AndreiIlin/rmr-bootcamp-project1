@@ -3,7 +3,6 @@ import { Button, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { App } from '../../models/services/app';
 import { useGetAppQuery } from '../../store/api/appsApiSlice/appsApiSlice';
 import { useSetContractMutation } from '../../store/api/contractsApiSlice/contractsApiSlice';
 
