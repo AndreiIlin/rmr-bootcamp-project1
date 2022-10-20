@@ -2,14 +2,29 @@ import React from 'react';
 import { Button, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useGetAppQuery } from '../../store/api/appsApiSlice/appsApiSlice';
+import { useSetContractMutation } from '../../store/api/contractsApiSlice/contractsApiSlice';
 
 const AppPage = () => {
   const { id } = useParams();
   const { data } = useGetAppQuery(id as string);
   const { t } = useTranslation();
+  const [setContract] = useSetContractMutation();
+  const contractHandler = async () => {
+    try {
+      if (data) {
+        const response = await setContract({ appId: data?.id });
+        console.log(response);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  console.log(data);
   return (
-    <Container className="app-container bg-light my-5 p-5 shadow shadow-lg rounded-3">
+    <Container className="app-container bg-light my-5 p-5 shadow shadow-lg rounded-3 h-100">
       <Row>
         <Col xs={5} sm={4}>
           <img src={data?.iconImage} alt={data?.appName} className="img-fluid shadow rounded-5" />
@@ -22,9 +37,19 @@ const AppPage = () => {
           <p>
             {t('app.featurePrice')}: {t('app.cost', { count: data?.featurePrice })}
           </p>
-          <Button variant="outline-primary" className="mt-3">
-            {t('app.testing')}
-          </Button>
+          {!data?.contractId ? (
+            <Button variant="outline-primary" className="mt-3" onClick={contractHandler}>
+              {t('app.testing')}
+            </Button>
+          ) : (
+            <Button
+              variant="outline-primary"
+              className="mt-3"
+              onClick={() => toast.success('Приложение удачно скачано')}
+            >
+              Скачать приложение
+            </Button>
+          )}
         </Col>
       </Row>
       <Tabs defaultActiveKey="description" className="mt-5" id="justify-tab-example" justify>

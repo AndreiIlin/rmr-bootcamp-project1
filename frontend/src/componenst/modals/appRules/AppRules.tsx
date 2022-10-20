@@ -11,7 +11,9 @@ const AppRules: FC = () => {
       </Modal.Header>
       <Modal.Body>
         <p>{t('modals.storeRules.userAgreementMain')}</p>
-        <p><b>{t('modals.storeRules.userAgreementH1')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.userAgreementH1')}</b>
+        </p>
         <p>{t('modals.storeRules.userAgreementH1P1')}</p>
         <p>{t('modals.storeRules.userAgreementH1P1a')}</p>
         <p>{t('modals.storeRules.userAgreementH1P1b')}</p>
@@ -23,11 +25,15 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.userAgreementH1P3a')}</p>
         <p>{t('modals.storeRules.userAgreementH1P3b')}</p>
         <p>{t('modals.storeRules.userAgreementH1P3c')}</p>
-        <p><b>{t('modals.storeRules.userAgreementH2')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.userAgreementH2')}</b>
+        </p>
         <p>{t('modals.storeRules.userAgreementH2P1')}</p>
         <p>{t('modals.storeRules.userAgreementH2P2')}</p>
         <p>{t('modals.storeRules.userAgreementH2P3')}</p>
-        <p><b>{t('modals.storeRules.userAgreementH3')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.userAgreementH3')}</b>
+        </p>
         <p>{t('modals.storeRules.userAgreementH3P1')}</p>
         <p>{t('modals.storeRules.userAgreementH3P2')}</p>
         <p>{t('modals.storeRules.userAgreementH3P3')}</p>
@@ -37,10 +43,14 @@ const AppRules: FC = () => {
         <Modal.Title>{t('modals.storeRules.pdHeader')}</Modal.Title>
         <hr />
         <p>{t('modals.storeRules.pdMain')}</p>
-        <p><b>{t('modals.storeRules.pdH1')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH1')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH1P1')}</p>
         <p>{t('modals.storeRules.pdH1P2')}</p>
-        <p><b>{t('modals.storeRules.pdH2')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH2')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH2P1')}</p>
         <p>{t('modals.storeRules.pdH2P2')}</p>
         <p>{t('modals.storeRules.pdH2P3')}</p>
@@ -55,7 +65,9 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH2P12')}</p>
         <p>{t('modals.storeRules.pdH2P13')}</p>
         <p>{t('modals.storeRules.pdH2P14')}</p>
-        <p><b>{t('modals.storeRules.pdH3')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH3')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH3P1')}</p>
         <p>{t('modals.storeRules.pdH3P1a')}</p>
         <p>{t('modals.storeRules.pdH3P1b')}</p>
@@ -69,7 +81,9 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH3P2f')}</p>
         <p>{t('modals.storeRules.pdH3P2g')}</p>
         <p>{t('modals.storeRules.pdH3P2h')}</p>
-        <p><b>{t('modals.storeRules.pdH4')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH4')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH4P1')}</p>
         <p>{t('modals.storeRules.pdH4P1a')}</p>
         <p>{t('modals.storeRules.pdH4P1b')}</p>
@@ -81,7 +95,9 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH4P2a')}</p>
         <p>{t('modals.storeRules.pdH4P2b')}</p>
         <p>{t('modals.storeRules.pdH4P3')}</p>
-        <p><b>{t('modals.storeRules.pdH5')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH5')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH5P1')}</p>
         <p>{t('modals.storeRules.pdH5P2')}</p>
         <p>{t('modals.storeRules.pdH5P3')}</p>
@@ -92,7 +108,9 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH5P6b')}</p>
         <p>{t('modals.storeRules.pdH5P6c')}</p>
         <p>{t('modals.storeRules.pdH5P6d')}</p>
-        <p><b>{t('modals.storeRules.pdH6')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH6')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH6P1')}</p>
         <p>{t('modals.storeRules.pdH6P2')}</p>
         <p>{t('modals.storeRules.pdH6P3')}</p>
@@ -100,14 +118,18 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH6P5')}</p>
         <p>{t('modals.storeRules.pdH6P6')}</p>
         <p>{t('modals.storeRules.pdH6P7')}</p>
-        <p><b>{t('modals.storeRules.pdH7')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH7')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH7P1')}</p>
         <p>{t('modals.storeRules.pdH7P1a')}</p>
         <p>{t('modals.storeRules.pdH7P1b')}</p>
         <p>{t('modals.storeRules.pdH7P1c')}</p>
         <p>{t('modals.storeRules.pdH7P2')}</p>
         <p>{t('modals.storeRules.pdH7P2')}</p>
-        <p><b>{t('modals.storeRules.pdH8')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH8')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH8P1')}</p>
         <p>{t('modals.storeRules.pdH8P1a')}</p>
         <p>{t('modals.storeRules.pdH8P1b')}</p>
@@ -117,7 +139,9 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH8P2')}</p>
         <p>{t('modals.storeRules.pdH8P3')}</p>
         <p>{t('modals.storeRules.pdH8P4')}</p>
-        <p><b>{t('modals.storeRules.pdH9')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH9')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH9P1')}</p>
         <p>{t('modals.storeRules.pdH9P2')}</p>
         <p>{t('modals.storeRules.pdH9P3')}</p>
@@ -125,7 +149,9 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH9P5')}</p>
         <p>{t('modals.storeRules.pdH9P6')}</p>
         <p>{t('modals.storeRules.pdH9P7')}</p>
-        <p><b>{t('modals.storeRules.pdH10')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH10')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH10P1')}</p>
         <p>{t('modals.storeRules.pdH10P2')}</p>
         <p>{t('modals.storeRules.pdH10P3')}</p>
@@ -136,15 +162,23 @@ const AppRules: FC = () => {
         <p>{t('modals.storeRules.pdH10P8')}</p>
         <p>{t('modals.storeRules.pdH10P9')}</p>
         <p>{t('modals.storeRules.pdH10P10')}</p>
-        <p><b>{t('modals.storeRules.pdH11')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH11')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH11P1')}</p>
         <p>{t('modals.storeRules.pdH11P2')}</p>
-        <p><b>{t('modals.storeRules.pdH12')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH12')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH12P1')}</p>
         <p>{t('modals.storeRules.pdH12P1')}</p>
-        <p><b>{t('modals.storeRules.pdH13')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH13')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH13P1')}</p>
-        <p><b>{t('modals.storeRules.pdH14')}</b></p>
+        <p>
+          <b>{t('modals.storeRules.pdH14')}</b>
+        </p>
         <p>{t('modals.storeRules.pdH14P1')}</p>
         <p>{t('modals.storeRules.pdH14P2')}</p>
         <p>{t('modals.storeRules.pdH14P3')}</p>

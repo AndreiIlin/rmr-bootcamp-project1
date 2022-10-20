@@ -15,7 +15,7 @@ const UserAppsPage = () => {
     <Container
       as="main"
       fluid
-      className="px-0 bg-main d-flex flex-row flex-wrap justify-content-start align-content-start vh-100"
+      className="px-0 bg-main d-flex flex-row flex-wrap justify-content-start align-content-start h-100"
     >
       {data?.map((item) => (
         <AppCard
@@ -31,7 +31,7 @@ const UserAppsPage = () => {
     <Container
       as="main"
       fluid
-      className="px-0 bg-main d-flex flex-row flex-wrap justify-content-center align-content-center vh-100"
+      className="px-0 bg-main d-flex flex-row flex-wrap justify-content-center align-content-center h-100"
     >
       <p className="display-5 text-light">{t('appsFields.notFoundApps')}</p>
     </Container>
