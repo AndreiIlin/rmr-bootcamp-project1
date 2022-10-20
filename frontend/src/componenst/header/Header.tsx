@@ -5,6 +5,7 @@ import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../hooks/defaultHooks';
 import selectors from '../../selectors';
 import { routes } from '../../utils/routes';
+import LanguageSwitcher from './languageSwitcher';
 import Menu from './menu';
 
 const Nav: FC = () => {
@@ -12,10 +13,11 @@ const Nav: FC = () => {
 
   return (
     <Navbar bg="dark" variant="dark" expand="false" className="shadow shadow-lg">
-      <Container fluid>
-        <Navbar.Brand as={Link} to={routes.pages.mainPagePath()}>
+      <Container>
+        <Navbar.Brand className="flex-grow-1" as={Link} to={routes.pages.mainPagePath()}>
           <img src={logo} alt="TrueStore" />
         </Navbar.Brand>
+        <LanguageSwitcher />
         {isAuth && <Menu />}
       </Container>
     </Navbar>
