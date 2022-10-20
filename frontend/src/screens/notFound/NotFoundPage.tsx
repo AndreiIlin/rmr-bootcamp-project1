@@ -11,7 +11,7 @@ const NotFoundPage = () => {
     navigate(routes.pages.mainPagePath());
   };
   return (
-    <Container fluid className="wh-100 align-items-center text-center">
+    <Container fluid className="vh-100 align-items-center text-center">
       <p className="display-1">{t('page404.header')}</p>
       <p className="display-6">{t('page404.error')}</p>
       <Button variant="outline-dark" onClick={navigateHandle}>
