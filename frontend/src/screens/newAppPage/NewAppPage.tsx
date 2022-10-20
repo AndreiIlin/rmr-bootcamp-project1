@@ -52,9 +52,14 @@ const NewAppPage = () => {
         await addApp(values);
         navigate(routes.pages.userAppsPagePath());
         notify();
-      } catch (e) {
-        console.log(e);
-        toast.warning(t('toast.addAppError'));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        const { status } = error;
+        if (status === 500) {
+          toast.warning(t('toast.serverError'));
+        } else {
+          toast.warning(t('toast.addAppError'));
+        }
       }
     },
   });
@@ -65,119 +70,117 @@ const NewAppPage = () => {
   };
 
   return (
-    <main className="app">
-      <Container className="my-5 d-flex justify-content-center align-items-center" fluid>
-        <Form
-          onSubmit={formik.handleSubmit}
-          className="col-xs-12 col-md-6 mt-3 mt-mb-0 w-75 border border-primary p-5 rounded d-flex flex-column gap-3 bg-light"
-        >
-          <h1>{t('newAppPage.pageHeader')}</h1>
-          <Form.Group className="position-relative">
-            <Form.Label>{t('newAppPage.appName')}</Form.Label>
-            <Form.Control
-              type="text"
-              name="appName"
-              id="appName"
-              placeholder={t('newAppPage.enterAppName')}
-              isInvalid={!!formik.errors.appName}
-              onChange={onChangeHandle}
-              value={formik.values.appName}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.appName}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="position-relative">
-            <Form.Label>{t('newAppPage.appDescription')}</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="appDescription"
-              placeholder={t('newAppPage.enterAppDescription')}
-              id="appDescription"
-              onChange={onChangeHandle}
-              isInvalid={!!formik.errors.appDescription}
-              value={formik.values.appDescription}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.appDescription}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="position-relative">
-            <Form.Label>{t('newAppPage.featurePrice')}</Form.Label>
-            <Form.Control
-              type="number"
-              name="featurePrice"
-              id="featurePrice"
-              placeholder={t('newAppPage.enterFeaturePrice')}
-              onChange={onChangeHandle}
-              isInvalid={!!formik.errors.featurePrice}
-              value={formik.values.featurePrice}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.featurePrice}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="position-relative">
-            <Form.Label>{t('newAppPage.bugPrice')}</Form.Label>
-            <Form.Control
-              type="number"
-              name="bugPrice"
-              placeholder={t('newAppPage.enterBugPrice')}
-              id="bugPrice"
-              onChange={onChangeHandle}
-              isInvalid={!!formik.errors.bugPrice}
-              value={formik.values.bugPrice}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.bugPrice}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="d-flex gap-3 aligns-items-center">
-            <Form.Label htmlFor="available">{t('newAppPage.availableForTesting')}</Form.Label>
-            <Form.Check
-              type="checkbox"
-              id="available"
-              name="available"
-              checked={formik.values.available}
-              onChange={formik.handleChange}
-            />
-          </Form.Group>
-          <Form.Group className="position-relative">
-            <Form.Label>{t('newAppPage.appImage')}</Form.Label>
-            <Form.Control
-              type="text"
-              name="iconImage"
-              id="iconImage"
-              placeholder={t('newAppPage.enterAppImage')}
-              onChange={onChangeHandle}
-              isInvalid={!!formik.errors.iconImage}
-              value={formik.values.iconImage}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.iconImage}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="position-relative">
-            <Form.Label>{t('newAppPage.downloadUrl')}</Form.Label>
-            <Form.Control
-              type="text"
-              name="downloadLink"
-              id="downloadLink"
-              placeholder={t('newAppPage.enterAppImage')}
-              onChange={onChangeHandle}
-              isInvalid={!!formik.errors.downloadLink}
-              value={formik.values.downloadLink}
-            />
-            <Form.Control.Feedback type="invalid" tooltip>
-              {formik.errors.downloadLink}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Button type="submit" className="mt-5">
-            {t('newAppPage.addButton')}
-          </Button>
-        </Form>
-      </Container>
-    </main>
+    <Container as="main" className="my-5 d-flex justify-content-center align-items-center" fluid>
+      <Form
+        onSubmit={formik.handleSubmit}
+        className="col-xs-12 col-md-6 mt-3 mt-mb-0 w-75 border border-primary p-5 rounded d-flex flex-column gap-3 bg-light"
+      >
+        <h1>{t('newAppPage.pageHeader')}</h1>
+        <Form.Group className="position-relative">
+          <Form.Label>{t('newAppPage.appName')}</Form.Label>
+          <Form.Control
+            type="text"
+            name="appName"
+            id="appName"
+            placeholder={t('newAppPage.enterAppName')}
+            isInvalid={!!formik.errors.appName}
+            onChange={onChangeHandle}
+            value={formik.values.appName}
+          />
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.appName}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="position-relative">
+          <Form.Label>{t('newAppPage.appDescription')}</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="appDescription"
+            placeholder={t('newAppPage.enterAppDescription')}
+            id="appDescription"
+            onChange={onChangeHandle}
+            isInvalid={!!formik.errors.appDescription}
+            value={formik.values.appDescription}
+          />
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.appDescription}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="position-relative">
+          <Form.Label>{t('newAppPage.featurePrice')}</Form.Label>
+          <Form.Control
+            type="number"
+            name="featurePrice"
+            id="featurePrice"
+            placeholder={t('newAppPage.enterFeaturePrice')}
+            onChange={onChangeHandle}
+            isInvalid={!!formik.errors.featurePrice}
+            value={formik.values.featurePrice}
+          />
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.featurePrice}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="position-relative">
+          <Form.Label>{t('newAppPage.bugPrice')}</Form.Label>
+          <Form.Control
+            type="number"
+            name="bugPrice"
+            placeholder={t('newAppPage.enterBugPrice')}
+            id="bugPrice"
+            onChange={onChangeHandle}
+            isInvalid={!!formik.errors.bugPrice}
+            value={formik.values.bugPrice}
+          />
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.bugPrice}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="d-flex gap-3 aligns-items-center">
+          <Form.Label htmlFor="available">{t('newAppPage.availableForTesting')}</Form.Label>
+          <Form.Check
+            type="checkbox"
+            id="available"
+            name="available"
+            checked={formik.values.available}
+            onChange={formik.handleChange}
+          />
+        </Form.Group>
+        <Form.Group className="position-relative">
+          <Form.Label>{t('newAppPage.appImage')}</Form.Label>
+          <Form.Control
+            type="text"
+            name="iconImage"
+            id="iconImage"
+            placeholder={t('newAppPage.enterAppImage')}
+            onChange={onChangeHandle}
+            isInvalid={!!formik.errors.iconImage}
+            value={formik.values.iconImage}
+          />
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.iconImage}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group className="position-relative">
+          <Form.Label>{t('newAppPage.downloadUrl')}</Form.Label>
+          <Form.Control
+            type="text"
+            name="downloadLink"
+            id="downloadLink"
+            placeholder={t('newAppPage.enterAppImage')}
+            onChange={onChangeHandle}
+            isInvalid={!!formik.errors.downloadLink}
+            value={formik.values.downloadLink}
+          />
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.downloadLink}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button type="submit" className="mt-5">
+          {t('newAppPage.addButton')}
+        </Button>
+      </Form>
+    </Container>
   );
 };
 

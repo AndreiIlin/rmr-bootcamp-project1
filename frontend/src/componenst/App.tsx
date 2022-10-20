@@ -14,6 +14,7 @@ import UserAppsPage from '../screens/userAppsPage';
 import { useAppSelector } from '../hooks/defaultHooks';
 import selectors from '../selectors';
 import { routes } from '../utils/routes';
+import LandingPage from '../screens/landingPage/LandingPage';
 
 interface RouterProps {
   children: ReactElement;
@@ -33,6 +34,7 @@ const App: FC = () => (
   <Router>
     <Header />
     <Routes>
+      <Route path={routes.pages.landingPage()} element={<LandingPage />} />
       <Route
         path={routes.pages.loginPagePath()}
         element={

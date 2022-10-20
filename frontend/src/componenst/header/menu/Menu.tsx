@@ -25,22 +25,22 @@ const Menu: FC = () => {
         <Offcanvas.Body>
           <Nav>
             <Nav.Item>
-              <Nav.Link as={Link} to={routes.pages.profilePagePath()}>
+              <Nav.Link as={Link} to={routes.pages.profilePagePath()} onClick={handleClose}>
                 {t('header.profile')}
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to={routes.pages.mainPagePath()}>
+              <Nav.Link as={Link} to={routes.pages.mainPagePath()} onClick={handleClose}>
                 {t('header.apps')}
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to={routes.pages.userAppsPagePath()}>
+              <Nav.Link as={Link} to={routes.pages.userAppsPagePath()} onClick={handleClose}>
                 {t('header.userApps')}
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={Link} to={routes.pages.newAppPagePath()}>
+              <Nav.Link as={Link} to={routes.pages.newAppPagePath()} onClick={handleClose}>
                 {t('header.newApp')}
               </Nav.Link>
             </Nav.Item>
