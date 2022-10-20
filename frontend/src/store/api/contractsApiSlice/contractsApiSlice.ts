@@ -10,11 +10,11 @@ const contractApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({
     getContractById: build.query<Contract, string>({
       query: (id) => routes.api.contract(id),
-      providesTags: ['Contract'],
+      providesTags: ['App'],
     }),
     getMyContracts: build.query({
       query: () => routes.api.myContract(),
-      providesTags: ['Contract'],
+      providesTags: ['App'],
     }),
     setContract: build.mutation<Contract, ContractRequest>({
       query: (contractData) => ({
@@ -22,7 +22,7 @@ const contractApiSlice = trueStoreApi.injectEndpoints({
         method: 'POST',
         body: contractData,
       }),
-      invalidatesTags: ['Contract'],
+      invalidatesTags: ['App'],
     }),
   }),
 });

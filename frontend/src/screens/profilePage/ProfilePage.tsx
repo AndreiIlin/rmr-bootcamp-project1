@@ -60,8 +60,8 @@ const ProfilePage: FC = () => {
   });
 
   return (
-    <Container className="app-container bg-light mt-5 px-4 py-3 shadow shadow-lg rounded-3">
-      <Row className="flex-nowrap border-bottom border-2 border-dark">
+    <Container className="wrapper bg-dark text-light my-5 px-4 py-3 shadow shadow-lg rounded-3">
+      <Row className="flex-nowrap border-bottom border-2 border-light">
         <Col xs={5} sm={4}>
           <Image className="img-fluid shadow mb-4" src={link} alt="user" roundedCircle />
         </Col>
@@ -72,13 +72,15 @@ const ProfilePage: FC = () => {
           </p>
         </Col>
       </Row>
-      <Row className="mt-5 border-bottom border-2 border-dark">
+      <Row className="mt-5 border-bottom border-2 border-light">
         <Col>
           <h2>{t('profile.personalBilling')}</h2>
           <p>
             {t('profile.bill')}: {t('app.cost', { count: 500 })}
           </p>
-          <Button className="mb-5">{t('profile.replenishment')}</Button>
+          <Button variant="outline-light" className="mb-5">
+            {t('profile.replenishment')}
+          </Button>
         </Col>
       </Row>
       <h2 className="mt-5">{t('profile.passwordChanging')}</h2>
@@ -119,7 +121,7 @@ const ProfilePage: FC = () => {
             {passwordError ? t('profile.differentPassword') : formik.errors.newPassword}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button disabled={disabled} type="submit">
+        <Button variant="outline-light" disabled={disabled} type="submit">
           {t('profile.changePassword')}
         </Button>
       </Form>

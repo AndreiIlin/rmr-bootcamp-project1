@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { AddApp } from '../../models/services/app';
 import { useAddNewAppMutation } from '../../store/api/appsApiSlice/appsApiSlice';
@@ -37,9 +37,18 @@ const NewAppPage = () => {
       .required(t('formErrors.required')),
     featurePrice: yup
       .number()
+      .test('maxDigitsAfterDecimal', t("formErrors.twoDigits'"), (number) =>
+        /^\d+(\.\d{1,2})?$/.test(number?.toString() ?? ''),
+      )
       .min(0, t('formErrors.invalidPrice'))
       .required(t('formErrors.required')),
-    bugPrice: yup.number().min(0, t('formErrors.invalidPrice')).required(t('formErrors.required')),
+    bugPrice: yup
+      .number()
+      .test('maxDigitsAfterDecimal', t("formErrors.twoDigits'"), (number) =>
+        /^\d+(\.\d{1,2})?$/.test(number?.toString() ?? ''),
+      )
+      .min(0, t('formErrors.invalidPrice'))
+      .required(t('formErrors.required')),
     iconImage: yup.string().url(t('formErrors.appURL')).required(t('formErrors.required')),
     downloadLink: yup.string().url(t('formErrors.appURL')).required(t('formErrors.required')),
   });
@@ -70,10 +79,15 @@ const NewAppPage = () => {
   };
 
   return (
-    <Container as="main" className="my-5 d-flex justify-content-center align-items-center" fluid>
+    <Container
+      as="main"
+      className="text-light my-5 d-flex justify-content-center align-items-center"
+      fluid
+    >
       <Form
+        noValidate
         onSubmit={formik.handleSubmit}
-        className="col-xs-12 col-md-6 mt-3 mt-mb-0 w-75 border border-primary p-5 rounded d-flex flex-column gap-3 bg-light"
+        className="bg-dark col-xs-12 col-md-6 mt-3 mt-mb-0 w-75 border border-dark p-5 rounded d-flex flex-column gap-3 bg-light"
       >
         <h1>{t('newAppPage.pageHeader')}</h1>
         <Form.Group className="position-relative">
@@ -112,6 +126,8 @@ const NewAppPage = () => {
             type="number"
             name="featurePrice"
             id="featurePrice"
+            min="0"
+            onWheel={(e) => e.currentTarget.blur()}
             placeholder={t('newAppPage.enterFeaturePrice')}
             onChange={onChangeHandle}
             isInvalid={!!formik.errors.featurePrice}
@@ -128,6 +144,8 @@ const NewAppPage = () => {
             name="bugPrice"
             placeholder={t('newAppPage.enterBugPrice')}
             id="bugPrice"
+            min="0"
+            onWheel={(e) => e.currentTarget.blur()}
             onChange={onChangeHandle}
             isInvalid={!!formik.errors.bugPrice}
             value={formik.values.bugPrice}
@@ -176,7 +194,7 @@ const NewAppPage = () => {
             {formik.errors.downloadLink}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button type="submit" className="mt-5">
+        <Button variant="outline-light" type="submit" className="mt-5">
           {t('newAppPage.addButton')}
         </Button>
       </Form>

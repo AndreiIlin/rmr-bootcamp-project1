@@ -12,6 +12,7 @@ export default {
       appName: 'Название приложения не должно быть меньше 3 и больше 30 символов',
       appDescription: 'Описание приложения не должно превышать 5000 символов',
       appURL: 'Ссылка должна быть валидным URL',
+      twoDigits: 'Неверный денежный формат',
     },
     login: {
       header: 'Вход в приложение',
@@ -88,7 +89,7 @@ export default {
       cost_one: '{{ count }} рубль',
       cost_few: '{{ count }} рубля',
       cost_many: '{{ count }} рублей',
-      cost_other: '{{ count }} рубля',
+      cost_other: '{{ count }} рублей',
     },
     newAppPage: {
       pageHeader: 'Добавить новое приложение',
