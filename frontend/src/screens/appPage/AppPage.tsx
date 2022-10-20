@@ -8,23 +8,24 @@ import { useSetContractMutation } from '../../store/api/contractsApiSlice/contra
 
 const AppPage = () => {
   const { id } = useParams();
-  const { data } = useGetAppQuery(id as string);
+  const { data, isLoading } = useGetAppQuery(id as string);
+  const userId = JSON.parse(localStorage.getItem('trueStore') as string).user_id;
+  const isUserApp = userId === data?.ownerId;
   const { t } = useTranslation();
   const [setContract] = useSetContractMutation();
   const contractHandler = async () => {
     try {
       if (data) {
-        const response = await setContract({ appId: data?.id });
-        console.log(response);
+        await setContract({ appId: data?.id }).unwrap();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
     }
   };
-  console.log(data);
+
   return (
-    <Container className="app-container bg-light my-5 p-5 shadow shadow-lg rounded-3 h-100">
+    <Container className="vh-100 wrapper bg-light my-5 p-5 shadow shadow-lg rounded-3">
       <Row>
         <Col xs={5} sm={4}>
           <img src={data?.iconImage} alt={data?.appName} className="img-fluid shadow rounded-5" />
@@ -37,23 +38,25 @@ const AppPage = () => {
           <p>
             {t('app.featurePrice')}: {t('app.cost', { count: data?.featurePrice })}
           </p>
-          {!data?.contractId ? (
-            <Button variant="outline-primary" className="mt-3" onClick={contractHandler}>
-              {t('app.testing')}
-            </Button>
-          ) : (
-            <Button
-              variant="outline-primary"
-              className="mt-3"
-              onClick={() => toast.success('Приложение удачно скачано')}
-            >
-              Скачать приложение
-            </Button>
-          )}
+          {!isLoading && !isUserApp ? (
+            data?.contractId ? (
+              <Button variant="outline-primary" className="mt-3" onClick={contractHandler}>
+                {t('app.testing')}
+              </Button>
+            ) : (
+              <Button
+                variant="outline-primary"
+                className="mt-3"
+                onClick={() => toast.success('Приложение удачно скачано')}
+              >
+                Скачать приложение
+              </Button>
+            )
+          ) : null}
         </Col>
       </Row>
       <Tabs defaultActiveKey="description" className="mt-5" id="justify-tab-example" justify>
-        <Tab eventKey="description" title={t('app.description')} className="mt-2">
+        <Tab eventKey="description" title={t('app.description')} className="mt-2 overflow-hidden">
           {data?.appDescription}
         </Tab>
         <Tab eventKey="comments" title={t('app.comments')} className="mt-3">

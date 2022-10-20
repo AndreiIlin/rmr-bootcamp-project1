@@ -16,8 +16,8 @@ const AppCard: FC<AppCardProps> = ({ appName, iconImage, id, description }) => {
     navigate(routes.pages.appPagePath(id));
   };
   return (
-    <Card className="col-6 col-sm-3 col-lg-2 bg-transparent border-0">
-      <Card.Body className="d-flex align-items-center flex-column">
+    <Card className="col-6 col-sm-3 col-lg-2 bg-transparent border-0 text-center">
+      <Card.Body>
         <Card.Img
           src={iconImage}
           alt={appName}
@@ -25,7 +25,7 @@ const AppCard: FC<AppCardProps> = ({ appName, iconImage, id, description }) => {
           className="img-custom"
           onClick={clickHandler}
         />
-        <Card.Text className="text-light text-custom mt-3 text-truncate">{appName}</Card.Text>
+        <Card.Text className="text-light text-truncate mt-3 overflow-">{appName}</Card.Text>
       </Card.Body>
     </Card>
   );

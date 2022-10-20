@@ -20,8 +20,8 @@ const Menu: FC = () => {
       <Button variant="outline-light" onClick={handleShow}>
         {t('header.menu')}
       </Button>
-      <Offcanvas show={show} onHide={handleClose} placement="end">
-        <Offcanvas.Header closeButton />
+      <Offcanvas show={show} onHide={handleClose} placement="end" className="text-bg-dark">
+        <Offcanvas.Header closeButton className="btn-close-white" />
         <Offcanvas.Body>
           <Nav>
             <Nav.Item>
