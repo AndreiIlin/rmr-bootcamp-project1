@@ -23,9 +23,9 @@ public class App {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
     @Column(length = 36, nullable = false, updatable = false)
     private String id;
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true, length = 30)
     private String appName;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 5000)
     private String appDescription;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
