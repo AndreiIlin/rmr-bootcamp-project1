@@ -1,0 +1,26 @@
+name: Deploy backend to Heroku
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          app_dir: "backend"
+          usedocker: true
+        env:
+          SPRING_DATASOURCE_URL: ${{ secrets.HEROKU_DB_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.HEROKU_DB_USERNAME }}
+          SPRINT_DATASOURCE_PASSWORD: ${{ secrets.HEROKU_DB_PASSWORD }}
+
