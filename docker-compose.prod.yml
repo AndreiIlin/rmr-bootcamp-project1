@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  webclient:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.netlify
+      args:
+        BACKEND_URL: http://localhost:8080
+        NETLIFY_ACCESS_TOKEN: setup_in_github_secrets
+        NETLIFY_SUBDOMAIN: thetruestore
+    container_name: webclient

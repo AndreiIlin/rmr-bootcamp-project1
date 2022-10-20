@@ -1,0 +1,20 @@
+FROM node:18.10-alpine
+RUN apk add --no-cache bash zip curl
+
+ARG BACKEND_URL
+ARG NETLIFY_ACCESS_TOKEN
+ARG NETLIFY_SUBDOMAIN
+ENV BACKEND_HOST $BACKEND_URL
+ENV NETLIFY_ACCESS_TOKEN $NETLIFY_ACCESS_TOKEN
+ENV NETLIFY_SUBDOMAIN $NETLIFY_SUBDOMAIN
+
+WORKDIR /app
+COPY package*.json /app/
+RUN npm install
+
+COPY ./ /app
+RUN npx eslint --max-warnings 0 .
+RUN npm run build
+RUN chmod +x /app/netlify.sh
+
+ENTRYPOINT ["/app/netlify.sh"]
