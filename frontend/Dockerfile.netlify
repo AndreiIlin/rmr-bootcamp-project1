@@ -15,6 +15,7 @@ RUN npm install
 COPY ./ /app
 RUN npx eslint --max-warnings 0 .
 RUN npm run build
+COPY netlify.toml /app/build/
 RUN chmod +x /app/netlify.sh
 
 ENTRYPOINT ["/app/netlify.sh"]

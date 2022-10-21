@@ -32,9 +32,9 @@ services:
       storage:
         condition: service_healthy
     environment:
-      - DATASOURCE_URL=jdbc:postgresql://storage:5432/truestore
-      - DATASOURCE_USERNAME=postgres
-      - DATASOURCE_PASSWORD=password
+      - JDBC_DATABASE_URL=jdbc:postgresql://storage:5432/truestore
+      - JDBC_DATABASE_USERNAME=postgres
+      - JDBC_DATABASE_PASSWORD=password
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
 

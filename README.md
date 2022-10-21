@@ -21,10 +21,11 @@
 - `HEROKU_APP_NAME` - наименование приложения.
 
 Также заблаговременно необходимо создать приложение в Heroku, подключить к нему Postgres в разделе Resources,
-а в разделе Settings установить переменные Config Vars:
-- `DATASOURCE_PASSWORD` - пароль базы данных;
-- `DATASOURCE_URL` - адрес базы данных в формате Spring: `jdbc:postgresql://domain:5432/database`;
-- `DATASOURCE_USERNAME` - пользователь базы.
+подключить `heroku/java` а в разделе Buildpacks. Heroku при запуске контейнера автоматически инициализирует 
+следующие переменные окружения:
+- `JDBC_DATABASE_PASSWORD` - пароль базы данных;
+- `JDBC_DATABASE_URL` - адрес базы данных в формате Spring: `jdbc:postgresql://domain:5432/database`;
+- `JDBC_DATABASE_USERNAME` - пользователь базы.
 
 Все указанные сведения содержатся в разделе Credentials созданной на Heroku базы данных Postgres.
 
