@@ -13,6 +13,7 @@ const AppPage = () => {
   const { data, isLoading } = useGetAppQuery(id as string);
   const userId = JSON.parse(localStorage.getItem('trueStore') as string).user_id;
   const isUserApp = userId === data?.ownerId;
+  console.log(data);
   const { t } = useTranslation();
   const [setContract] = useSetContractMutation();
   const contractHandler = async () => {
@@ -45,7 +46,7 @@ const AppPage = () => {
             {t('app.featurePrice')}: {t('app.cost', { count: data?.featurePrice })}
           </p>
           {!isLoading && !isUserApp ? (
-            data?.contractId ? (
+            !data?.contractId ? (
               <Button variant="outline-light" className="mt-3" onClick={contractHandler}>
                 {t('app.testing')}
               </Button>
