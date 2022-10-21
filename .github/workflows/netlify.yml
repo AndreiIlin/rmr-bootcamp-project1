@@ -8,12 +8,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Checkout target repo
         uses: actions/checkout@v3
       - name: Check and build frontend
         run: |
-          docker-compose -f docker-compose.prod.yml build --build-arg NETLIFY_ACCESS_TOKEN=${{ secrets.NETLIFY_ACCESS_TOKEN }}
+          docker-compose -f docker-compose.netlify.yml build --build-arg NETLIFY_ACCESS_TOKEN=${{ secrets.NETLIFY_ACCESS_TOKEN }}
       - name: Deploy to Netlify
         run: |
-          docker-compose -f docker-compose.prod.yml up
+          docker-compose -f docker-compose.netlify.yml up

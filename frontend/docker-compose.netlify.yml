@@ -3,7 +3,7 @@ version: '3.9'
 services:
   webclient:
     build:
-      context: frontend
+      context: .
       dockerfile: Dockerfile.netlify
       args:
         BACKEND_URL: https://thetruestore.herokuapp.com/
