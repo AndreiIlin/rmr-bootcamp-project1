@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useAppDispatch } from '../../hooks/defaultHooks';
 import { useGetAppQuery } from '../../store/api/appsApiSlice/appsApiSlice';
 import { useSetContractMutation } from '../../store/api/contractsApiSlice/contractsApiSlice';
+import { openModal } from '../../store/slices/modalSlice';
 
 const AppPage = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { data, isLoading } = useGetAppQuery(id as string);
   const userId = JSON.parse(localStorage.getItem('trueStore') as string).user_id;
@@ -24,8 +26,12 @@ const AppPage = () => {
     }
   };
 
+  const handleDownload = () => {
+    dispatch(openModal({ type: 'appLink', extra: data?.downloadLink }));
+  };
+
   return (
-    <Container className="vh-100 wrapper bg-light my-5 p-5 shadow shadow-lg rounded-3">
+    <Container className="vh-100 wrapper bg-dark text-light my-5 p-5 shadow shadow-lg rounded-3">
       <Row>
         <Col xs={5} sm={4}>
           <img src={data?.iconImage} alt={data?.appName} className="img-fluid shadow rounded-5" />
@@ -40,16 +46,12 @@ const AppPage = () => {
           </p>
           {!isLoading && !isUserApp ? (
             data?.contractId ? (
-              <Button variant="outline-primary" className="mt-3" onClick={contractHandler}>
+              <Button variant="outline-light" className="mt-3" onClick={contractHandler}>
                 {t('app.testing')}
               </Button>
             ) : (
-              <Button
-                variant="outline-primary"
-                className="mt-3"
-                onClick={() => toast.success('Приложение удачно скачано')}
-              >
-                Скачать приложение
+              <Button variant="outline-light" className="mt-3" onClick={handleDownload}>
+                {t('app.download')}
               </Button>
             )
           ) : null}

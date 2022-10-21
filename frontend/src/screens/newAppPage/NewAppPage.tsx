@@ -58,16 +58,16 @@ const NewAppPage = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       try {
-        await addApp(values);
+        await addApp(values).unwrap();
         navigate(routes.pages.userAppsPagePath());
         notify();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         const { status } = error;
         if (status === 500) {
-          toast.warning(t('toast.serverError'));
+          toast.error(t('toast.appExist'));
         } else {
-          toast.warning(t('toast.addAppError'));
+          toast.error(t('toast.serverError'));
         }
       }
     },
