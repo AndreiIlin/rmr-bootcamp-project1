@@ -14,16 +14,18 @@
 - указать субдомен размещения `<subdomain>`.netlify.app;
 - В GitHub Secrets сохранить токен доступа в Netlify `NETLIFY_ACCESS_TOKEN`.
 Соответствующий токен доступа получается в админинстративной панели Netlify, приложение тоже должно быть создано 
-заблаговременно (для этого можно в ручком режиме закачать пустой файл index.html).
+заблаговременно (для этого можно в ручном режиме закачать пустой файл index.html).
 
 Настройка деплоя в Heroku проводится в GitHub Secrets установкой:
-- `HEROKU_API_KEY` - апи ключ сервиса;
+- `HEROKU_API_KEY` - API ключ сервиса;
 - `HEROKU_APP_NAME` - наименование приложения.
+
 Также заблаговременно необходимо создать приложение в Heroku, подключить к нему Postgres в разделе Resources,
-а в разделе Setting установить переменные Config Vars:
+а в разделе Settings установить переменные Config Vars:
 - `DATASOURCE_PASSWORD` - пароль базы данных;
 - `DATASOURCE_URL` - адрес базы данных в формате Spring: `jdbc:postgresql://domain:5432/database`;
 - `DATASOURCE_USERNAME` - пользователь базы.
+
 Все указанные сведения содержатся в разделе Credentials созданной на Heroku базы данных Postgres.
 
 
