@@ -47,6 +47,7 @@ export default {
     },
     modals: {
       storeRules,
+      link: 'Ссылка на приложение',
     },
     header: {
       profile: 'Личный кабинет',
@@ -84,6 +85,7 @@ export default {
       bugPrice: 'Стоимость бага',
       featurePrice: 'Стоимость фичи',
       testing: 'Записаться на тестирование',
+      download: 'Скачать приложение',
       description: 'Описание',
       comments: 'Комментарии',
       cost_one: '{{ count }} рубль',
@@ -113,8 +115,10 @@ export default {
       changePasswordSuccess: 'Пароль изменен',
       addAppSuccess: 'Приложение добавлено',
       addAppError: 'Ошибка при добавлении приложения',
+      appExist: 'Приложение с таким названием уже существует',
       networkError: 'Ошибка сети',
       serverError: 'Ошибка в работе сервера, попробуйте еще раз',
+      linkCopied: 'Ссылка скопирована в буфер обмена',
     },
     landingPage: {
       header: 'Платформа от разработчиков для разработчиков и тестировщиков',
