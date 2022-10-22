@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { useAppDispatch } from '../../hooks/defaultHooks';
 import { useLoginMutation } from '../../store/api/authApiSlice/authApiSlice';
 import { login } from '../../store/slices/authSlice';
+import { isFetchBaseQueryError } from '../../utils/helpers';
 import { routes } from '../../utils/routes';
 
 const LoginPage: FC = () => {
@@ -21,12 +22,17 @@ const LoginPage: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const validationSchema = yup.object().shape({
-    email: yup.string().email(t('formErrors.invalidEmail')).required(t('formErrors.required')),
+    email: yup
+      .string()
+      .email(t('formErrors.invalidEmail'))
+      .required(t('formErrors.required'))
+      .trim(),
     password: yup
       .string()
       .min(8, t('formErrors.minPasswordLength'))
       .max(30, t('formErrors.maxPasswordLength'))
-      .required(t('formErrors.required')),
+      .required(t('formErrors.required'))
+      .trim(),
   });
 
   const initialValues = {
@@ -47,17 +53,15 @@ const LoginPage: FC = () => {
         const response = await userLogin({ email: emailInLowerCase, password }).unwrap();
         dispatch(login(response));
         navigate(routes.pages.mainPagePath());
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
+      } catch (error) {
         setDisabled(true);
-        const { status } = error;
-        if (status === 401) {
-          console.log(123);
-          setErrorPasswordMessage(t('login.failedPassword'));
-        } else if (status === 404) {
-          setErrorEmailMessage(t('login.failedEmail'));
-        } else {
-          toast.warning(t('toast.networkError'));
+        if (isFetchBaseQueryError(error)) {
+          const { status } = error;
+          if (status === 401) {
+            setErrorPasswordMessage(t('login.failedLogin'));
+          } else {
+            toast.warning(t('toast.networkError'));
+          }
         }
       } finally {
         setDisabled(false);
@@ -71,19 +75,16 @@ const LoginPage: FC = () => {
   };
 
   useEffect(() => {
-    emailRef.current?.select();
-  }, [errorEmailMessage]);
-
-  useEffect(() => {
-    passwordRef.current?.select();
-  }, [errorPasswordMessage]);
+    if (errorEmailMessage) emailRef.current?.select();
+    if (errorPasswordMessage) passwordRef.current?.select();
+  }, [errorEmailMessage, errorPasswordMessage]);
 
   useEffect(() => {
     emailRef.current?.focus();
   }, []);
 
   return (
-    <Container className="vh-100 text-light my-5 d-flex justify-content-center align-items-center">
+    <Container className="text-light my-5 d-flex justify-content-center align-items-center">
       <Form
         onSubmit={formik.handleSubmit}
         className="col-12 col-md-6 mt-3 border p-5 border-dark rounded d-flex flex-column bg-dark"

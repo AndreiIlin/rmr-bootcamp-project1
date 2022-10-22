@@ -23,6 +23,7 @@ export default {
       enter: 'Войти',
       newUser: 'Нет аккаунта?',
       register: 'Зарегистрироваться',
+      failedLogin: 'Неправильный email или пароль',
       failedEmail: 'Пользователь с таким адресом электронной почты не найден',
       failedPassword: 'Неправильно набран пароль',
     },

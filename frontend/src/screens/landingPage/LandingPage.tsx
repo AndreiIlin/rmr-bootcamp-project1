@@ -11,7 +11,7 @@ const LandingPage: FC = () => {
     navigate(routes.pages.loginPagePath());
   };
   return (
-    <Container as="main" className="vh-100 d-flex flex-column mt-5 text-center text-light">
+    <Container as="main" className="d-flex flex-column mt-5 text-center text-light">
       <Row>
         <Col>
           <h3>{t('landingPage.header')}</h3>

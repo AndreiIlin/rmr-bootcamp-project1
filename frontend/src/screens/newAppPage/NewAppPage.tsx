@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { AddApp } from '../../models/services/app';
 import { useAddNewAppMutation } from '../../store/api/appsApiSlice/appsApiSlice';
+import { isFetchBaseQueryError } from '../../utils/helpers';
 import { routes } from '../../utils/routes';
 
 const initialValues: AddApp = {
@@ -33,7 +34,7 @@ const NewAppPage = () => {
     appDescription: yup
       .string()
       .min(1)
-      .max(5000, t('formErrors.appDEscription'))
+      .max(5000, t('formErrors.appDescription'))
       .required(t('formErrors.required')),
     featurePrice: yup
       .number()
@@ -61,13 +62,14 @@ const NewAppPage = () => {
         await addApp(values).unwrap();
         navigate(routes.pages.userAppsPagePath());
         notify();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        const { status } = error;
-        if (status === 500) {
-          toast.error(t('toast.appExist'));
-        } else {
-          toast.error(t('toast.serverError'));
+      } catch (error) {
+        if (isFetchBaseQueryError(error)) {
+          const { status } = error;
+          if (status === 500) {
+            toast.error(t('toast.appExist'));
+          } else {
+            toast.error(t('toast.serverError'));
+          }
         }
       }
     },
