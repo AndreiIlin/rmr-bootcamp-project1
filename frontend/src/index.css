@@ -8,12 +8,6 @@
   width: 0;
 }
 
-/* html, body { */
-
-/*  height: 100%; */
-
-/* } */
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   appearance: none;
@@ -35,6 +29,7 @@ body {
       rgb(116 150 246 / 100%) 96%
     )
     no-repeat;
+  min-height: 100vh;
 }
 
 .wrapper {
