@@ -1,4 +1,4 @@
-import { UserInfoResponse } from '../../../models/services/user';
+import { User } from '../../../models/services/user';
 import { routes } from '../../../utils/routes';
 import { trueStoreApi } from '../trueStoreApi';
 
@@ -9,7 +9,7 @@ interface PasswordRequest {
 
 const userInfoApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({
-    getUserInfo: build.query<UserInfoResponse, void>({
+    getUserInfo: build.query<User, void>({
       query: () => routes.api.userInfo(),
     }),
     changePassword: build.mutation<PasswordRequest, PasswordRequest>({

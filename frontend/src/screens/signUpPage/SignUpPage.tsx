@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../hooks/defaultHooks';
 import { useRegistrationMutation } from '../../store/api/authApiSlice/authApiSlice';
 import { login } from '../../store/slices/authSlice';
 import { openModal } from '../../store/slices/modalSlice';
+import { isFetchBaseQueryError } from '../../utils/helpers';
 import { routes } from '../../utils/routes';
 
 const SignUpPage: FC = () => {
@@ -20,12 +21,17 @@ const SignUpPage: FC = () => {
   const { t } = useTranslation();
   const notify = () => toast.success(t('toast.registerSuccess'));
   const validationSchema = yup.object().shape({
-    email: yup.string().email(t('formErrors.invalidEmail')).required(t('formErrors.required')),
+    email: yup
+      .string()
+      .email(t('formErrors.invalidEmail'))
+      .required(t('formErrors.required'))
+      .trim(),
     password: yup
       .string()
       .min(8, t('formErrors.minPasswordLength'))
       .max(30, t('formErrors.maxPasswordLength'))
-      .required(t('formErrors.required')),
+      .required(t('formErrors.required'))
+      .trim(),
     confirmPassword: yup
       .string()
       .test(
@@ -60,9 +66,10 @@ const SignUpPage: FC = () => {
         setAlreadyRegistered(false);
         notify();
         navigate(routes.pages.mainPagePath());
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (e: any) {
-        if (e?.status === 409) setAlreadyRegistered(true);
+      } catch (error) {
+        if (isFetchBaseQueryError(error)) {
+          if (error.status === 409) setAlreadyRegistered(true);
+        }
       } finally {
         setDisabled(false);
       }
@@ -76,7 +83,7 @@ const SignUpPage: FC = () => {
   };
 
   return (
-    <Container className="vh-100 text-light my-4 d-flex justify-content-center align-items-center">
+    <Container className="text-light my-4 d-flex justify-content-center align-items-center">
       <Form
         onSubmit={formik.handleSubmit}
         className="col-12 col-md-6 border p-5 border-dark rounded d-flex flex-column bg-dark"

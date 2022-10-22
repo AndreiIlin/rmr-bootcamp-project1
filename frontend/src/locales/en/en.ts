@@ -20,6 +20,7 @@ export default {
       password: 'Password',
       passwordPlaceholder: 'Enter email...',
       enter: 'Log In',
+      failedLogin: 'Wrong email or password',
       // eslint-disable-next-line quotes
       newUser: "Don't have an account?",
       register: 'Sign In',
