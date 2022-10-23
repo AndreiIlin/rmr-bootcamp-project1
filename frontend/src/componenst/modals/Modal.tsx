@@ -5,10 +5,16 @@ import selectors from '../../selectors';
 import { closeModal } from '../../store/slices/modalSlice';
 import AppLink from './appLink';
 import AppRules from './appRules';
+import EditApp from './editApp';
+import SuggestBug from './suggestBug';
+import SuggestFeature from './suggestFeature';
 
 const mapping = {
   appRules: AppRules,
   appLink: AppLink,
+  editApp: EditApp,
+  suggestBug: SuggestBug,
+  suggestFeature: SuggestFeature,
 };
 
 const Modal: FC = () => {
@@ -20,7 +26,7 @@ const Modal: FC = () => {
     dispatch(closeModal());
   };
   return (
-    <ModalComponent show={isOpened} onHide={handleClose} centered>
+    <ModalComponent show={isOpened} onHide={handleClose} centered size="lg">
       {ModalBody && <ModalBody />}
     </ModalComponent>
   );

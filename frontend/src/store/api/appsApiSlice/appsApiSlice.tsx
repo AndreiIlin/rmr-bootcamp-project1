@@ -10,7 +10,7 @@ interface PaginationRequest {
 
 const appsApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({
-    getApps: build.query<App[], PaginationRequest>({
+    getApps: build.query<Required<App>[], PaginationRequest>({
       query: ({ page, size, filter }) => ({
         url: routes.api.apps(),
         params: {
@@ -21,11 +21,11 @@ const appsApiSlice = trueStoreApi.injectEndpoints({
       }),
       providesTags: ['App'],
     }),
-    getApp: build.query<App, string>({
+    getApp: build.query<Required<App>, string>({
       query: (id) => routes.api.app(id),
       providesTags: ['App'],
     }),
-    getUserApps: build.query<App[], PaginationRequest>({
+    getUserApps: build.query<Required<App>[], PaginationRequest>({
       query: ({ page, size, filter }) => ({
         url: routes.api.userApps(),
         params: {
@@ -44,8 +44,8 @@ const appsApiSlice = trueStoreApi.injectEndpoints({
       }),
       invalidatesTags: ['App'],
     }),
-    updateApp: build.mutation<App, App>({
-      query: (app) => ({
+    updateApp: build.mutation<App, App | Required<App>>({
+      query: (app: Required<App>) => ({
         url: routes.api.app(app.id),
         method: 'PATCH',
         body: app,

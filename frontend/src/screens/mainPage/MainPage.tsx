@@ -4,13 +4,14 @@ import { useGetAppsQuery } from '../../store/api/appsApiSlice/appsApiSlice';
 
 const MainPage: FC = () => {
   const [filter, setFilter] = useState('');
+  const [page, setPage] = useState<number>(0);
   const { data } = useGetAppsQuery({
-    page: 0,
-    size: 10,
+    page,
+    size: 12,
     filter,
   });
 
-  return <AppsContainer data={data} setFilter={setFilter} />;
+  return <AppsContainer data={data} setFilter={setFilter} page={page} setPage={setPage} />;
 };
 
 export default MainPage;

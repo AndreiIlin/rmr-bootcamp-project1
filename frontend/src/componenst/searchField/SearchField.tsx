@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import { Form, InputGroup, Button } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 interface SearchFieldProps {
@@ -7,10 +8,11 @@ interface SearchFieldProps {
 }
 
 const SearchField: FC<SearchFieldProps> = ({ setFilter }) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   return (
     <Form
-      className="my-3 m-auto"
+      className="col-12 col-md-4 m-auto"
       onSubmit={(event) => {
         event.preventDefault();
         setFilter(search);
@@ -19,7 +21,8 @@ const SearchField: FC<SearchFieldProps> = ({ setFilter }) => {
       <InputGroup>
         <Form.Control
           type="search"
-          className="ps-5 py-2"
+          placeholder={t('app.findApp')}
+          className="py-2"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
