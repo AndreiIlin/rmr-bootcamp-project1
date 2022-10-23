@@ -47,6 +47,9 @@ export default {
     },
     modals: {
       storeRules,
+      link: 'Application link',
+      change: 'Save changes',
+      edit: 'Edit application',
     },
     header: {
       profile: 'Personal area',
@@ -86,6 +89,8 @@ export default {
       testing: 'Sign up for testing',
       description: 'Description',
       comments: 'Comments',
+      editing: 'Edit',
+      findApp: 'Find application...',
       cost_one: '{{ count }} ruble',
       cost_few: '{{ count }} ruble',
       cost_many: '{{ count }} rubles',
@@ -115,6 +120,7 @@ export default {
       addAppError: 'Error adding app',
       networkError: 'Network error',
       serverError: 'Server error, please try again',
+      appChanged: 'Application successfully changed',
     },
     landingPage: {
       header: 'Platform from developers for developers and  QA engineers',

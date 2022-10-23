@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { App } from '../../models/services/app';
-import { useAppDispatch } from '../../hooks/defaultHooks';
-import { openModal } from '../../store/slices/modalSlice';
 import { Button, Col, Row } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from '../../hooks/defaultHooks';
+import { App } from '../../models/services/app';
 import { useSetContractMutation } from '../../store/api/contractsApiSlice/contractsApiSlice';
+import { openModal } from '../../store/slices/modalSlice';
+import { isFetchBaseQueryError } from '../../utils/helpers';
+import ReportsSection from '../reportsSection';
 
 interface AboutAppProps {
-  data: App | undefined;
+  data: Required<App> | undefined;
   isLoading: boolean;
 }
 
@@ -20,22 +22,26 @@ const AboutApp: FC<AboutAppProps> = ({ data, isLoading }) => {
   const contractHandler = async () => {
     try {
       if (data) {
-        await setContract({ appId: data?.id }).unwrap();
+        await setContract({ appId: data.id }).unwrap();
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.log(error);
+    } catch (error) {
+      if (isFetchBaseQueryError(error)) {
+        console.log(error);
+      }
     }
   };
   const handleDownload = () => {
     dispatch(openModal({ type: 'appLink', extra: data?.downloadLink }));
+  };
+  const handleEdit = () => {
+    dispatch(openModal({ type: 'editApp', extra: data }));
   };
   return (
     <Row>
       <Col xs={5} sm={4}>
         <img src={data?.iconImage} alt={data?.appName} className="img-fluid shadow rounded-5" />
       </Col>
-      <Col xs={7} sm={8}>
+      <Col xs={4} sm={6}>
         <h3 className="mb-3">{data?.appName}</h3>
         <p>
           {t('app.bugPrice')}: {t('app.cost', { count: data?.bugPrice })}
@@ -58,8 +64,17 @@ const AboutApp: FC<AboutAppProps> = ({ data, isLoading }) => {
               {t('app.download')}
             </Button>
           )
-        ) : null}
+        ) : (
+          <Button variant="outline-light" onClick={handleEdit}>
+            {t('app.editing')}
+          </Button>
+        )}
       </Col>
+      {!isUserApp && data?.contractId && (
+        <Col>
+          <ReportsSection />
+        </Col>
+      )}
     </Row>
   );
 };

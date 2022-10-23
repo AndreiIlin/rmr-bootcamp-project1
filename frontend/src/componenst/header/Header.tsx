@@ -13,7 +13,7 @@ const Nav: FC = () => {
 
   return (
     <Navbar bg="dark" variant="dark" expand="false" className="shadow shadow-lg">
-      <Container>
+      <Container className="flex-nowrap p-0">
         <Navbar.Brand className="flex-grow-1" as={Link} to={routes.pages.mainPagePath()}>
           <img src={logo} alt="TrueStore" />
         </Navbar.Brand>
