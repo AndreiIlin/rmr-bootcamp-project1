@@ -12,7 +12,7 @@ public interface JpaMoneyRepository extends JpaRepository<Money, String> {
 
     List<Money> getAllByUser(User user);
 
-    @Query("SELECT m.typeTransaction, sum(m.amount) FROM Money as m WHERE m.user.id = :userId GROUP BY m.typeTransaction")
+    @Query("SELECT m.typeTransition, sum(m.amount) FROM Money as m WHERE m.user.id = :userId GROUP BY m.typeTransition")
     List<Object[]> getBalanceByUser(String userId);
 
 }
