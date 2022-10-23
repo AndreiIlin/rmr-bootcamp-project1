@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { IoCopyOutline } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 import { useAppSelector } from '../../../hooks/defaultHooks';
 import { modalExtra } from '../../../selectors/selectors';
 
@@ -11,8 +12,8 @@ const AppLink: FC = () => {
   const { t } = useTranslation();
   const handleCopy = () => {
     if (link) {
-      copy(link, { message: 'COPIED' });
-      // toast.success(t('toast.linkCopied'));
+      copy(link);
+      toast.success(t('toast.linkCopied'));
     }
   };
   return (
