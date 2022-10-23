@@ -64,6 +64,7 @@ public class AppService {
         return app;
     }
 
+    @Transactional
     public App updateAppById(UUID appId, UpdateAppDto updateAppDto) {
         App app = appRepository.getAppById(appId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find app")
