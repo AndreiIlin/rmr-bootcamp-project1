@@ -20,27 +20,36 @@ const SignUpPage: FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const notify = () => toast.success(t('toast.registerSuccess'));
-  const validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email(t('formErrors.invalidEmail'))
-      .required(t('formErrors.required'))
-      .trim(),
-    password: yup
-      .string()
-      .min(8, t('formErrors.minPasswordLength'))
-      .max(30, t('formErrors.maxPasswordLength'))
-      .required(t('formErrors.required'))
-      .trim(),
-    confirmPassword: yup
-      .string()
-      .test(
-        'confirmPassword',
-        t('registration.confirmPassword'),
-        (password, context) => password === context.parent.password,
-      )
-      .required(t('formErrors.required')),
-  });
+  const validationSchema = yup
+    .object()
+    .strict()
+    .shape({
+      email: yup
+        .string()
+        .email(t('formErrors.invalidEmail'))
+        .matches(
+          // eslint-disable-next-line no-useless-escape
+          /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+          t('formErrors.invalidEmail'),
+        )
+        .required(t('formErrors.required'))
+        .trim(),
+      password: yup
+        .string()
+        .min(8, t('formErrors.minPasswordLength'))
+        .max(30, t('formErrors.maxPasswordLength'))
+        .required(t('formErrors.required'))
+        .matches(/^[a-z0-9]+$/i, t('formErrors.incorectSymbol'))
+        .trim(),
+      confirmPassword: yup
+        .string()
+        .test(
+          'confirmPassword',
+          t('registration.confirmPassword'),
+          (password, context) => password === context.parent.password,
+        )
+        .required(t('formErrors.required')),
+    });
 
   const handleModalClick = () => {
     dispatch(openModal({ type: 'appRules' }));
@@ -58,6 +67,7 @@ const SignUpPage: FC = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       const { email, password } = values;
+      console.log(password);
       const emailInLowerCase = email.toLocaleLowerCase();
       try {
         setDisabled(true);
