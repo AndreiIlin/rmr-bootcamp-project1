@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -82,7 +83,7 @@ public class ReportController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @PatchMapping("/reports/{reportType}")
+    @PatchMapping("/reports")
     public ResponseEntity<?> updateBugReport(
             HttpServletRequest request,
             @PathVariable String reportType,
@@ -91,10 +92,6 @@ public class ReportController {
         if (errors.hasErrors()) {
             log.info("Validation error with request: " + request.getRequestURI());
             return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
-        }
-        String[] reportTypes = {"bug", "feature", "claim"};
-        if (!Arrays.asList(reportTypes).contains(reportType)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to find such report type");
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -105,6 +102,34 @@ public class ReportController {
                         convertToDto(reportService.updateReportForUser(updateReportDto, user)),
                         HttpStatus.OK
                 );
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
+    @GetMapping("reports/my")
+    public ResponseEntity<?> getReportsForCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return new ResponseEntity<>(reportService.getReportsForCurrentUser(user).stream()
+                        .map(this::convertToDto), HttpStatus.OK);
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
+    @GetMapping("reports/contract/{contractId}/my")
+    public ResponseEntity<?> getReportsInContractForCurrentUser(@PathVariable UUID contractId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return new ResponseEntity<>(reportService.getReportsInContractForCurrentUser(contractId, user).stream()
+                        .map(this::convertToDto), HttpStatus.OK);
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);

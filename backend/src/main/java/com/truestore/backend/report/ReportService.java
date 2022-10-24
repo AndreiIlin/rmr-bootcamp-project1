@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class ReportService {
     private final ReportRepository reportRepository;
@@ -63,5 +66,19 @@ public class ReportService {
         return reportRepository.saveReport(report).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to save report")
         );
+    }
+
+    public List<Report> getReportsForCurrentUser(User user) {
+        return reportRepository.getReportsForUser(user);
+    }
+
+    public List<Report> getReportsInContractForCurrentUser(UUID contractId, User user) {
+        Contract contract = contractRepository.getContractById(contractId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find contract")
+        );
+        if (!contract.getQa().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can get only own contracts");
+        }
+        return reportRepository.getReportsInContractForUser(contract, user);
     }
 }
