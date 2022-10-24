@@ -65,6 +65,12 @@ public class ReportService {
         if (!report.getContract().getQa().getId().equals(user.getId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only report QA can update report");
         }
+        if (report.getReportStatus().equals(ReportStatus.APPROVED)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Approved report can't be updated");
+        }
+        if (report.getReportStatus().equals(ReportStatus.REJECTED)) {
+            report.setReportStatus(ReportStatus.WAITING);
+        }
         if (updateReportDto.getTitle() != null) report.setTitle(updateReportDto.getTitle());
         if (updateReportDto.getDescription() != null) report.setDescription(updateReportDto.getDescription());
         return reportRepository.saveReport(report).orElseThrow(
@@ -105,5 +111,44 @@ public class ReportService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner or QA can get report");
         }
         return report;
+    }
+
+    public Report approveReportById(UUID reportId, User user) {
+        Report report = reportRepository.getReportById(reportId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Report")
+        );
+        if (!report.getContract().getApp().getOwner().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner can approve report");
+        }
+        if (!report.getReportStatus().equals(ReportStatus.WAITING)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can approve only waiting report");
+        }
+        if (report.getReportType().equals(ReportType.CLAIM)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only admin can approve claim report");
+        }
+        //TODO: add balance check logic
+        report.setReportStatus(ReportStatus.APPROVED);
+        return reportRepository.saveReport(report).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to approve report")
+        );
+    }
+
+    public Report rejectReportById(UUID reportId, User user) {
+        Report report = reportRepository.getReportById(reportId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Report")
+        );
+        if (!report.getContract().getApp().getOwner().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner can reject report");
+        }
+        if (!report.getReportStatus().equals(ReportStatus.WAITING)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can reject only waiting report");
+        }
+        if (report.getReportType().equals(ReportType.CLAIM)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only admin can reject claim report");
+        }
+        report.setReportStatus(ReportStatus.REJECTED);
+        return reportRepository.saveReport(report).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to reject report")
+        );
     }
 }

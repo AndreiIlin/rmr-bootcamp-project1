@@ -14,18 +14,25 @@ const ChangePasswordForm: FC = () => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const notify = () => toast.success(t('toast.changePasswordSuccess'));
-  const validationSchema = yup.object().shape({
-    oldPassword: yup
-      .string()
-      .min(8, t('formErrors.minPasswordLength'))
-      .max(30, t('formErrors.maxPasswordLength'))
-      .required(t('formErrors.required')),
-    newPassword: yup
-      .string()
-      .min(8, t('formErrors.minPasswordLength'))
-      .max(30, t('formErrors.maxPasswordLength'))
-      .required(t('formErrors.required')),
-  });
+  const validationSchema = yup
+    .object()
+    .strict()
+    .shape({
+      oldPassword: yup
+        .string()
+        .min(8, t('formErrors.minPasswordLength'))
+        .max(30, t('formErrors.maxPasswordLength'))
+        .matches(/^[a-z0-9]+$/i, t('formErrors.incorectSymbol'))
+        .required(t('formErrors.required'))
+        .trim(),
+      newPassword: yup
+        .string()
+        .min(8, t('formErrors.minPasswordLength'))
+        .max(30, t('formErrors.maxPasswordLength'))
+        .matches(/^[a-z0-9]+$/i, t('formErrors.incorectSymbol'))
+        .required(t('formErrors.required'))
+        .trim(),
+    });
   const formik = useFormik({
     initialValues: {
       oldPassword: '',
