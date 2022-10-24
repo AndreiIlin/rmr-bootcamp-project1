@@ -63,12 +63,12 @@ public class ReportService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find report")
         );
         if (!report.getContract().getQa().getId().equals(user.getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only report QA can sent report");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only report QA can update report");
         }
         if (updateReportDto.getTitle() != null) report.setTitle(updateReportDto.getTitle());
         if (updateReportDto.getDescription() != null) report.setDescription(updateReportDto.getDescription());
         return reportRepository.saveReport(report).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to save report")
+                () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to update report")
         );
     }
 
@@ -94,5 +94,16 @@ public class ReportService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner can get reports");
         }
         return reportRepository.getReportsForAppByOwner(app);
+    }
+
+    public Report getReportById(UUID reportId, User user) {
+        Report report = reportRepository.getReportById(reportId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Report")
+        );
+        if (!report.getContract().getQa().getId().equals(user.getId())
+                && !report.getContract().getApp().getOwner().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner or QA can get report");
+        }
+        return report;
     }
 }
