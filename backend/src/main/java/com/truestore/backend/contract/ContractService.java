@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ContractService {
@@ -49,5 +50,11 @@ public class ContractService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User can see only own contracts");
         }
         return contract;
+    }
+
+    public List<App> getContractedAppsForCurrentUser(User user) {
+        List<Contract> contracts = getContractsForUser(user);
+        List<String> appIds = contracts.stream().map(c -> c.getApp().getId()).collect(Collectors.toList());
+        return appRepository.getAppsByIds(appIds);
     }
 }
