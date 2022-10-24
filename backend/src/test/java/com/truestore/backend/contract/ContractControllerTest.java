@@ -20,6 +20,7 @@ import javax.validation.Validator;
 import java.util.Collections;
 import java.util.UUID;
 
+import static com.truestore.backend.app.AppTestData.APP_1;
 import static com.truestore.backend.contract.ContractTestData.*;
 import static com.truestore.backend.user.UserTestData.USER_1;
 import static org.hamcrest.Matchers.hasSize;
@@ -83,5 +84,16 @@ class ContractControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.id").value(CONTRACT_UUID));
+    }
+
+    @Test
+    void getContractedAppsForCurrentUser() throws Exception {
+        when(principal.getUser()).thenReturn(USER_1);
+        when(contractService.getContractedAppsForCurrentUser(any(User.class)))
+                .thenReturn(Collections.singletonList(APP_1));
+        perform(get(REST_URL + "apps/my"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 }

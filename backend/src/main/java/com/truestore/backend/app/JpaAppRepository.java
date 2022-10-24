@@ -11,4 +11,6 @@ public interface JpaAppRepository extends PagingAndSortingRepository<App, String
 
     List<App> findAllByOwnerIdAndAppNameContainingIgnoreCase(String ownerId, String appName, Pageable page);
 
+    List<App> findByIdIn(List<String> appIds);
+
 }
