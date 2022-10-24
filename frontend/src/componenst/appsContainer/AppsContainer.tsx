@@ -18,7 +18,7 @@ const AppsContainer: FC<AppsContainerProps> = ({ data, setFilter, page, setPage 
 
   const handleNextPage = () => {
     if (data) {
-      if (data?.length < 10) return;
+      if (data?.length < 12) return;
       setPage((page) => page + 1);
     }
   };
@@ -38,7 +38,7 @@ const AppsContainer: FC<AppsContainerProps> = ({ data, setFilter, page, setPage 
           <Row>
             <SearchField setFilter={setFilter} />
           </Row>
-          <Row className="mt-3 align-items-center">
+          <Row className="mt-3 align-items-center w-100">
             <AiOutlineDoubleLeft
               className="col-1 h-100 text-light"
               opacity={page === 0 ? 0.5 : 1}
@@ -58,7 +58,7 @@ const AppsContainer: FC<AppsContainerProps> = ({ data, setFilter, page, setPage 
             </div>
             <AiOutlineDoubleRight
               className="col-1 h-100 text-light"
-              opacity={data.length < 10 ? 0.5 : 1}
+              opacity={data.length < 12 ? 0.5 : 1}
               style={{ cursor: 'pointer' }}
               onClick={handleNextPage}
             />
