@@ -1,11 +1,13 @@
 package com.truestore.backend.contract;
 
+import com.truestore.backend.app.App;
 import com.truestore.backend.app.AppRepository;
 import com.truestore.backend.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
@@ -51,5 +53,13 @@ class ContractServiceTest {
         when(contractRepository.getContractById(any(UUID.class))).thenReturn(Optional.of(CONTRACT_1));
         Contract contract = contractService.getContractById(UUID.fromString(CONTRACT_UUID), USER_1);
         assertEquals(contract.getQa().getId(), USER_1.getId());
+    }
+
+    @Test
+    void getContractedAppsForCurrentUser() {
+        when(contractRepository.getContractsForUser(any(User.class))).thenReturn(Collections.singletonList(CONTRACT_1));
+        when(appRepository.getAppsByIds(Mockito.anyList())).thenReturn(Collections.singletonList(APP_1));
+        List<App> apps = contractService.getContractedAppsForCurrentUser(USER_1);
+        assertEquals(APP_1.getId(), apps.get(0).getId());
     }
 }

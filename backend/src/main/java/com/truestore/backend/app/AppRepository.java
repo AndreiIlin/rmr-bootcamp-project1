@@ -23,4 +23,5 @@ public interface AppRepository {
 
     List<App> getAllAppByUserIdAnfUsingFilters(String userId, String filter, PageRequest page);
 
+    List<App> getAppsByIds(List<String> appIds);
 }
