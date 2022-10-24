@@ -1,5 +1,6 @@
 package com.truestore.backend.report;
 
+import com.truestore.backend.app.App;
 import com.truestore.backend.contract.Contract;
 import com.truestore.backend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,10 @@ public class ReportRepositoryImpl implements ReportRepository {
     @Override
     public List<Report> getReportsInContractForUser(Contract contract, User user) {
         return jpaReportRepository.findAllByContractQaAndContractOrderByCreatedDesc(user, contract);
+    }
+
+    @Override
+    public List<Report> getReportsForAppByOwner(App app) {
+        return jpaReportRepository.findAllByContractAppOrderByCreatedDesc(app);
     }
 }

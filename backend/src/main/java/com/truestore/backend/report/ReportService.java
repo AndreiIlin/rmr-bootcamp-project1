@@ -1,5 +1,7 @@
 package com.truestore.backend.report;
 
+import com.truestore.backend.app.App;
+import com.truestore.backend.app.AppRepository;
 import com.truestore.backend.contract.Contract;
 import com.truestore.backend.contract.ContractRepository;
 import com.truestore.backend.report.dto.CreateReportDto;
@@ -17,11 +19,13 @@ import java.util.UUID;
 public class ReportService {
     private final ReportRepository reportRepository;
     private final ContractRepository contractRepository;
+    private final AppRepository appRepository;
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, ContractRepository contractRepository) {
+    public ReportService(ReportRepository reportRepository, ContractRepository contractRepository, AppRepository appRepository) {
         this.reportRepository = reportRepository;
         this.contractRepository = contractRepository;
+        this.appRepository = appRepository;
     }
 
     private Report createReportForUser(CreateReportDto createReportDto, ReportType reportType, User user) {
@@ -80,5 +84,15 @@ public class ReportService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can get only own contracts");
         }
         return reportRepository.getReportsInContractForUser(contract, user);
+    }
+
+    public List<Report> getReportsForAppByOwner(UUID appId, User user) {
+        App app = appRepository.getAppById(appId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find app")
+        );
+        if (!app.getOwner().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner can get reports");
+        }
+        return reportRepository.getReportsForAppByOwner(app);
     }
 }

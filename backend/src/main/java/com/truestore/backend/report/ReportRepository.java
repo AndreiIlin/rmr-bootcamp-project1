@@ -1,6 +1,7 @@
 package com.truestore.backend.report;
 
 
+import com.truestore.backend.app.App;
 import com.truestore.backend.contract.Contract;
 import com.truestore.backend.user.User;
 
@@ -17,4 +18,6 @@ public interface ReportRepository {
     List<Report> getReportsForUser(User user);
 
     List<Report> getReportsInContractForUser(Contract contract, User user);
+
+    List<Report> getReportsForAppByOwner(App app);
 }

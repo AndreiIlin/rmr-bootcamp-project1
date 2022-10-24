@@ -2,6 +2,7 @@ package com.truestore.backend.report;
 
 import com.truestore.backend.report.dto.CreateReportDto;
 import com.truestore.backend.report.dto.ReportDto;
+import com.truestore.backend.report.dto.ShortReportDto;
 import com.truestore.backend.report.dto.UpdateReportDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
@@ -135,7 +136,25 @@ public class ReportController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
+    @GetMapping("reports/app/{appId}")
+    public ResponseEntity<?> getReportsForAppByOwner(@PathVariable UUID appId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return new ResponseEntity<>(reportService.getReportsForAppByOwner(appId, user).stream()
+                        .map(this::convertToShortDto), HttpStatus.OK);
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
     private ReportDto convertToDto(Report report) {
         return modelMapper.map(report, ReportDto.class);
+    }
+
+    private ShortReportDto convertToShortDto(Report report) {
+        return modelMapper.map(report, ShortReportDto.class);
     }
 }
