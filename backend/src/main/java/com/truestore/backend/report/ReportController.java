@@ -8,6 +8,7 @@ import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import com.truestore.backend.validation.ValidationErrorBuilder;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -58,6 +59,7 @@ public class ReportController {
     @PostMapping("/reports/{reportType}")
     public ResponseEntity<?> createReport(
             HttpServletRequest request,
+            @Parameter(description = "Could be: 'bug', 'feature' or 'claim'")
             @PathVariable String reportType,
             @RequestBody @Valid CreateReportDto createReportDto,
             Errors errors) {
@@ -170,7 +172,9 @@ public class ReportController {
             @ApiResponse(responseCode = "404", description = "Unable to find contract",
                     content = @Content)})
     @GetMapping("/reports/contract/{contractId}/my")
-    public ResponseEntity<?> getReportsInContractForCurrentUser(@PathVariable UUID contractId) {
+    public ResponseEntity<?> getReportsInContractForCurrentUser(
+            @Parameter(description = "UUID of Contract")
+            @PathVariable UUID contractId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();
@@ -195,7 +199,9 @@ public class ReportController {
             @ApiResponse(responseCode = "404", description = "Unable to find App",
                     content = @Content)})
     @GetMapping("/reports/app/{appId}")
-    public ResponseEntity<?> getReportsForAppByOwner(@PathVariable UUID appId) {
+    public ResponseEntity<?> getReportsForAppByOwner(
+            @Parameter(description = "UUID of an App")
+            @PathVariable UUID appId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();
@@ -220,7 +226,9 @@ public class ReportController {
             @ApiResponse(responseCode = "404", description = "Unable to find Report",
                     content = @Content)})
     @GetMapping("/reports/{reportId}")
-    public ResponseEntity<?> getReportById(@PathVariable UUID reportId) {
+    public ResponseEntity<?> getReportById(
+            @Parameter(description = "UUID of a Report")
+            @PathVariable UUID reportId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();
@@ -244,7 +252,9 @@ public class ReportController {
             @ApiResponse(responseCode = "404", description = "Unable to find Report",
                     content = @Content)})
     @PatchMapping("/reports/{reportId}/approve")
-    public ResponseEntity<?> approveReportById(@PathVariable UUID reportId) {
+    public ResponseEntity<?> approveReportById(
+            @Parameter(description = "UUID of a Report")
+            @PathVariable UUID reportId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();
@@ -268,7 +278,9 @@ public class ReportController {
             @ApiResponse(responseCode = "404", description = "Unable to find Report",
                     content = @Content)})
     @PatchMapping("/reports/{reportId}/reject")
-    public ResponseEntity<?> rejectReportById(@PathVariable UUID reportId) {
+    public ResponseEntity<?> rejectReportById(
+            @Parameter(description = "UUID of a Report")
+            @PathVariable UUID reportId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             Object principal = auth.getPrincipal();

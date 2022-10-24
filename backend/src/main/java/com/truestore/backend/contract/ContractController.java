@@ -133,7 +133,7 @@ public class ContractController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
+                            array = @ArraySchema(schema = @Schema(implementation = ShortAppDto.class)))}),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content)})
     @GetMapping("/apps/my")
