@@ -1,7 +1,6 @@
 package com.truestore.backend.contract;
 
 import com.truestore.backend.app.App;
-import com.truestore.backend.app.dto.AppDto;
 import com.truestore.backend.app.dto.ShortAppDto;
 import com.truestore.backend.contract.dto.ContractDto;
 import com.truestore.backend.contract.dto.CreateContractDto;
@@ -133,7 +132,7 @@ public class ContractController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
+                            array = @ArraySchema(schema = @Schema(implementation = ShortAppDto.class)))}),
             @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
                     content = @Content)})
     @GetMapping("/apps/my")
