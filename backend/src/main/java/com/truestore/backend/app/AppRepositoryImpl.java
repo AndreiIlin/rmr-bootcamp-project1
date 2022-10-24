@@ -84,7 +84,7 @@ public class AppRepositoryImpl implements AppRepository {
 
     private static class AppFilterSpecs {
         public static Specification<App> appNameContains(String name) {
-            return (Specification<App>) (root, cq, cb) -> cb.like(root.get("appName"), "%" + name + "%");
+            return (Specification<App>) (root, cq, cb) -> cb.like(cb.lower(root.get("appName")), "%" + name.toLowerCase() + "%");
         }
     }
 }
