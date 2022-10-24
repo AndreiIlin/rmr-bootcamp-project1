@@ -232,6 +232,54 @@ public class ReportController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
+    @Operation(summary = "Approve reports (feature, bug) by App Owner")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ReportDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Only App owner can approve waiting report",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find Report",
+                    content = @Content)})
+    @PatchMapping("/reports/{reportId}/approve")
+    public ResponseEntity<?> approveReportById(@PathVariable UUID reportId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return new ResponseEntity<>(convertToDto(reportService.approveReportById(reportId, user)), HttpStatus.OK);
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
+    @Operation(summary = "Reject reports (feature, bug) by App Owner")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ReportDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Only App owner can reject waiting report",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find Report",
+                    content = @Content)})
+    @PatchMapping("/reports/{reportId}/reject")
+    public ResponseEntity<?> rejectReportById(@PathVariable UUID reportId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return new ResponseEntity<>(convertToDto(reportService.rejectReportById(reportId, user)), HttpStatus.OK);
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
     private ReportDto convertToDto(Report report) {
         return modelMapper.map(report, ReportDto.class);
     }
