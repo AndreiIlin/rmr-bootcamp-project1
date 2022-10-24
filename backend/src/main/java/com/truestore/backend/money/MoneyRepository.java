@@ -2,7 +2,6 @@ package com.truestore.backend.money;
 
 import com.truestore.backend.user.User;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
