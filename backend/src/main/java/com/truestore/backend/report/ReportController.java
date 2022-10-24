@@ -2,6 +2,7 @@ package com.truestore.backend.report;
 
 import com.truestore.backend.report.dto.CreateReportDto;
 import com.truestore.backend.report.dto.ReportDto;
+import com.truestore.backend.report.dto.UpdateReportDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import com.truestore.backend.validation.ValidationErrorBuilder;
@@ -14,13 +15,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @RestController
 @Slf4j
@@ -36,14 +36,65 @@ public class ReportController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/reports/bug")
+    @PostMapping("/reports/{reportType}")
     public ResponseEntity<?> createBugReport(
             HttpServletRequest request,
+            @PathVariable String reportType,
             @RequestBody @Valid CreateReportDto createReportDto,
             Errors errors) {
         if (errors.hasErrors()) {
             log.info("Validation error with request: " + request.getRequestURI());
             return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
+        }
+        String[] reportTypes = {"bug", "feature", "claim"};
+        if (!Arrays.asList(reportTypes).contains(reportType)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to find such report type");
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                ResponseEntity<Object> result;
+                switch (reportType) {
+                    case "bug":
+                        result = new ResponseEntity<>(
+                                convertToDto(reportService.createBugReport(createReportDto, user)),
+                                HttpStatus.CREATED);
+                        break;
+                    case "claim":
+                        result = new ResponseEntity<>(
+                                convertToDto(reportService.createClaimReport(createReportDto, user)),
+                                HttpStatus.CREATED);
+                        break;
+                    case "feature":
+                        result = new ResponseEntity<>(
+                                convertToDto(reportService.createFeatureReport(createReportDto, user)),
+                                HttpStatus.CREATED
+                        );
+                        break;
+                    default:
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to find such report type");
+                }
+                return result;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
+    @PatchMapping("/reports/{reportType}")
+    public ResponseEntity<?> updateBugReport(
+            HttpServletRequest request,
+            @PathVariable String reportType,
+            @RequestBody @Valid UpdateReportDto updateReportDto,
+            Errors errors) {
+        if (errors.hasErrors()) {
+            log.info("Validation error with request: " + request.getRequestURI());
+            return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
+        }
+        String[] reportTypes = {"bug", "feature", "claim"};
+        if (!Arrays.asList(reportTypes).contains(reportType)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to find such report type");
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -51,8 +102,8 @@ public class ReportController {
             if (principal instanceof SecurityUser) {
                 User user = ((SecurityUser) principal).getUser();
                 return new ResponseEntity<>(
-                        convertToDto(reportService.createBugReport(createReportDto, user)),
-                        HttpStatus.CREATED
+                        convertToDto(reportService.updateReportForUser(updateReportDto, user)),
+                        HttpStatus.OK
                 );
             }
         }

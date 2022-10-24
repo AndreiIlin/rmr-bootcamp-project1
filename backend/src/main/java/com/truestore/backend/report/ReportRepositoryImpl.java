@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class ReportRepositoryImpl implements ReportRepository {
@@ -21,5 +22,10 @@ public class ReportRepositoryImpl implements ReportRepository {
         } catch (Exception ex) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<Report> getReportById(UUID reportId) {
+        return jpaReportRepository.findById(String.valueOf(reportId));
     }
 }
