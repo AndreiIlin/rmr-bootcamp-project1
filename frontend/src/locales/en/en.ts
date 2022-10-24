@@ -12,6 +12,7 @@ export default {
       appName: 'Application name must not be less than 3 and more than 30 characters',
       appDescription: 'Application description must not exceed 5000 characters',
       appURL: 'Link must be a valid URL',
+      incorectSymbol: 'Password must contain only letters and numbers',
     },
     login: {
       header: 'Application Login',
