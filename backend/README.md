@@ -18,7 +18,7 @@ docker-compose down -v
 ```
 
 
-Запуск backend-сервиса на локальной машине c базой в докере:
+Запуск backend-сервиса на локальной машине c базой в докере (для отладки):
 ```
 export JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/truestore \
 && export JDBC_DATABASE_USERNAME=postgres \
@@ -27,7 +27,7 @@ export JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/truestore \
 && mvn spring-boot:run
 ```
 
-Запуск тестов на локальной машине и базой в докере:
+Запуск тестов на локальной машине и базой в докере (для отладки):
 ```
 export JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/truestore \
 && export JDBC_DATABASE_USERNAME=postgres \
@@ -41,7 +41,7 @@ export JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/truestore \
 export JDBC_DATABASE_URL=jdbc:postgresql://localhost:5432/truestore \
 && export JDBC_DATABASE_USERNAME=postgres \
 && export JDBC_DATABASE_PASSWORD=password \
-docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres \
+&& docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres \
 && mvn clean install
 ```
 
