@@ -1,7 +1,6 @@
 package com.truestore.backend.contract;
 
 import com.truestore.backend.app.App;
-import com.truestore.backend.app.dto.AppDto;
 import com.truestore.backend.app.dto.ShortAppDto;
 import com.truestore.backend.contract.dto.ContractDto;
 import com.truestore.backend.contract.dto.CreateContractDto;
