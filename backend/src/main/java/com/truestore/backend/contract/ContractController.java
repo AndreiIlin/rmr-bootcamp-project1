@@ -1,5 +1,8 @@
 package com.truestore.backend.contract;
 
+import com.truestore.backend.app.App;
+import com.truestore.backend.app.dto.AppDto;
+import com.truestore.backend.app.dto.ShortAppDto;
 import com.truestore.backend.contract.dto.ContractDto;
 import com.truestore.backend.contract.dto.CreateContractDto;
 import com.truestore.backend.security.SecurityUser;
@@ -100,7 +103,6 @@ public class ContractController {
             }
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
-
     }
 
     @Operation(summary = "Get Contract by UUID with current User credentials")
@@ -127,7 +129,32 @@ public class ContractController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
+    @Operation(summary = "Get list of contracted Apps for current User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AppDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content)})
+    @GetMapping("/apps/my")
+    public ResponseEntity<?> getContractedAppsForCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return ResponseEntity.ok(contractService.getContractedAppsForCurrentUser(user).stream()
+                        .map(this::convertToShortAppDto).collect(Collectors.toList()));
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
     private ContractDto convertToDto(Contract contract) {
         return modelMapper.map(contract, ContractDto.class);
+    }
+
+    private ShortAppDto convertToShortAppDto(App app) {
+        return modelMapper.map(app, ShortAppDto.class);
     }
 }

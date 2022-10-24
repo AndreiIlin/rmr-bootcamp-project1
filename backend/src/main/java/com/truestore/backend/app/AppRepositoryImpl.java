@@ -68,6 +68,11 @@ public class AppRepositoryImpl implements AppRepository {
         return jpaAppRepository.findAllByOwnerIdAndAppNameContainingIgnoreCase(userId, filter, page);
     }
 
+    @Override
+    public List<App> getAppsByIds(List<String> appIds) {
+        return jpaAppRepository.findByIdIn(appIds);
+    }
+
     private Specification<App> specification(String filter) {
         Specification<App> spec = Specification.where(null);
         if (filter.isEmpty()) {
