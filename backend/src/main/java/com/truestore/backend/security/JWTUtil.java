@@ -14,13 +14,16 @@ import java.util.Date;
 @Component
 public class JWTUtil {
     private String secret;
+    private Long jwtExpiration;
 
-    public JWTUtil(@Value("${jwt.secret}") String secret) {
+    public JWTUtil(@Value("${jwt.secret}") String secret,
+                   @Value("${jwt.expiration}") Long jwtExpiration) {
         this.secret = secret;
+        this.jwtExpiration = jwtExpiration;
     }
 
     public String generateToken(String userId) {
-        Date expirationTime = Date.from(ZonedDateTime.now().plusMinutes(Long.parseLong("${jwt.expiration}")).toInstant());
+        Date expirationTime = Date.from(ZonedDateTime.now().plusMinutes(jwtExpiration).toInstant());
         return JWT.create()
                 .withClaim("user_id", userId)
                 .withExpiresAt(expirationTime)
