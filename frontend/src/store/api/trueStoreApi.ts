@@ -13,6 +13,6 @@ export const trueStoreApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['App', 'Contract'],
+  tagTypes: ['App', 'Contract', 'Bill'],
   endpoints: () => ({}),
 });

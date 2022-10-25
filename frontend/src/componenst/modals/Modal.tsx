@@ -6,15 +6,15 @@ import { closeModal } from '../../store/slices/modalSlice';
 import AppLink from './appLink';
 import AppRules from './appRules';
 import EditApp from './editApp';
-import SuggestBug from './suggestBug';
-import SuggestFeature from './suggestFeature';
+import AppReports from './appReports';
+import UserReplanishment from './userReplanishment';
 
 const mapping = {
   appRules: AppRules,
   appLink: AppLink,
   editApp: EditApp,
-  suggestBug: SuggestBug,
-  suggestFeature: SuggestFeature,
+  appReports: AppReports,
+  addMoney: UserReplanishment,
 };
 
 const Modal: FC = () => {

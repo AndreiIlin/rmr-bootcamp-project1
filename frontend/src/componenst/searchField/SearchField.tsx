@@ -26,7 +26,7 @@ const SearchField: FC<SearchFieldProps> = ({ setFilter }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button variant="outline-light" type="submit">
+        <Button type="submit" className="main-bg">
           <AiOutlineSearch />
         </Button>
       </InputGroup>
