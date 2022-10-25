@@ -149,6 +149,32 @@ public class ContractController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
+    @Operation(summary = "Get list of contracts for an App for Owner")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ContractDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Only App owner can see all contracts",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find App with such UUID",
+                    content = @Content)})
+    @GetMapping("/app/{appId}")
+    public ResponseEntity<?> getContractsForAppByOwner(@PathVariable UUID appId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return ResponseEntity.ok(
+                        contractService.getContractsForAppByOwner(appId, user).stream().map(this::convertToDto)
+                );
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
     private ContractDto convertToDto(Contract contract) {
         return modelMapper.map(contract, ContractDto.class);
     }
