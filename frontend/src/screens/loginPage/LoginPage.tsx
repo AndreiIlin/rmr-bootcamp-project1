@@ -84,10 +84,10 @@ const LoginPage: FC = () => {
   }, []);
 
   return (
-    <Container className="text-light my-5 d-flex justify-content-center align-items-center">
+    <Container className="my-5 d-flex justify-content-center align-items-center">
       <Form
         onSubmit={formik.handleSubmit}
-        className="col-12 col-md-6 mt-3 border p-5 border-dark rounded d-flex flex-column bg-dark"
+        className="col-12 col-md-6 mt-3 border p-5 border-dark rounded d-flex flex-column main-bg"
       >
         <h2 className="mb-4">{t('login.header')}</h2>
         <Form.Group className="mb-3 position-relative">

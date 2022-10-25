@@ -12,7 +12,7 @@ const Nav: FC = () => {
   const isAuth = useAppSelector(selectors.userAuth);
 
   return (
-    <Navbar bg="dark" variant="dark" expand="false" className="shadow shadow-lg">
+    <Navbar variant="dark" expand="false" className="shadow shadow-lg header-bg">
       <Container className="flex-nowrap p-0">
         <Navbar.Brand className="flex-grow-1" as={Link} to={routes.pages.mainPagePath()}>
           <img src={logo} alt="TrueStore" />

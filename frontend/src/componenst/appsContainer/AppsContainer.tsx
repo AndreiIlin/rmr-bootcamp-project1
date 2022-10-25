@@ -40,7 +40,7 @@ const AppsContainer: FC<AppsContainerProps> = ({ data, setFilter, page, setPage 
           </Row>
           <Row className="mt-3 align-items-center w-100">
             <AiOutlineDoubleLeft
-              className="col-1 h-100 text-light"
+              className="col-1 h-100 text-black"
               opacity={page === 0 ? 0.5 : 1}
               style={{ cursor: 'pointer' }}
               onClick={handlePrevPage}
@@ -57,7 +57,7 @@ const AppsContainer: FC<AppsContainerProps> = ({ data, setFilter, page, setPage 
               ))}
             </div>
             <AiOutlineDoubleRight
-              className="col-1 h-100 text-light"
+              className="col-1 h-100 text-black"
               opacity={data.length < 12 ? 0.5 : 1}
               style={{ cursor: 'pointer' }}
               onClick={handleNextPage}
@@ -65,7 +65,7 @@ const AppsContainer: FC<AppsContainerProps> = ({ data, setFilter, page, setPage 
           </Row>
         </>
       ) : (
-        <p className="display-5 text-light">{t('appsFields.notFoundApps')}</p>
+        <p className="display-5">{t('appsFields.notFoundApps')}</p>
       )}
     </Container>
   );
