@@ -1,6 +1,6 @@
 import { routes } from './../../../utils/routes';
 import { trueStoreApi } from '../trueStoreApi';
-interface Report {
+export interface Report {
   id?: string;
   contractId: string;
   title: string;
@@ -15,7 +15,7 @@ interface ReportRequest {
   type: ReportType;
 }
 
-type ReportType = 'feature' | 'bug' | 'claim';
+export type ReportType = 'feature' | 'bug' | 'claim';
 
 const reportsApiSlice = trueStoreApi.injectEndpoints({
   endpoints: (build) => ({

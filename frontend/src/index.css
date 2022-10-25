@@ -18,7 +18,11 @@ input[type="number"] {
 }
 
 body {
-  background: rgb(34 9 121);
+  background-image: url("./assets/Rectangle 1000601.png");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background: rgb(34 9 121);
   background:
     linear-gradient(
       0deg,
@@ -28,12 +32,20 @@ body {
       rgb(77 82 185 / 100%) 54%,
       rgb(116 150 246 / 100%) 96%
     )
-    no-repeat;
+    no-repeat; */
   min-height: 100vh;
+  padding-bottom: 30px;
+}
+
+.header-bg {
+  background-color: #e5e5e5;
 }
 
 .wrapper {
   max-width: 900px;
+}
+.main-bg {
+  background: #a54336;
 }
 
 @media (max-width: 576px) {

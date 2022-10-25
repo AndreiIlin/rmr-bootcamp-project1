@@ -52,27 +52,26 @@ const AboutApp: FC<AboutAppProps> = ({ data, isLoading }) => {
         {!isLoading && !isUserApp ? (
           !data?.contractId ? (
             <Button
-              variant="outline-light"
-              className="mt-3"
+              className="mt-3 main-bg"
               onClick={contractHandler}
               disabled={!data?.available}
             >
               {t('app.testing')}
             </Button>
           ) : (
-            <Button variant="outline-light" className="mt-3" onClick={handleDownload}>
+            <Button className="mt-3 main-bg" onClick={handleDownload}>
               {t('app.download')}
             </Button>
           )
         ) : (
-          <Button variant="outline-light" onClick={handleEdit}>
+          <Button className="main-bg" onClick={handleEdit}>
             {t('app.editing')}
           </Button>
         )}
       </Col>
       {!isUserApp && data?.contractId && (
         <Col>
-          <ReportsSection />
+          <ReportsSection contractId={data?.contractId} />
         </Col>
       )}
     </Row>
