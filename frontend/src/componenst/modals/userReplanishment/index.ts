@@ -1,2 +1,2 @@
-import UserReplanishment from "./UserReplanishment";
-export default  UserReplanishment;
+import UserReplanishment from './UserReplanishment';
+export default UserReplanishment;

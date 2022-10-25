@@ -7,7 +7,7 @@ import AppLink from './appLink';
 import AppRules from './appRules';
 import EditApp from './editApp';
 import AppReports from './appReports';
-import UserReplanishment from "./userReplanishment";
+import UserReplanishment from './userReplanishment';
 
 const mapping = {
   appRules: AppRules,

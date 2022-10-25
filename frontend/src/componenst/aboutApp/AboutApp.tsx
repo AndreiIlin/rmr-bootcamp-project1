@@ -51,11 +51,7 @@ const AboutApp: FC<AboutAppProps> = ({ data, isLoading }) => {
         </p>
         {!isLoading && !isUserApp ? (
           !data?.contractId ? (
-            <Button
-              className="mt-3 main-bg"
-              onClick={contractHandler}
-              disabled={!data?.available}
-            >
+            <Button className="mt-3 main-bg" onClick={contractHandler} disabled={!data?.available}>
               {t('app.testing')}
             </Button>
           ) : (
