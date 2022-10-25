@@ -57,4 +57,14 @@ public class ContractService {
         List<String> appIds = contracts.stream().map(c -> c.getApp().getId()).collect(Collectors.toList());
         return appRepository.getAppsByIds(appIds);
     }
+
+    public List<Contract> getContractsForAppByOwner(UUID appId, User user) {
+        App app = appRepository.getAppById(appId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find app")
+        );
+        if (!app.getOwner().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only app owner can get all contracts for app");
+        }
+        return contractRepository.getContractsForApp(app);
+    }
 }
