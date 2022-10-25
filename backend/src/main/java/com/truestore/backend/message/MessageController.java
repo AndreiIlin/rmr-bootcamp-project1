@@ -1,11 +1,13 @@
 package com.truestore.backend.message;
 
 import com.truestore.backend.message.dto.CreateMessageDto;
+import com.truestore.backend.message.dto.FullMessageDto;
 import com.truestore.backend.message.dto.ShortMessageDto;
 import com.truestore.backend.security.SecurityUser;
 import com.truestore.backend.user.User;
 import com.truestore.backend.validation.ValidationErrorBuilder;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,13 +21,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -76,7 +78,69 @@ public class MessageController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
+    @Operation(summary = "Get list of messages for the Contract by User")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FullMessageDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Only contract participants (qa, owner) can get messages",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find Contract with such UUID",
+                    content = @Content)})
+    @GetMapping("/messages/contract/{contractId}")
+    public ResponseEntity<?> getMessagesForContractByUser(
+            @PathVariable UUID contractId) {
+        log.info("Get messages for contract {}", contractId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return ResponseEntity.ok(
+                        messageService.getMessagesForContractByUser(contractId, user).stream()
+                                .map(this::convertToFullDto).collect(Collectors.toList())
+                );
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
+    @Operation(summary = "Get list of last messages for App by Owner")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FullMessageDto.class)))}),
+            @ApiResponse(responseCode = "401", description = WRONG_CREDENTIALS,
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Only app owner can get messages",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Unable to find App with such UUID",
+                    content = @Content)})
+    @GetMapping("/messages/app/{appId}")
+    public ResponseEntity<?> getLastMessagesForAppByOwner(
+            @PathVariable UUID appId) {
+        log.info("Get last messages for app by owner {}", appId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof SecurityUser) {
+                User user = ((SecurityUser) principal).getUser();
+                return ResponseEntity.ok(
+                        messageService.getLastMessagesForAppByOwner(appId, user).stream()
+                                .map(this::convertToFullDto).collect(Collectors.toList())
+                );
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
+    }
+
     ShortMessageDto convertToShortDto(Message message) {
         return modelMapper.map(message, ShortMessageDto.class);
+    }
+
+    FullMessageDto convertToFullDto(Message message) {
+        return modelMapper.map(message, FullMessageDto.class);
     }
 }
