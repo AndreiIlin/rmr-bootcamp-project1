@@ -41,4 +41,9 @@ public class ContractRepositoryImpl implements ContractRepository {
     public Optional<Contract> getContractForAppAndUser(App app, User user) {
         return jpaContractRepository.findFirstByAppAndQa(app, user);
     }
+
+    @Override
+    public List<Contract> getContractsForApp(App app) {
+        return jpaContractRepository.findAllByAppOrderByCreatedDesc(app);
+    }
 }

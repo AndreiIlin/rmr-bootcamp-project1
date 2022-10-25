@@ -17,10 +17,10 @@ const Menu: FC = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button variant="outline-light" onClick={handleShow}>
+      <Button onClick={handleShow} className="main-bg">
         {t('header.menu')}
       </Button>
-      <Offcanvas show={show} onHide={handleClose} placement="end" className="text-bg-dark">
+      <Offcanvas show={show} onHide={handleClose} placement="end" className="main-bg text-light">
         <Offcanvas.Header closeButton className="btn-close-white" />
         <Offcanvas.Body>
           <Nav>

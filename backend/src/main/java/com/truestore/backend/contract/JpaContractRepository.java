@@ -12,4 +12,6 @@ public interface JpaContractRepository extends JpaRepository<Contract, String> {
     List<Contract> findAllByQaOrderByCreatedDesc(User qa);
 
     Optional<Contract> findFirstByAppAndQa(App app, User qa);
+
+    List<Contract> findAllByAppOrderByCreatedDesc(App app);
 }

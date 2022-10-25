@@ -16,4 +16,6 @@ public interface ContractRepository {
     List<Contract> getContractsForUser(User user);
 
     Optional<Contract> getContractForAppAndUser(App app, User user);
+
+    List<Contract> getContractsForApp(App app);
 }

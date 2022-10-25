@@ -25,7 +25,7 @@ const AppCard: FC<AppCardProps> = ({ appName, iconImage, id, description }) => {
           className="img-fluid"
           onClick={clickHandler}
         />
-        <Card.Text className="text-light text-truncate mt-3 overflow-">{appName}</Card.Text>
+        <Card.Text className="text-truncate mt-3 overflow-">{appName}</Card.Text>
       </Card.Body>
     </Card>
   );
