@@ -31,6 +31,9 @@ export const routes = {
     replenishmentMoney: () => '/money/replenishment',
     userTransitions: () => '/money/my',
     userBalance: () => '/money/balance',
+    messages: () => '/messages',
+    messagesByContract: (contractId: string) => `/messages/contract/${contractId}`,
+    messagesByApp: (appId: string) => `/messages/contract/${appId}`,
     basePath: () => process.env.BACKEND_HOST ?? $HOST,
   },
 };
