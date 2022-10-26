@@ -41,6 +41,6 @@ jobs:
           JDBC_DATABASE_USERNAME: postgres
           JDBC_DATABASE_PASSWORD: password
         run:
-          mvn clean install
-      - name: Stop postgres DB
+          mvn test
+      - name: Stop postgres DB in docker
         run: docker stop $(docker ps -q --filter ancestor=postgres)
