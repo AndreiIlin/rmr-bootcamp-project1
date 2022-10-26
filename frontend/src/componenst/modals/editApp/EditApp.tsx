@@ -28,8 +28,8 @@ const EditApp: FC = () => {
   };
   return (
     <>
-      <Modal.Header className="main-bg text-light border-0" closeVariant={'dark'} closeButton />
-      <Modal.Body className="main-bg text-light">
+      <Modal.Header className="border-0" closeVariant={'dark'} closeButton />
+      <Modal.Body>
         <AppForm
           initialValues={data}
           onSubmit={onSubmit}

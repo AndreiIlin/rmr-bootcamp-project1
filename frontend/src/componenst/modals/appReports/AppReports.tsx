@@ -1,22 +1,25 @@
 import React, { FC, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, ButtonGroup, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../../hooks/defaultHooks';
 import { modalExtra } from '../../../selectors/selectors';
+import * as yup from 'yup';
 import {
   Report,
   ReportType,
   useApproveReportMutation,
   useGetCurrentReportsQuery,
   useRejectReportMutation,
+  useCreateReportMutation
 } from '../../../store/api/reportsApiSlice/reportsApiSlice';
 import { closeModal } from '../../../store/slices/modalSlice';
 import { isFetchBaseQueryError } from '../../../utils/helpers';
 import ReportForm from './reportForm';
+import {useFormik} from "formik";
 
 export interface ReportsExtra {
-  type?: ReportType;
+  type: ReportType;
   header?: string;
   contractId?: string;
   report?: Report;
@@ -24,7 +27,8 @@ export interface ReportsExtra {
 }
 
 const AppReports: FC = () => {
-  const { type, header, report, isOwner } = useAppSelector(modalExtra) as unknown as ReportsExtra;
+  const [createReport] = useCreateReportMutation();
+  const { type, header, report, contractId, isOwner } = useAppSelector(modalExtra) as unknown as ReportsExtra;
   const [isEditing, setEditing] = useState<boolean>(false);
   const { data } = useGetCurrentReportsQuery(report?.id as string, {
     skip: !!type,
@@ -36,6 +40,42 @@ const AppReports: FC = () => {
   const handleClose = () => {
     dispatch(closeModal());
   };
+  const initialValues = {
+    title: '',
+    description: '',
+  };
+  const validationSchema = yup
+      .object()
+      .strict()
+      .shape({
+        title: yup
+            .string()
+            .min(3, t('formErrors.reportTitle'))
+            .max(255, t('formErrors.reportTitle'))
+            .required(t('formErrors.required')),
+        description: yup
+            .string()
+            .min(3, t('formErrors.reportDescription'))
+            .max(5000, t('formErrors.reportDescription'))
+            .required(t('formErrors.required')),
+      });
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    validateOnBlur: false,
+    onSubmit: async ({ title, description }) => {
+      const report = { title, description, contractId };
+      try {
+        await createReport({ report, type }).unwrap();
+        handleClose();
+        toast.success(t('modals.successReport'));
+      } catch (error) {
+        if (isFetchBaseQueryError(error)) {
+          console.log(error);
+        }
+      }
+    },
+  });
   const handleEdit = () => {
     setEditing(true);
   };
@@ -70,13 +110,49 @@ const AppReports: FC = () => {
   console.log(isEditing);
   return (
     <>
-      <Modal.Header closeButton>
-        <Modal.Title>
-          {type ? header : isEditing ? t('modals.editReport') : data?.title}
-        </Modal.Title>
+      <Modal.Header closeVariant={'dark'} closeButton>
+        <Modal.Title>{header}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {type || isEditing ? <ReportForm data={data} isEditing={isEditing} /> : data?.description}
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group className="position-relative">
+            <Form.Control
+              id="title"
+              name="title"
+              onChange={formik.handleChange}
+              placeholder={t('modals.reportTitle')}
+              value={formik.values.title}
+              isInvalid={!!formik.errors.title}
+            />
+            <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.title}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="position-relative my-3">
+            <Form.Control
+              as="textarea"
+              name="description"
+              style={{ resize: 'none' }}
+              rows={4}
+              id="description"
+              onChange={formik.handleChange}
+              placeholder={t('modals.reportDescription')}
+              value={formik.values.description}
+              isInvalid={!!formik.errors.description}
+            />
+            <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.description}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <ButtonGroup className="mt-2 justify-content-end">
+            <Button onClick={handleClose} variant="danger">
+              {t('modals.close')}
+            </Button>
+            <Button className="ms-2" type="submit">
+              {t('modals.send')}
+            </Button>
+          </ButtonGroup>
+        </Form>
       </Modal.Body>
       {!type && !isOwner && !isEditing && (
         <Modal.Footer>

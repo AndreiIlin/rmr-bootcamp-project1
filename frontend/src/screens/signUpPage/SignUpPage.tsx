@@ -96,7 +96,7 @@ const SignUpPage: FC = () => {
     <Container className="my-4 d-flex justify-content-center align-items-center">
       <Form
         onSubmit={formik.handleSubmit}
-        className="col-12 col-md-6 border p-5 border-dark rounded d-flex flex-column main-bg"
+        className="col-12 col-md-6 border p-5 border-dark rounded d-flex flex-column"
       >
         <h2 className="mb-4">{t('registration.header')}</h2>
         <Form.Group className="position-relative mb-3">
@@ -151,16 +151,11 @@ const SignUpPage: FC = () => {
         )}
         <p>
           {t('registration.rules')}
-          <Card.Link href="#" className="text-light" onClick={handleModalClick}>
+          <Card.Link href="#" onClick={handleModalClick}>
             {t('registration.rulesLink')}
           </Card.Link>
         </p>
-        <Button
-          variant="outline-light"
-          className="w-50 mx-auto mb-3"
-          type="submit"
-          disabled={disabled}
-        >
+        <Button className="w-50 mx-auto mb-3" type="submit" disabled={disabled}>
           {t('registration.submit')}
         </Button>
         <div className="link text-center">

@@ -57,6 +57,7 @@ export default {
       menu: 'Menu',
       apps: 'All applications',
       userApps: 'My applications',
+      userReports: 'My reports',
       newApp: 'Add a new application',
       logout: 'Sign out',
     },

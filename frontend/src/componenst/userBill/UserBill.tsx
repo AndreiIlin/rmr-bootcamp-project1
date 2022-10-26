@@ -23,7 +23,7 @@ const UserBill: FC = () => {
         <p>
           {t('profile.bill')}: {t('app.cost', { count: data })}
         </p>
-        <Button variant="outline-light" className="mb-5" onClick={handlerClick}>
+        <Button className="mb-5" onClick={handlerClick}>
           {t('profile.replenishment')}
         </Button>
       </Col>

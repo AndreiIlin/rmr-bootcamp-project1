@@ -9,6 +9,7 @@ export const routes = {
     appsPagePath: () => '/:id',
     appPagePath: (id: string) => `/${id}`,
     newAppPagePath: () => '/newApp',
+    userReportsPagePath: () => '/myReports',
     userAppsPagePath: () => '/myApps',
     profilePagePath: () => '/profile',
     landingPage: () => '/',
