@@ -25,18 +25,23 @@ const reportsApiSlice = trueStoreApi.injectEndpoints({
         method: 'POST',
         body: report,
       }),
+      invalidatesTags: ['Report'],
     }),
     getAppReports: build.query<Report[], string>({
       query: (appId) => routes.api.reportsByApp(appId),
+      providesTags: ['Report'],
     }),
     getContractReports: build.query<Report[], string>({
       query: (contractId) => routes.api.reportsByContractId(contractId),
+      providesTags: ['Report'],
     }),
     getUserReports: build.query<Report[], void>({
       query: () => routes.api.userReports(),
+      providesTags: ['Report'],
     }),
     getCurrentReports: build.query<Report[], string>({
       query: (reportId) => routes.api.reports(reportId),
+      providesTags: ['Report'],
     }),
   }),
 });
