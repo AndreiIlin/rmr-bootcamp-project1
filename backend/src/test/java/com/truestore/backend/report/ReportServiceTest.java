@@ -4,6 +4,7 @@ import com.truestore.backend.app.App;
 import com.truestore.backend.app.AppRepository;
 import com.truestore.backend.contract.Contract;
 import com.truestore.backend.contract.ContractRepository;
+import com.truestore.backend.money.MoneyRepository;
 import com.truestore.backend.report.dto.CreateReportDto;
 import com.truestore.backend.report.dto.UpdateReportDto;
 import com.truestore.backend.user.User;
@@ -50,6 +51,8 @@ class ReportServiceTest {
     private ContractRepository contractRepository;
     @Mock
     private AppRepository appRepository;
+    @Mock
+    private MoneyRepository moneyRepository;
 
     @Test
     void createBugReport() {
@@ -123,6 +126,7 @@ class ReportServiceTest {
         REPORT_1.setReportStatus(ReportStatus.WAITING);
         when(reportRepository.getReportById(any(UUID.class))).thenReturn(Optional.of(REPORT_1));
         when(reportRepository.saveReport(any(Report.class))).thenReturn(Optional.of(REPORT_1));
+        when(moneyRepository.verificationAndApprovalWithBalanceChanges(any(Report.class), any(User.class))).thenReturn(true);
         Report report = reportService.approveReportById(UUID_5, USER_1);
         assertEquals(REPORT_1.getId(), report.getId());
         assertEquals(ReportStatus.APPROVED, report.getReportStatus());
