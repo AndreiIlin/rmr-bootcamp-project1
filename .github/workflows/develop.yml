@@ -20,3 +20,27 @@ jobs:
         run: |
           docker-compose stop
           docker-compose down
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+      - name: Start postgres in docker for testing
+        run: docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@1.5.1
+        with:
+          java-version: 11
+      - name: Test with maven
+        env:
+          JDBC_DATABASE_URL: jdbc:postgresql://localhost:5432/truestore
+          JDBC_DATABASE_USERNAME: postgres
+          JDBC_DATABASE_PASSWORD: password
+        run:
+          mvn clean install
+      - name: Stop postgres DB
+        run: docker stop $(docker ps -q --filter ancestor=postgres)
