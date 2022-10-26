@@ -15,6 +15,7 @@ import { useAppSelector } from '../hooks/defaultHooks';
 import selectors from '../selectors';
 import { routes } from '../utils/routes';
 import LandingPage from '../screens/landingPage/LandingPage';
+import UserReportsPage from '../screens/UserReportsPage';
 
 interface RouterProps {
   children: ReactElement;
@@ -80,6 +81,14 @@ const App: FC = () => (
         element={
           <PrivateRouter>
             <UserAppsPage />
+          </PrivateRouter>
+        }
+      />
+      <Route
+        path={routes.pages.userReportsPagePath()}
+        element={
+          <PrivateRouter>
+            <UserReportsPage />
           </PrivateRouter>
         }
       />

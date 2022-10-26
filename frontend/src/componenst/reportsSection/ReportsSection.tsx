@@ -38,7 +38,7 @@ const ReportsSection: FC<ReportSectionProps> = ({ contractId }) => {
   return (
     <>
       <Dropdown>
-        <Dropdown.Toggle variant="outline-light">{t('app.reports')}</Dropdown.Toggle>
+        <Dropdown.Toggle>{t('app.reports')}</Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item onClick={handleFeatureReport}>{t('app.suggestFeature')}</Dropdown.Item>
           <Dropdown.Item onClick={handleBugsReport}>{t('app.suggestBug')}</Dropdown.Item>

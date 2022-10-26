@@ -18,13 +18,13 @@ const AppLink: FC = () => {
   };
   return (
     <>
-      <Modal.Header className="main-bg" closeVariant={'dark'} closeButton>
+      <Modal.Header closeVariant={'dark'} closeButton>
         <Modal.Title>{t('modals.link')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="bg-dark">
+      <Modal.Body>
         <InputGroup>
           <Form.Control type="text" value={link ?? ''} disabled />
-          <Button className="main-bg" onClick={handleCopy}>
+          <Button onClick={handleCopy}>
             <IoCopyOutline />
           </Button>
         </InputGroup>

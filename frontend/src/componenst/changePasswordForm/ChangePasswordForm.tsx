@@ -100,7 +100,7 @@ const ChangePasswordForm: FC = () => {
             {passwordError ? t('profile.differentPassword') : formik.errors.newPassword}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button disabled={disabled} type="submit" className="main-bg" variant="light">
+        <Button disabled={disabled} type="submit">
           {t('profile.changePassword')}
         </Button>
       </Form>

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
@@ -11,6 +11,7 @@ import { closeModal } from '../../../store/slices/modalSlice';
 
 const UserReplanishment: FC = () => {
   const user_id = useAppSelector(modalExtra) as unknown as string;
+  const [disabled, setDisabled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const [replanishment] = useReplenishmentMoneyMutation();
   const initialValues = {
@@ -21,11 +22,14 @@ const UserReplanishment: FC = () => {
     validateOnChange: false,
     onSubmit: async (values) => {
       try {
+        setDisabled(true);
         await replanishment({ userId: user_id, amount: values.count }).unwrap();
         dispatch(closeModal());
         toast.success('Транзакция выполнена');
       } catch (error) {
         if (isFetchBaseQueryError(error)) console.log(error);
+      } finally {
+        setDisabled(false);
       }
     },
   });
@@ -41,7 +45,7 @@ const UserReplanishment: FC = () => {
             value={formik.values.count}
             onChange={formik.handleChange}
           />
-          <Button type="submit" className="my-4">
+          <Button type="submit" className="my-4" disabled={disabled}>
             Пополнить
           </Button>
         </Form>
