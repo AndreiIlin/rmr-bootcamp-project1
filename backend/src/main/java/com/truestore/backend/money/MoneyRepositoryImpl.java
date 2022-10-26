@@ -1,7 +1,11 @@
 package com.truestore.backend.money;
 
+import com.truestore.backend.report.Report;
 import com.truestore.backend.user.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,5 +45,41 @@ public class MoneyRepositoryImpl implements MoneyRepository {
         } catch (Exception ex) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    @Transactional
+    public Boolean verificationAndApprovalWithBalanceChanges(Report report, User user) {
+        Float price;
+        switch (report.getReportType()) {   // FEATURE, BUG, CLAIM
+            case BUG:
+                price = report.getContract().getApp().getBugPrice();
+                break;
+            case FEATURE:
+                price = report.getContract().getApp().getFeaturePrice();
+                break;
+            default:
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to find such report type");
+        }
+        Float balance = getBalanceByUser(user);
+        if (balance < price) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Insufficient funds to write off");
+        }
+        try {
+            Money moneyPayment = new Money();
+            moneyPayment.setAmount(price);
+            moneyPayment.setUser(user);
+            moneyPayment.setTypeTransition(TypeTransition.PAYMENT);
+            jpaMoneyRepository.save(moneyPayment);
+            Money moneyReceiving = new Money();
+            moneyReceiving.setAmount(price);
+            moneyReceiving.setUser(report.getContract().getQa());
+            moneyReceiving.setTypeTransition(TypeTransition.RECEIVING);
+            jpaMoneyRepository.save(moneyReceiving);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+
     }
 }
