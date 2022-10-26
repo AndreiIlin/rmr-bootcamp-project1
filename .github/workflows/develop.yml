@@ -32,7 +32,7 @@ jobs:
       - name: Start postgres in docker for testing
         run: docker run --rm -d -p 5432:5432 -e POSTGRES_DB=truestore -e POSTGRES_PASSWORD=password postgres
       - name: Setup Maven Action
-        uses: s4u/setup-maven-action@1.5.1
+        uses: s4u/setup-maven-action@v1.5.1
         with:
           java-version: 11
       - name: Test with maven
