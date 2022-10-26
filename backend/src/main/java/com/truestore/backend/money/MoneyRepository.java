@@ -1,5 +1,6 @@
 package com.truestore.backend.money;
 
+import com.truestore.backend.report.Report;
 import com.truestore.backend.user.User;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface MoneyRepository {
     Float getBalanceByUser(User user);
 
     Optional<Money> saveMoneyTransitionForUser(Money money);
+
+    Boolean verificationAndApprovalWithBalanceChanges(Report report, User user);
 }

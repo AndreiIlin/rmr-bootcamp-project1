@@ -4,6 +4,7 @@ import com.truestore.backend.app.App;
 import com.truestore.backend.app.AppRepository;
 import com.truestore.backend.contract.Contract;
 import com.truestore.backend.contract.ContractRepository;
+import com.truestore.backend.money.MoneyRepository;
 import com.truestore.backend.report.dto.CreateReportDto;
 import com.truestore.backend.report.dto.UpdateReportDto;
 import com.truestore.backend.user.User;
@@ -20,12 +21,14 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final ContractRepository contractRepository;
     private final AppRepository appRepository;
+    private final MoneyRepository moneyRepository;
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, ContractRepository contractRepository, AppRepository appRepository) {
+    public ReportService(ReportRepository reportRepository, ContractRepository contractRepository, AppRepository appRepository, MoneyRepository moneyRepository) {
         this.reportRepository = reportRepository;
         this.contractRepository = contractRepository;
         this.appRepository = appRepository;
+        this.moneyRepository = moneyRepository;
     }
 
     private Report createReportForUser(CreateReportDto createReportDto, ReportType reportType, User user) {
@@ -126,7 +129,9 @@ public class ReportService {
         if (report.getReportType().equals(ReportType.CLAIM)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only admin can approve claim report");
         }
-        //TODO: add balance check logic
+        if (!moneyRepository.verificationAndApprovalWithBalanceChanges(report, user)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Failed to save money transfer");
+        }
         report.setReportStatus(ReportStatus.APPROVED);
         return reportRepository.saveReport(report).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.CONFLICT, "Unable to approve report")
