@@ -7,14 +7,14 @@ import AppLink from './appLink';
 import AppRules from './appRules';
 import EditApp from './editApp';
 import AppReports from './appReports';
-import UserReplanishment from './userReplanishment';
+import UserReplenishment from './userReplanishment';
 
 const mapping = {
   appRules: AppRules,
   appLink: AppLink,
   editApp: EditApp,
   appReports: AppReports,
-  addMoney: UserReplanishment,
+  addMoney: UserReplenishment,
 };
 
 const Modal: FC = () => {

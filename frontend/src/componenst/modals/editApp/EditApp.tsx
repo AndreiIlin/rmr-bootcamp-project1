@@ -33,7 +33,7 @@ const EditApp: FC = () => {
         <AppForm
           initialValues={data}
           onSubmit={onSubmit}
-          headerText={t('modals.edit')}
+          headerText={t('modals.editApp')}
           buttonText={t('modals.change')}
         />
       </Modal.Body>

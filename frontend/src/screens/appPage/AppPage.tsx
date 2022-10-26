@@ -10,7 +10,7 @@ const AppPage = () => {
   const { data, isLoading } = useGetAppQuery(id as string);
 
   return (
-    <Container className="wrapper main-bg text-light my-5 p-5 shadow shadow-lg rounded-3">
+    <Container className="wrapper main-bg my-5 p-5 shadow shadow-lg rounded-3">
       <AboutApp data={data} isLoading={isLoading} />
       <TabsSection data={data} />
     </Container>

@@ -18,10 +18,13 @@ input[type="number"] {
 }
 
 body {
-  background-image: url("./assets/Rectangle 1000601.png");
-  background-position: bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
+  /* background-image: url("./assets/Rectangle 1000601.png"); */
+
+  /* background-position: bottom; */
+
+  /* background-repeat: no-repeat; */
+
+  /* background-size: cover; */
 
   /* background: rgb(34 9 121);
   background:
@@ -34,7 +37,8 @@ body {
       rgb(116 150 246 / 100%) 96%
     )
     no-repeat; */
-  min-height: 100vh;
+
+  /* min-height: 100vh; */
   padding-bottom: 30px;
 }
 
@@ -46,30 +50,8 @@ body {
   max-width: 900px;
 }
 
-.main-bg {
-  background: #a54336;
-}
+/* .main-bg { */
 
-@media (max-width: 576px) {
-  .img-custom {
-    width: 25%;
-  }
-}
+/*  background: #a54336; */
 
-@media (min-width: 576px) {
-  .img-custom {
-    width: 50%;
-  }
-}
-
-@media (min-width: 576px) and (orientation: landscape) {
-  .img-custom {
-    width: 25%;
-  }
-}
-
-@media (min-width: 1024px) and (orientation: landscape) {
-  .img-custom {
-    width: 50%;
-  }
-}
+/* } */

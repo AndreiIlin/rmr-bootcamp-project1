@@ -139,7 +139,7 @@ public class ReportController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Get list of Short Reports for current User")
+    @Operation(summary = "Get list of Short ReportsContainer for current User")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
@@ -160,7 +160,7 @@ public class ReportController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Get list of Short Reports for current User in Contract")
+    @Operation(summary = "Get list of Short ReportsContainer for current User in Contract")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
@@ -187,7 +187,7 @@ public class ReportController {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, WRONG_CREDENTIALS);
     }
 
-    @Operation(summary = "Get list of Short Reports for current App Owner")
+    @Operation(summary = "Get list of Short ReportsContainer for current App Owner")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = { @Content(mediaType = "application/json",
