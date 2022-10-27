@@ -65,10 +65,10 @@ const AppReports: FC = () => {
   });
   return (
     <>
-      <Modal.Header className="main-bg" closeVariant={'dark'} closeButton>
+      <Modal.Header closeVariant={'dark'} closeButton>
         <Modal.Title>{header}</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="bg-dark">
+      <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="position-relative">
             <Form.Control
@@ -100,10 +100,10 @@ const AppReports: FC = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <ButtonGroup className="mt-2 justify-content-end">
-            <Button onClick={handleClose} variant="outline-danger">
+            <Button onClick={handleClose} variant="danger">
               {t('modals.close')}
             </Button>
-            <Button className="ms-2" variant="outline-light" type="submit">
+            <Button className="ms-2" type="submit">
               {t('modals.send')}
             </Button>
           </ButtonGroup>
