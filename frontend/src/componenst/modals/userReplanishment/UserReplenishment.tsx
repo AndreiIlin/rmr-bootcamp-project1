@@ -9,11 +9,11 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/defaultHooks';
 import { modalExtra } from '../../../selectors/selectors';
 import { closeModal } from '../../../store/slices/modalSlice';
 
-const UserReplanishment: FC = () => {
+const UserReplenishment: FC = () => {
   const user_id = useAppSelector(modalExtra) as unknown as string;
   const [disabled, setDisabled] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const [replanishment] = useReplenishmentMoneyMutation();
+  const [replenishment] = useReplenishmentMoneyMutation();
   const initialValues = {
     count: 0,
   };
@@ -23,7 +23,7 @@ const UserReplanishment: FC = () => {
     onSubmit: async (values) => {
       try {
         setDisabled(true);
-        await replanishment({ userId: user_id, amount: values.count }).unwrap();
+        await replenishment({ userId: user_id, amount: values.count }).unwrap();
         dispatch(closeModal());
         toast.success('Транзакция выполнена');
       } catch (error) {
@@ -54,4 +54,4 @@ const UserReplanishment: FC = () => {
   );
 };
 
-export default UserReplanishment;
+export default UserReplenishment;
