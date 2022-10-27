@@ -87,10 +87,10 @@ const ReportForm: FC<ReportFormProps> = ({ isEditing, data }) => {
         </Form.Control.Feedback>
       </Form.Group>
       <ButtonGroup className="mt-2 justify-content-end">
-        <Button onClick={handleClose} variant="outline-danger">
+        <Button onClick={handleClose} variant="danger">
           {t('modals.close')}
         </Button>
-        <Button className="ms-2" variant="outline-light" type="submit">
+        <Button className="ms-2" type="submit">
           {isEditing ? t('modals.change') : t('modals.send')}
         </Button>
       </ButtonGroup>
