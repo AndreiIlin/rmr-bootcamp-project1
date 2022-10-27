@@ -1,2 +1,2 @@
-import UserReplanishment from './UserReplanishment';
-export default UserReplanishment;
+import UserReplenishment from './UserReplenishment';
+export default UserReplenishment;

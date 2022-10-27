@@ -28,31 +28,3 @@ body {
 .wrapper {
   max-width: 900px;
 }
-
-.main-bg {
-  background: #a54336;
-}
-
-@media (max-width: 576px) {
-  .img-custom {
-    width: 25%;
-  }
-}
-
-@media (min-width: 576px) {
-  .img-custom {
-    width: 50%;
-  }
-}
-
-@media (min-width: 576px) and (orientation: landscape) {
-  .img-custom {
-    width: 25%;
-  }
-}
-
-@media (min-width: 1024px) and (orientation: landscape) {
-  .img-custom {
-    width: 50%;
-  }
-}

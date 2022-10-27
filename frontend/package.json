@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^1.8.5",
     "@types/react-router-dom": "^5.3.3",
     "bootstrap": "^5.2.2",
+    "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.3.2",
     "formik": "^2.2.9",
     "i18next": "^21.9.2",
