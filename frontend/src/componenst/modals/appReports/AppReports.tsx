@@ -65,38 +65,38 @@ const AppReports: FC = () => {
   };
 
   const isLookingReport =
-      report?.reportStatus === 'APPROVED' || report?.reportStatus === 'REJECTED';
+    report?.reportStatus === 'APPROVED' || report?.reportStatus === 'REJECTED';
   const isApprovedReport = report?.reportStatus === 'APPROVED';
   return (
-      <>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {type ? header : isEditing ? t('modals.editReport') : data?.title}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {type || isEditing ? <ReportForm data={data} isEditing={isEditing} /> : data?.description}
-        </Modal.Body>
-        {!type && !isOwner && !isEditing && (
-            <Modal.Footer>
-              <Button disabled={isApprovedReport} onClick={handleEdit}>
-                {t('modals.edit')}
-              </Button>
-              <Button onClick={handleClose}>{t('modals.close')}</Button>
-            </Modal.Footer>
-        )}
-        {!type && isOwner && (
-            <Modal.Footer>
-              <Button disabled={isLookingReport} onClick={handleApprove}>
-                {t('modals.approveReport')}
-              </Button>
-              <Button disabled={isLookingReport} onClick={handleReject}>
-                {t('modals.rejectReport')}
-              </Button>
-              <Button onClick={handleClose}>{t('modals.close')}</Button>
-            </Modal.Footer>
-        )}
-      </>
+    <>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {type ? header : isEditing ? t('modals.editReport') : data?.title}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {type || isEditing ? <ReportForm data={data} isEditing={isEditing} /> : data?.description}
+      </Modal.Body>
+      {!type && !isOwner && !isEditing && (
+        <Modal.Footer>
+          <Button disabled={isApprovedReport} onClick={handleEdit}>
+            {t('modals.edit')}
+          </Button>
+          <Button onClick={handleClose}>{t('modals.close')}</Button>
+        </Modal.Footer>
+      )}
+      {!type && isOwner && (
+        <Modal.Footer>
+          <Button disabled={isLookingReport} onClick={handleApprove}>
+            {t('modals.approveReport')}
+          </Button>
+          <Button disabled={isLookingReport} onClick={handleReject}>
+            {t('modals.rejectReport')}
+          </Button>
+          <Button onClick={handleClose}>{t('modals.close')}</Button>
+        </Modal.Footer>
+      )}
+    </>
   );
 };
 

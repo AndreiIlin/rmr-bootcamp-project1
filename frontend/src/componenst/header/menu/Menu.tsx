@@ -17,7 +17,7 @@ const Menu: FC = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-        <Button onClick={handleShow}>{t('header.menu')}</Button>
+      <Button onClick={handleShow}>{t('header.menu')}</Button>
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton className="btn-close-white" />
         <Offcanvas.Body>
