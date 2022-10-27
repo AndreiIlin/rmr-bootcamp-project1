@@ -8,7 +8,7 @@ import { useGetUserInfoQuery } from '../../store/api/userInfoApiSlice/userInfoAp
 const ProfilePage: FC = () => {
   const { data } = useGetUserInfoQuery();
   return (
-    <Container className="wrapper main-bg text-black my-5 px-4 py-3 shadow shadow-lg rounded-3">
+    <Container className="wrapper text-black my-5 px-4 py-3 shadow shadow-lg rounded-3">
       <UserInfo data={data} />
       <UserBill />
       <ChangePasswordForm />

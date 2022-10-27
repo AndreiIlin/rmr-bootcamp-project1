@@ -49,21 +49,21 @@ const AboutApp: FC<AboutAppProps> = ({ data, isLoading }) => {
         <p>
           {t('app.featurePrice')}: {t('app.cost', { count: data?.featurePrice })}
         </p>
-        {!isLoading && !isUserApp ? (
-          !data?.contractId ? (
-            <Button className="mt-3 main-bg" onClick={contractHandler} disabled={!data?.available}>
-              {t('app.testing')}
-            </Button>
+        {!isLoading ? (
+          !isUserApp ? (
+            !data?.contractId ? (
+              <Button className="mt-3" onClick={contractHandler} disabled={!data?.available}>
+                {t('app.testing')}
+              </Button>
+            ) : (
+              <Button className="mt-3" onClick={handleDownload}>
+                {t('app.download')}
+              </Button>
+            )
           ) : (
-            <Button className="mt-3 main-bg" onClick={handleDownload}>
-              {t('app.download')}
-            </Button>
+            <Button onClick={handleEdit}>{t('app.editing')}</Button>
           )
-        ) : (
-          <Button className="main-bg" onClick={handleEdit}>
-            {t('app.editing')}
-          </Button>
-        )}
+        ) : null}
       </Col>
       {!isUserApp && data?.contractId && (
         <Col>

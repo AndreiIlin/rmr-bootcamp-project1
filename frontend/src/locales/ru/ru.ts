@@ -67,6 +67,7 @@ export default {
       menu: 'Меню',
       apps: 'Все приложения',
       userApps: 'Мои приложения',
+      userReports: 'Мои отчеты',
       newApp: 'Добавить новое приложение',
       logout: 'Выйти',
     },

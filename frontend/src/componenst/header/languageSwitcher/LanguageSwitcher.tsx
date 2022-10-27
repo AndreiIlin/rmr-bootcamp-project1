@@ -17,8 +17,8 @@ const LanguageSwitcher: FC = () => {
 
   return (
     <Dropdown onSelect={handleLanguage} className="me-3">
-      <Dropdown.Toggle className="main-bg">{language}</Dropdown.Toggle>
-      <DropdownMenu align="end" className="main-bg">
+      <Dropdown.Toggle>{language}</Dropdown.Toggle>
+      <DropdownMenu align="end">
         <Dropdown.Item eventKey="ru">RU</Dropdown.Item>
         <Dropdown.Item eventKey="en">EN</Dropdown.Item>
       </DropdownMenu>

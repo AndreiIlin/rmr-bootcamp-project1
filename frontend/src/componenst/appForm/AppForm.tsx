@@ -61,7 +61,7 @@ const AppForm: FC<AppFormProps> = ({ initialValues, onSubmit, headerText, button
     <Form
       noValidate
       onSubmit={formik.handleSubmit}
-      className="main-bg shadow-lg border border-dark p-5 rounded d-flex flex-column gap-3"
+      className="shadow-lg border border-dark p-5 rounded d-flex flex-column gap-3"
     >
       <h2 className="display-5">{headerText}</h2>
       <Form.Group className="position-relative">
@@ -170,7 +170,7 @@ const AppForm: FC<AppFormProps> = ({ initialValues, onSubmit, headerText, button
           {formik.errors.downloadLink}
         </Form.Control.Feedback>
       </Form.Group>
-      <Button variant="outline-light" type="submit" className="mt-5">
+      <Button type="submit" className="mt-5">
         {buttonText}
       </Button>
     </Form>

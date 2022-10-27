@@ -1,5 +1,6 @@
 import { routes } from './../../../utils/routes';
 import { trueStoreApi } from '../trueStoreApi';
+
 export interface Report {
   id?: string;
   contractId: string;
